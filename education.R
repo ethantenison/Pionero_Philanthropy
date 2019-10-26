@@ -12,9 +12,10 @@ library(haven)
 library(tidyverse)
 library(geosphere) # library with lots of shape files
 library(mapview) # incredible interactive map visualization in R
-library(xlsx)
+library(openxlsx)
 library(janitor)
 library(stringr)
+library(tidyr)
 
 # read the shape file using sf package
 guatemala.shape_orig <- st_read("Guatemala_shape_files/GTM_adm1.shp", stringsAsFactors=FALSE)
@@ -24,7 +25,7 @@ Guatemala <- st_transform(guatemala.shape_orig, "+proj=longlat +ellps=WGS84 +dat
 
 
 #calling in the excel file 
-db <- read.xlsx("ngo_database.xlsx", "OFFICIAL NPO LIST", header=TRUE)
+db <- read.xlsx("ngo_database.xlsx", sheet = 3, startRow = 1, colNames =TRUE)
 db <- clean_names(db)
 db$name <- as.character(db$name)
 db$focus_area_s <- as.character(db$focus_area_s)
@@ -32,6 +33,7 @@ Encoding(db$name) <- "UTF-8"
 Encoding(db$focus_area_s) <- "UTF-8"
 db$focus_area_s <- str_replace_all(db$focus_area_s, "and", ",")
 db <- db[1:69,]
+db <- separate_rows(db,focus_area_s,sep=",\\s+")
 
 
 
