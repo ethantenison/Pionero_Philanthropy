@@ -14,6 +14,7 @@ library(geosphere) # library with lots of shape files
 library(mapview) # incredible interactive map visualization in R
 library(xlsx)
 library(janitor)
+library(stringr)
 
 # read the shape file using sf package
 guatemala.shape_orig <- st_read("Guatemala_shape_files/GTM_adm1.shp", stringsAsFactors=FALSE)
@@ -23,21 +24,21 @@ Guatemala <- st_transform(guatemala.shape_orig, "+proj=longlat +ellps=WGS84 +dat
 
 
 #calling in the excel file 
-edu <- read.xlsx("educationattempt.xlsx", "OFFICIAL NPO LIST", header=TRUE)
-edu <- clean_names(edu)
-edu$name <- as.character(edu$name)
-edu$focus_area_s <- as.character(edu$focus_area_s)
-edu <- rename(edu, longitude = logitude)
-Encoding(edu$name) <- "UTF-8"
-Encoding(edu$focus_area_s) <- "UTF-8"
-edu <- edu[1:6,]
+db <- read.xlsx("ngo_database.xlsx", "OFFICIAL NPO LIST", header=TRUE)
+db <- clean_names(db)
+db$name <- as.character(db$name)
+db$focus_area_s <- as.character(db$focus_area_s)
+Encoding(db$name) <- "UTF-8"
+Encoding(db$focus_area_s) <- "UTF-8"
+db$focus_area_s <- str_replace_all(db$focus_area_s, "and", ",")
+db <- db[1:69,]
 
 
 
 
 #Converting longitude and latitudes to coordinate type
-coordinates(edu) <- c("longitude", "latitude") 
-proj4string(edu) <- proj4string(edu)
+coordinates(db) <- c("longitude", "latitude") 
+proj4string(db) <- proj4string(db)
 
 #plotting 
-mapview(Guatemala, color = "cyan", col.regions = "white") + mapview(edu)
+mapview(Guatemala, color = "cyan", col.regions = "white") + mapview(db)
