@@ -52,9 +52,40 @@ db$focus_area_s[ db$focus_area_s == "Eduaction" ] <- "Education"
 db$focus_area_s[ db$focus_area_s == "Environment " ] <- "Environment & Conservation"
 db$focus_area_s[ db$focus_area_s == "Conservation" ] <- "Environment & Conservation"
 db$focus_area_s[ db$focus_area_s == "Environment & Conservation " ] <- "Environment & Conservation"
-db$focus_area_s[ db$focus_area_s == "Poverty Aliviation" ] <- "Poverty Alleviation"
-db$focus_area_s[ db$focus_area_s == "Poverty Alleviation/ Mitigación de la Pobreza" ] <- "Poverty Alleviation"
-db$focus_area_s[ db$focus_area_s == "Poverty Alleviation " ] <- "Poverty Alleviation"
+db$focus_area_s[ db$focus_area_s == "Poverty Aliviation" ] <- "Community Development"
+db$focus_area_s[ db$focus_area_s == "Poverty Alleviation" ] <- "Community Development"
+db$focus_area_s[ db$focus_area_s == "Poverty Alleviation/ Mitigación de la Pobreza" ] <- "Community Development"
+db$focus_area_s[ db$focus_area_s == "Poverty Alleviation " ] <- "Community Development"
+db$focus_area_s[ db$focus_area_s == "Special Needs" ] <- "Health"
+db$focus_area_s[ db$focus_area_s == "Reinseción de niños migrantes - Educación para el empleo" ] <- "Youth & Children"
+db$focus_area_s[ db$focus_area_s == "Vocational Training " ] <- "Community Development"
+db$focus_area_s[ db$focus_area_s == "Economic Development" ] <- "Community Development"
+db$focus_area_s[ db$focus_area_s == "Misc: Housing" ] <- "Community Development"
+db$focus_area_s[ db$focus_area_s == "Agriculture" ] <- "Community Development"
+db$focus_area_s[ db$focus_area_s == "Coffee Farming" ] <- "Community Development"
+db$focus_area_s[ db$focus_area_s == "Misc: Housing Security" ] <- "Community Development"
+db$focus_area_s[ db$focus_area_s == "Misc: Orphanage" ] <- "Youth & Children"
+db$focus_area_s[ db$focus_area_s == "Nutrition" ] <- "Health"
+db$focus_area_s[ db$focus_area_s == "Misc: Special Needs" ] <- "Health"
+db$focus_area_s[ db$focus_area_s == "Construction" ] <- "Community Development"
+db$focus_area_s[ db$focus_area_s == "Construction " ] <- "Community Development"
+db$focus_area_s[ db$focus_area_s == "Culture" ] <- "Human Rights"
+db$focus_area_s[ db$focus_area_s == "Misc: orphan prevention program" ] <- "Youth & Children"
+db$focus_area_s[ db$focus_area_s == "Food Security" ] <- "Health"
+db$focus_area_s[ db$focus_area_s == "Permaculture" ] <- "Health"
+db$focus_area_s[ db$focus_area_s == "Misc: Elderly" ] <- "Health"
+db$focus_area_s[ db$focus_area_s == "Music" ] <- "Education"
+db$focus_area_s[ db$focus_area_s == "Music " ] <- "Education"
+db$focus_area_s[ db$focus_area_s == "Dance; Restorative Expressive Arts" ] <- "Education"
+db$focus_area_s[ db$focus_area_s == "Psychology " ] <- "Education"
+db$focus_area_s[ db$focus_area_s == "Critical-Thinking" ] <- "Education"
+db$focus_area_s[ db$focus_area_s == "Misc: Art" ] <- "Education"
+
+
+
+
+
+
 
 
 
