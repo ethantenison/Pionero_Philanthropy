@@ -84,15 +84,6 @@ db$focus_area_s[ db$focus_area_s == "Misc: Art" ] <- "Education"
 
 
 
-
-
-
-
-
-
-
-
-
 #Converting longitude and latitudes to coordinate type
 coordinates(db) <- c("longitude", "latitude") 
 proj4string(db) <- proj4string(db)
