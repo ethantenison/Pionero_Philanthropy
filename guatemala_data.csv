@@ -1,0 +1,225 @@
+"","name","category","address","region","latitude","longitude","optional"
+"1","Adisa","Health","Canton Tzanchicham, Santiago Atitlán, Sololá Guatemala 70019","Lake Atitlan",14.640205,-91.228724,TRUE
+"2","Adisa","Education","Canton Tzanchicham, Santiago Atitlán, Sololá Guatemala 70019","Lake Atitlan",14.640205,-91.228724,TRUE
+"3","Adisa","Community Development","Canton Tzanchicham, Santiago Atitlán, Sololá Guatemala 70019","Lake Atitlan",14.640205,-91.228724,TRUE
+"4","Adisa","Youth & Children","Canton Tzanchicham, Santiago Atitlán, Sololá Guatemala 70019","Lake Atitlan",14.640205,-91.228724,TRUE
+"5","Adisa","Health","Canton Tzanchicham, Santiago Atitlán, Sololá Guatemala 70019","Lake Atitlan",14.640205,-91.228724,TRUE
+"6","Ak'Tenamit","Health","Río Tatín, Livingston","Izabal",15.787929,-88.800673,TRUE
+"7","Ak'Tenamit","Education","Río Tatín, Livingston","Izabal",15.787929,-88.800673,TRUE
+"8","Ak'Tenamit","Women & Girls","Río Tatín, Livingston","Izabal",15.787929,-88.800673,TRUE
+"9","Ak'Tenamit","Community Development","Río Tatín, Livingston","Izabal",15.787929,-88.800673,TRUE
+"10","Ak'Tenamit","Human Rights","Río Tatín, Livingston","Izabal",15.787929,-88.800673,TRUE
+"11","Ak'Tenamit","Youth & Children","Río Tatín, Livingston","Izabal",15.787929,-88.800673,TRUE
+"12","Ak'Tenamit","Environment & Conservation","Río Tatín, Livingston","Izabal",15.787929,-88.800673,TRUE
+"13","Ak'Tenamit","Youth & Children","Río Tatín, Livingston","Izabal",15.787929,-88.800673,TRUE
+"14","Amigos de Santa Cruz","Health","Santa Cruz la Laguna, Sololá","Lake Atitlan",14.741926,-91.20759,TRUE
+"15","Amigos de Santa Cruz","Education","Santa Cruz la Laguna, Sololá","Lake Atitlan",14.741926,-91.20759,TRUE
+"16","Amigos de Santa Cruz","Women & Girls","Santa Cruz la Laguna, Sololá","Lake Atitlan",14.741926,-91.20759,TRUE
+"17","Amigos de Santa Cruz","Community Development","Santa Cruz la Laguna, Sololá","Lake Atitlan",14.741926,-91.20759,TRUE
+"18","Amigos de Santa Cruz","Human Rights","Santa Cruz la Laguna, Sololá","Lake Atitlan",14.741926,-91.20759,TRUE
+"19","Amigos de Santa Cruz","Youth & Children","Santa Cruz la Laguna, Sololá","Lake Atitlan",14.741926,-91.20759,TRUE
+"20","Amigos de Santa Cruz","Environment & Conservation","Santa Cruz la Laguna, Sololá","Lake Atitlan",14.741926,-91.20759,TRUE
+"21","Amigos de Santa Cruz","Community Development","Santa Cruz la Laguna, Sololá","Lake Atitlan",14.741926,-91.20759,TRUE
+"22","Amigos de Santa Cruz","Community Development","Santa Cruz la Laguna, Sololá","Lake Atitlan",14.741926,-91.20759,TRUE
+"23","Amigos Hospitalito Atitlan","Health","Santiago Atitlan, Sololá","Lake Atitlan",14.641212,-91.227679,TRUE
+"24","Animal Aware","Animal Welfare","Granja Montecito, Pachaj, Sumpango","Sacatepequez",14.650763,-90.720817,TRUE
+"25","Arcas","Animal Welfare","Ciudad de Guatemala, Guatemala","Guatemala ",16.930195,-89.872309,TRUE
+"26","Arcas","Environment & Conservation","Ciudad de Guatemala, Guatemala","Guatemala ",16.930195,-89.872309,TRUE
+"27","Arcas","Environment & Conservation","Ciudad de Guatemala, Guatemala","Guatemala ",16.930195,-89.872309,TRUE
+"28","Arcas","Animal Welfare","Hawaii, Santa Rosa ","Santa Rosa",13.863339,-90.407052,TRUE
+"29","Arcas","Environment & Conservation","Hawaii, Santa Rosa ","Santa Rosa",13.863339,-90.407052,TRUE
+"30","Arcas","Environment & Conservation","Hawaii, Santa Rosa ","Santa Rosa",13.863339,-90.407052,TRUE
+"31","Arcas","Animal Welfare","Orilla de Reserva de la Biósfera Maya (RBM)","Peten",17.480599,-89.856637,TRUE
+"32","Arcas","Environment & Conservation","Orilla de Reserva de la Biósfera Maya (RBM)","Peten",17.480599,-89.856637,TRUE
+"33","Arcas","Environment & Conservation","Orilla de Reserva de la Biósfera Maya (RBM)","Peten",17.480599,-89.856637,TRUE
+"34","Asociación Caras Alegres","Health","Diagonal 15 18-84B Zona 5, Las Rosas, Ciudad de Quetzaltenango","Quetzaltenango",14.84236,-91.484059,TRUE
+"35","Asociación Caras Alegres","Education","Diagonal 15 18-84B Zona 5, Las Rosas, Ciudad de Quetzaltenango","Quetzaltenango",14.84236,-91.484059,TRUE
+"36","Asociación Caras Alegres","Youth & Children","Diagonal 15 18-84B Zona 5, Las Rosas, Ciudad de Quetzaltenango","Quetzaltenango",14.84236,-91.484059,TRUE
+"37","Asociación Caras Alegres","Youth & Children","Diagonal 15 18-84B Zona 5, Las Rosas, Ciudad de Quetzaltenango","Quetzaltenango",14.84236,-91.484059,TRUE
+"38","Asociacion Forjando Mi Mañana","Education","Panajachel (Buena Vista, Peña Blanca, San Andres)","Lake Atitlan",14.73612,-91.153404,TRUE
+"39","Asociacion Forjando Mi Mañana","Women & Girls","Panajachel (Buena Vista, Peña Blanca, San Andres)","Lake Atitlan",14.73612,-91.153404,TRUE
+"40","Asociacion Forjando Mi Mañana","Community Development","Panajachel (Buena Vista, Peña Blanca, San Andres)","Lake Atitlan",14.73612,-91.153404,TRUE
+"41","Asociacion Forjando Mi Mañana","Human Rights","Panajachel (Buena Vista, Peña Blanca, San Andres)","Lake Atitlan",14.73612,-91.153404,TRUE
+"42","Asociacion Forjando Mi Mañana","Education","Buena Vista ","Sacatepequez",14.671999,-90.64579,TRUE
+"43","Asociacion Forjando Mi Mañana","Women & Girls","Buena Vista ","Sacatepequez",14.671999,-90.64579,TRUE
+"44","Asociacion Forjando Mi Mañana","Community Development","Buena Vista ","Sacatepequez",14.671999,-90.64579,TRUE
+"45","Asociacion Forjando Mi Mañana","Human Rights","Buena Vista ","Sacatepequez",14.671999,-90.64579,TRUE
+"46","Asociacion Forjando Mi Mañana","Education","Peña Blanca","Izabal ",15.169521,-88.966981,TRUE
+"47","Asociacion Forjando Mi Mañana","Women & Girls","Peña Blanca","Izabal ",15.169521,-88.966981,TRUE
+"48","Asociacion Forjando Mi Mañana","Community Development","Peña Blanca","Izabal ",15.169521,-88.966981,TRUE
+"49","Asociacion Forjando Mi Mañana","Human Rights","Peña Blanca","Izabal ",15.169521,-88.966981,TRUE
+"50","Asociacion Forjando Mi Mañana","Education","San Andres ","Peten ",16.974371,-89.914394,TRUE
+"51","Asociacion Forjando Mi Mañana","Women & Girls","San Andres ","Peten ",16.974371,-89.914394,TRUE
+"52","Asociacion Forjando Mi Mañana","Community Development","San Andres ","Peten ",16.974371,-89.914394,TRUE
+"53","Asociacion Forjando Mi Mañana","Human Rights","San Andres ","Peten ",16.974371,-89.914394,TRUE
+"54","Asociación VIDA","Health","4ta. Avenida 1-81 zona 4 San Miguel Dueñas.","Sacatepequez",14.524018,-90.798536,TRUE
+"55","Asociación VIDA","Education","4ta. Avenida 1-81 zona 4 San Miguel Dueñas.","Sacatepequez",14.524018,-90.798536,TRUE
+"56","Asociación VIDA","Women & Girls","4ta. Avenida 1-81 zona 4 San Miguel Dueñas.","Sacatepequez",14.524018,-90.798536,TRUE
+"57","Asociación VIDA","Youth & Children","4ta. Avenida 1-81 zona 4 San Miguel Dueñas.","Sacatepequez",14.524018,-90.798536,TRUE
+"58","Asociación VIDA","Youth & Children","4ta. Avenida 1-81 zona 4 San Miguel Dueñas.","Sacatepequez",14.524018,-90.798536,TRUE
+"59","Asociación VIDA","Environment & Conservation","4ta. Avenida 1-81 zona 4 San Miguel Dueñas.","Sacatepequez",14.524018,-90.798536,TRUE
+"60","Asociación VIDA","Education","4ta. Avenida 1-81 zona 4 San Miguel Dueñas.","Sacatepequez",14.524018,-90.798536,TRUE
+"61","ASSADE","Health","San Andrés Itzapa","Chimaltenango",14.621935,-90.846902,TRUE
+"62","ASSADE","Education","San Andrés Itzapa","Chimaltenango",14.621935,-90.846902,TRUE
+"63","ASSADE","Women & Girls","San Andrés Itzapa","Chimaltenango",14.621935,-90.846902,TRUE
+"64","ASSADE","Youth & Children","San Andrés Itzapa","Chimaltenango",14.621935,-90.846902,TRUE
+"65","Ayuda para Perros y Gatos","Animal Welfare","Panajachel","Lake Atitlan",14.740911,-91.152065,TRUE
+"66","Casa Guatemala","Youth & Children","Livingston","Izabal",15.656819,-88.997727,TRUE
+"67","Casa Guatemala","Youth & Children","Livingston","Izabal",15.656819,-88.997727,TRUE
+"68","Casa Guatemala","Education","Livingston","Izabal",15.656819,-88.997727,TRUE
+"69","CasaSito","Education","Calle del Emperador #5, Panorama Antigua, Sacatequez","Sacatepequez",14.54262,-90.746159,TRUE
+"70","CasaSito","Youth & Children","Calle del Emperador #5, Panorama Antigua, Sacatequez","Sacatepequez",14.54262,-90.746159,TRUE
+"71","CasaSito","Education","4ta calle 0-46 zona 3, Barrio San Sebastián, San Cristóbal, Alta Verapaz","Alta  Verapaz",15.368175,-90.476106,TRUE
+"72","CasaSito","Youth & Children","4ta calle 0-46 zona 3, Barrio San Sebastián, San Cristóbal, Alta Verapaz","Alta  Verapaz",15.368175,-90.476106,TRUE
+"73","Cojolya Association of Maya Women Weavers","Women & Girls","Santiago Atitlan, Sololá","Lake Atitlan",14.64022,-91.231075,TRUE
+"74","Cojolya Association of Maya Women Weavers","Women & Girls","Santiago Atitlan, Sololá","Lake Atitlan",14.64022,-91.231075,TRUE
+"75","Cojolya Association of Maya Women Weavers","Community Development","Santiago Atitlan, Sololá","Lake Atitlan",14.64022,-91.231075,TRUE
+"76","ConstruCasa","Community Development","1ra. Avenida Sur #62 San Pedro las Huertas","Sacatepequez",14.5288,-90.737971,TRUE
+"77","ConstruCasa","Community Development","1ra. Avenida Sur #62 San Pedro las Huertas","Sacatepequez",14.5288,-90.737971,TRUE
+"78","Creamos Futuros","Women & Girls","Calle 30 Zona 3","Guatemala City",14.622449,-90.529335,TRUE
+"79","Creamos Futuros","Women & Girls","Calle 30 Zona 3","Guatemala City",14.622449,-90.529335,TRUE
+"80","Creamos Futuros","Community Development","Calle 30 Zona 3","Guatemala City",14.622449,-90.529335,TRUE
+"81","Days for Girls Guatemala","Women & Girls","Calle Del Rastro, Panajachel","Lake Atitlan",14.747862,-91.153503,TRUE
+"82","Days for Girls Guatemala","Women & Girls","Calle Del Rastro, Panajachel","Lake Atitlan",14.747862,-91.153503,TRUE
+"83","De La Gente, Inc","Community Development","1era Avenida A, 1-49, Zona 6, San Miguel Escobar, Ciudad Vieja.","Sacatepequez",14.527928,-90.755564,TRUE
+"84","De La Gente, Inc","Community Development","1era Avenida A, 1-49, Zona 6, San Miguel Escobar, Ciudad Vieja.","Sacatepequez",14.527928,-90.755564,TRUE
+"85","De La Gente, Inc","Community Development","1era Avenida A, 1-49, Zona 6, San Miguel Escobar, Ciudad Vieja.","Sacatepequez",14.527928,-90.755564,TRUE
+"86","Education for the Children (EFTC)","Education","1a. Avenida 25A, Jocotenango","Sacatepequez",14.573429,-90.744823,TRUE
+"87","Education for the Children (EFTC)","Health","1a. Avenida 25A, Jocotenango","Sacatepequez",14.573429,-90.744823,TRUE
+"88","Education for the Children (EFTC)","Community Development","1a. Avenida 25A, Jocotenango","Sacatepequez",14.573429,-90.744823,TRUE
+"89","EntreMundos","Education","6ª Calle 7-31, Zona 1, Quetzaltenango","Quetzaltenango",14.833347,-91.516034,TRUE
+"90","EntreMundos","Youth & Children","6ª Calle 7-31, Zona 1, Quetzaltenango","Quetzaltenango",14.833347,-91.516034,TRUE
+"91","EntreMundos","Community Development","6ª Calle 7-31, Zona 1, Quetzaltenango","Quetzaltenango",14.833347,-91.516034,TRUE
+"92","Friendship Bridge","Health","Panajachel","Lake Atitlan",15.733136,-91.39098,TRUE
+"93","Friendship Bridge","Education","Panajachel","Lake Atitlan",15.733136,-91.39098,TRUE
+"94","Friendship Bridge","Women & Girls","Panajachel","Lake Atitlan",15.733136,-91.39098,TRUE
+"95","Friendship Bridge","Community Development","Panajachel","Lake Atitlan",15.733136,-91.39098,TRUE
+"96","Guatemalan Housing Alliance","Community Development","San Juan La Laguna","Lake Atitlan",14.694409,-91.286289,TRUE
+"97","Guatemalan Housing Alliance","Education","San Juan La Laguna","Lake Atitlan",14.694409,-91.286289,TRUE
+"98","Guatemalan Housing Alliance","Women & Girls","San Juan La Laguna","Lake Atitlan",14.694409,-91.286289,TRUE
+"99","Health &amp; Help","Health","Calle el Riito 151 el Pajón Santa Catarina Pinula","Totonicapan",14.561883,-90.444488,TRUE
+"100","Health &amp; Help","Women & Girls","Calle el Riito 151 el Pajón Santa Catarina Pinula","Totonicapan",14.561883,-90.444488,TRUE
+"101","Health &amp; Help","Women & Girls","Calle el Riito 151 el Pajón Santa Catarina Pinula","Totonicapan",14.561883,-90.444488,TRUE
+"102","<U+200B>Hogar Campestre Adventista Los Pinos","Health","Las Lajas, Poptún Petén","Peten",16.329991,-89.419511,TRUE
+"103","<U+200B>Hogar Campestre Adventista Los Pinos","Education","Las Lajas, Poptún Petén","Peten",16.329991,-89.419511,TRUE
+"104","<U+200B>Hogar Campestre Adventista Los Pinos","Youth & Children","Las Lajas, Poptún Petén","Peten",16.329991,-89.419511,TRUE
+"105","<U+200B>Hogar Campestre Adventista Los Pinos","Youth & Children","Las Lajas, Poptún Petén","Peten",16.329991,-89.419511,TRUE
+"106","Imagininguatemala ","Health","1a. Calle del Chajón No. 39 La Antigua Guatemala","Sacatepéquez",14.564464,-90.740494,TRUE
+"107","Imagininguatemala ","Education","1a. Calle del Chajón No. 39 La Antigua Guatemala","Sacatepéquez",14.564464,-90.740494,TRUE
+"108","Imagininguatemala ","Youth & Children","1a. Calle del Chajón No. 39 La Antigua Guatemala","Sacatepéquez",14.564464,-90.740494,TRUE
+"109","Imagininguatemala ","Environment & Conservation","1a. Calle del Chajón No. 39 La Antigua Guatemala","Sacatepéquez",14.564464,-90.740494,TRUE
+"110","Konojel Community Center","Health","San Marcos la Laguna","Lake Atitlan",14.725432,-91.257888,TRUE
+"111","Konojel Community Center","Education","San Marcos la Laguna","Lake Atitlan",14.725432,-91.257888,TRUE
+"112","Konojel Community Center","Community Development","San Marcos la Laguna","Lake Atitlan",14.725432,-91.257888,TRUE
+"113","Konojel Community Center","Health","San Marcos la Laguna","Lake Atitlan",14.725432,-91.257888,TRUE
+"114","Konojel Community Center","Women & Girls","San Marcos la Laguna","Lake Atitlan",14.725432,-91.257888,TRUE
+"115","Las Manos de Christine","Education","El Hato, Antigua","Sacatepequez",14.582333,-90.71261,TRUE
+"116","Las Manos de Christine","Health","El Hato, Antigua","Sacatepequez",14.582333,-90.71261,TRUE
+"117","Las Manos de Christine","Health","El Hato, Antigua","Sacatepequez",14.582333,-90.71261,TRUE
+"118","Las Manos de Christine","Youth & Children","El Hato, Antigua","Sacatepequez",14.582333,-90.71261,TRUE
+"119","Long Way Home","Education","Centro Educativo Técnico Chixot, San Juan Comalapa","Chimaltenango",14.733046,-90.882566,TRUE
+"120","Long Way Home","Health","Centro Educativo Técnico Chixot, San Juan Comalapa","Chimaltenango",14.733046,-90.882566,TRUE
+"121","Long Way Home","Environment & Conservation","Centro Educativo Técnico Chixot, San Juan Comalapa","Chimaltenango",14.733046,-90.882566,TRUE
+"122","Long Way Home","Community Development","Centro Educativo Técnico Chixot, San Juan Comalapa","Chimaltenango",14.733046,-90.882566,TRUE
+"123","Maya Traditions","Women & Girls","Callejon Chotzar, Panajachel","Lake Atitlan",14.741035,-91.151086,TRUE
+"124","Maya Traditions","Women & Girls","Callejon Chotzar, Panajachel","Lake Atitlan",14.741035,-91.151086,TRUE
+"125","Maya Traditions","Education","Callejon Chotzar, Panajachel","Lake Atitlan",14.741035,-91.151086,TRUE
+"126","Maya Traditions","Community Development","Callejon Chotzar, Panajachel","Lake Atitlan",14.741035,-91.151086,TRUE
+"127","Mercado Global","Health"," Rancho Grande, Panajachel","Lake Atitlan",14.74191,-91.155689,TRUE
+"128","Mercado Global","Education"," Rancho Grande, Panajachel","Lake Atitlan",14.74191,-91.155689,TRUE
+"129","Mercado Global","Women & Girls"," Rancho Grande, Panajachel","Lake Atitlan",14.74191,-91.155689,TRUE
+"130","Mercado Global","Community Development"," Rancho Grande, Panajachel","Lake Atitlan",14.74191,-91.155689,TRUE
+"131","Minnasan","Health","Calle Ancha de los Herreros Numero 59 Interior Lote Nùmero 1 Condominio Villas del Comendador del municipio de la Antigua Guatemala.","Chimaltenango ",14.565645,-90.73862,TRUE
+"132","Minnasan","Education","Calle Ancha de los Herreros Numero 59 Interior Lote Nùmero 1 Condominio Villas del Comendador del municipio de la Antigua Guatemala.","Chimaltenango ",14.565645,-90.73862,TRUE
+"133","Minnasan","Women & Girls","Calle Ancha de los Herreros Numero 59 Interior Lote Nùmero 1 Condominio Villas del Comendador del municipio de la Antigua Guatemala.","Chimaltenango ",14.565645,-90.73862,TRUE
+"134","Minnasan","Community Development","Calle Ancha de los Herreros Numero 59 Interior Lote Nùmero 1 Condominio Villas del Comendador del municipio de la Antigua Guatemala.","Chimaltenango ",14.565645,-90.73862,TRUE
+"135","Minnasan","Human Rights","Calle Ancha de los Herreros Numero 59 Interior Lote Nùmero 1 Condominio Villas del Comendador del municipio de la Antigua Guatemala.","Chimaltenango ",14.565645,-90.73862,TRUE
+"136","Minnasan","Youth & Children","Calle Ancha de los Herreros Numero 59 Interior Lote Nùmero 1 Condominio Villas del Comendador del municipio de la Antigua Guatemala.","Chimaltenango ",14.565645,-90.73862,TRUE
+"137","Minnasan","Crime","Calle Ancha de los Herreros Numero 59 Interior Lote Nùmero 1 Condominio Villas del Comendador del municipio de la Antigua Guatemala.","Chimaltenango ",14.565645,-90.73862,TRUE
+"138","Minnasan","Environment & Conservation","Calle Ancha de los Herreros Numero 59 Interior Lote Nùmero 1 Condominio Villas del Comendador del municipio de la Antigua Guatemala.","Chimaltenango ",14.565645,-90.73862,TRUE
+"139","Minnasan","Human Rights","Calle Ancha de los Herreros Numero 59 Interior Lote Nùmero 1 Condominio Villas del Comendador del municipio de la Antigua Guatemala.","Chimaltenango ",14.565645,-90.73862,TRUE
+"140","Limitless Horizons Ixil","Education","Frente de salón municipal, Canton Ilóm, Chajul, Quiché 14005","Quiché",15.483399,-91.036992,TRUE
+"141","Limitless Horizons Ixil","Women & Girls","Frente de salón municipal, Canton Ilóm, Chajul, Quiché 14005","Quiché",15.483399,-91.036992,TRUE
+"142","Limitless Horizons Ixil","Community Development","Frente de salón municipal, Canton Ilóm, Chajul, Quiché 14005","Quiché",15.483399,-91.036992,TRUE
+"143","Limitless Horizons Ixil","Youth & Children","Frente de salón municipal, Canton Ilóm, Chajul, Quiché 14005","Quiché",15.483399,-91.036992,TRUE
+"144","Multicolores","Women & Girls","Callejón El Capulín, zona 2, Panajachel, Sololá","Panajachel (Our headquarters are in Panajachel. We work in Sololá, Quiché, Totonicapán, Quetzaltenango, Sacatepéquez)",14.743919,-91.155801,TRUE
+"145","Multicolores","Community Development","Callejón El Capulín, zona 2, Panajachel, Sololá","Panajachel (Our headquarters are in Panajachel. We work in Sololá, Quiché, Totonicapán, Quetzaltenango, Sacatepéquez)",14.743919,-91.155801,TRUE
+"146","Multicolores","Women & Girls",NA,"Quiché",15.246765,-90.964749,TRUE
+"147","Multicolores","Community Development",NA,"Quiché",15.246765,-90.964749,TRUE
+"148","Multicolores","Women & Girls",NA,"Totonicapán",14.911726,-91.362695,TRUE
+"149","Multicolores","Community Development",NA,"Totonicapán",14.911726,-91.362695,TRUE
+"150","Multicolores","Women & Girls",NA,"Quetzaltenango",14.825798,-91.646436,TRUE
+"151","Multicolores","Community Development",NA,"Quetzaltenango",14.825798,-91.646436,TRUE
+"152","Multicolores","Women & Girls",NA,"Sacatepéquez",14.57076,-90.713496,TRUE
+"153","Multicolores","Community Development",NA,"Sacatepéquez",14.57076,-90.713496,TRUE
+"154","Niños con Bendición","Education","3ra Avenida 2-07 Zona 2, San Antonio Aguas Calientes","Sacatepequez",14.547552,-90.782859,TRUE
+"155","Niños de Guatemala","Education","4ta Calle Oriente 28C, Antigua","Sacatepequez",14.557762,-90.729207,TRUE
+"156","Niños de Guatemala","Community Development","4ta Calle Oriente 28C, Antigua","Sacatepequez",14.557762,-90.729207,TRUE
+"157","ODIM Guatemala","Health","San Juan la Laguna","Lake Atitlan",14.694554,-91.291443,TRUE
+"158","ODIM Guatemala","Education","San Juan la Laguna","Lake Atitlan",14.694554,-91.291443,TRUE
+"159","ODIM Guatemala","Women & Girls","San Juan la Laguna","Lake Atitlan",14.694554,-91.291443,TRUE
+"160","ODIM Guatemala","Youth & Children","San Juan la Laguna","Lake Atitlan",14.694554,-91.291443,TRUE
+"161","Primeros Pasos","Health","Tierra Colorada Baja, Palajunoj Valley","Quetzaltenango",14.819222,-91.54444,TRUE
+"162","Project Somos","Education","Tecpan","Chimaltenango",14.726049,-91.032456,TRUE
+"163","Project Somos","Youth & Children","Tecpan","Chimaltenango",14.726049,-91.032456,TRUE
+"164","Project Somos","Women & Girls","Tecpan","Chimaltenango",14.726049,-91.032456,TRUE
+"165","Project Somos","Women & Girls","Tecpan","Chimaltenango",14.726049,-91.032456,TRUE
+"166","Project Somos","Youth & Children","Tecpan","Chimaltenango",14.726049,-91.032456,TRUE
+"167","Ripple Effect","Health","Chel","Quiche",15.641903,-91.067051,TRUE
+"168","Ripple Effect","Health","Chel","Quiche",15.641903,-91.067051,TRUE
+"169","Ripple Effect","Health","Chel","Quiche",15.641903,-91.067051,TRUE
+"170","Semilla Nueva","Health","7 Avenida 14-44 Zona 9. Edificio la Galeria.","Guatemala City",14.597722,-90.51981,TRUE
+"171","Semilla Nueva","Community Development","7 Avenida 14-44 Zona 9. Edificio la Galeria.","Guatemala City",14.597722,-90.51981,TRUE
+"172","Ser Niña","Women & Girls","Calle del Espíritu Santo, #1, Casa #47, Antigua","Sacatepequez",14.554696,-90.740835,TRUE
+"173","Ser Niña","Women & Girls","Calle del Espíritu Santo, #1, Casa #47, Antigua","Sacatepequez",14.554696,-90.740835,TRUE
+"174","Ser Niña","Community Development","Calle del Espíritu Santo, #1, Casa #47, Antigua","Sacatepequez",14.554696,-90.740835,TRUE
+"175","Ser Niña","Youth & Children","Calle del Espíritu Santo, #1, Casa #47, Antigua","Sacatepequez",14.554696,-90.740835,TRUE
+"176","Ser Niña","Youth & Children","Calle del Espíritu Santo, #1, Casa #47, Antigua","Sacatepequez",14.554696,-90.740835,TRUE
+"177","Ser Niña","Education","Calle del Espíritu Santo, #1, Casa #47, Antigua","Sacatepequez",14.554696,-90.740835,TRUE
+"178","Ser Niña","Human Rights","Calle del Espíritu Santo, #1, Casa #47, Antigua","Sacatepequez",14.554696,-90.740835,TRUE
+"179","SERES","Education","1ra Avenida Norte No. 12, Interior Impact Hub","Chimaltenango, Quiché, Quetzaltenango, and Sacatepéquez.",14.557949,-90.72973,TRUE
+"180","SERES","Education",NA,"Chimaltenago",14.663015,-90.824467,TRUE
+"181","SERES","Education",NA,"Quiché",15.641903,-91.067051,TRUE
+"182","SERES","Education",NA,"Quetzaltenango",14.748909,-91.740779,TRUE
+"183","Sharing the Dream Guatemala","Women & Girls","Panajachel","Lake Atitlan",14.738093,-91.152393,TRUE
+"184","Sharing the Dream Guatemala","Women & Girls","Panajachel","Lake Atitlan",14.738093,-91.152393,TRUE
+"185","Sharing the Dream Guatemala","Health","Panajachel","Lake Atitlan",14.738093,-91.152393,TRUE
+"186","Sharing the Dream Guatemala","Health","Panajachel","Lake Atitlan",14.738093,-91.152393,TRUE
+"187","Sharing the Dream Guatemala","Community Development","Panajachel","Lake Atitlan",14.738093,-91.152393,TRUE
+"188","Sonido del Movimiento","Youth & Children","Xela","Quetzaltenango",14.845616,-91.523248,TRUE
+"189","Sonido del Movimiento","Education","Xela","Quetzaltenango",14.845616,-91.523248,TRUE
+"190","Sonido del Movimiento","Education","Xela","Quetzaltenango",14.845616,-91.523248,TRUE
+"191","The Integral Heart Family","Education","#41, 7 Calle Poniente, Antigua","Sacatepequez",14.554581,-90.735092,TRUE
+"192","The Integral Heart Family","Women & Girls","#41, 7 Calle Poniente, Antigua","Sacatepequez",14.554581,-90.735092,TRUE
+"193","The Integral Heart Family","Community Development","#41, 7 Calle Poniente, Antigua","Sacatepequez",14.554581,-90.735092,TRUE
+"194","The Integral Heart Family","Human Rights","#41, 7 Calle Poniente, Antigua","Sacatepequez",14.554581,-90.735092,TRUE
+"195","The Integral Heart Family","Youth & Children","#41, 7 Calle Poniente, Antigua","Sacatepequez",14.554581,-90.735092,TRUE
+"196","The Integral Heart Family","Education","#41, 7 Calle Poniente, Antigua","Sacatepequez",14.554581,-90.735092,TRUE
+"197","The Integral Heart Family","Education","#41, 7 Calle Poniente, Antigua","Sacatepequez",14.554581,-90.735092,TRUE
+"198","Timmer Project Guatemala","Education","San Juan Alotenango","Sacatepequez",14.485615,-90.803229,TRUE
+"199","Timmer Project Guatemala","Youth & Children","San Juan Alotenango","Sacatepequez",14.485615,-90.803229,TRUE
+"200","Un Techo Para Mi País Guatemala","Community Development",NA,"Guatemala City",14.598822,-90.495246,TRUE
+"201","Vivamos Mejor","Health","Calle Los Salpores 0-83 zona 3, Barrio Jucanyá, Panajachel 07010","Lake Atitlan",14.738941,-91.1521,TRUE
+"202","Vivamos Mejor","Education","Calle Los Salpores 0-83 zona 3, Barrio Jucanyá, Panajachel 07010","Lake Atitlan",14.738941,-91.1521,TRUE
+"203","Vivamos Mejor","Women & Girls","Calle Los Salpores 0-83 zona 3, Barrio Jucanyá, Panajachel 07010","Lake Atitlan",14.738941,-91.1521,TRUE
+"204","Vivamos Mejor","Community Development","Calle Los Salpores 0-83 zona 3, Barrio Jucanyá, Panajachel 07010","Lake Atitlan",14.738941,-91.1521,TRUE
+"205","Vivamos Mejor","Human Rights","Calle Los Salpores 0-83 zona 3, Barrio Jucanyá, Panajachel 07010","Lake Atitlan",14.738941,-91.1521,TRUE
+"206","Vivamos Mejor","Youth & Children","Calle Los Salpores 0-83 zona 3, Barrio Jucanyá, Panajachel 07010","Lake Atitlan",14.738941,-91.1521,TRUE
+"207","Vivamos Mejor","Environment & Conservation","Calle Los Salpores 0-83 zona 3, Barrio Jucanyá, Panajachel 07010","Lake Atitlan",14.738941,-91.1521,TRUE
+"208","Women's Justice Initiative","Women & Girls","3ra. Avenida 1-46, Zona 1, Patzún, Guatemala","Sacatepequez",14.681182,-91.012037,TRUE
+"209","Women's Justice Initiative","Women & Girls","3ra. Avenida 1-46, Zona 1, Patzún, Guatemala","Sacatepequez",14.681182,-91.012037,TRUE
+"210","Women's Justice Initiative","Education","3ra. Avenida 1-46, Zona 1, Patzún, Guatemala","Sacatepequez",14.681182,-91.012037,TRUE
+"211","Women's Justice Initiative","Human Rights","3ra. Avenida 1-46, Zona 1, Patzún, Guatemala","Sacatepequez",14.681182,-91.012037,TRUE
+"212","Worthy Village","Health","Panajachel","Lake Atitlan",14.741654,-91.152948,TRUE
+"213","Worthy Village","Education","Panajachel","Lake Atitlan",14.741654,-91.152948,TRUE
+"214","Worthy Village","Women & Girls","Panajachel","Lake Atitlan",14.741654,-91.152948,TRUE
+"215","Worthy Village","Community Development","Panajachel","Lake Atitlan",14.741654,-91.152948,TRUE
+"216","Worthy Village","Youth & Children","Panajachel","Lake Atitlan",14.741654,-91.152948,TRUE
+"217","Wuqu' Kawoq' Maya Health Alliance","Health","Santiago Sacatepequez","Sacatepequez",14.63725,-90.678939,TRUE
+"218","Wuqu' Kawoq' Maya Health Alliance","Women & Girls","Santiago Sacatepequez","Sacatepequez",14.63725,-90.678939,TRUE
+"219","Wuqu' Kawoq' Maya Health Alliance","Women & Girls","Santiago Sacatepequez","Sacatepequez",14.63725,-90.678939,TRUE
+"220","Xela Collective","Education","17-31 7a Calle zona 1 Quetzaltenango","Quetzaltenango",14.865674,-91.567349,TRUE
+"221","Xela Collective","Youth & Children","17-31 7a Calle zona 1 Quetzaltenango","Quetzaltenango",14.865674,-91.567349,TRUE
+"222","Xela Collective","Education","17-31 7a Calle zona 1 Quetzaltenango","Quetzaltenango",14.865674,-91.567349,TRUE
+"223","XelaAid","Education","San Martín Chiquito","Quetzaltenango",14.81567,-91.656137,TRUE
+"224","XelaAid","Youth & Children","San Martín Chiquito","Quetzaltenango",14.81567,-91.656137,TRUE

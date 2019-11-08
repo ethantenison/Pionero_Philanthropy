@@ -80,6 +80,7 @@ db$focus_area_s[ db$focus_area_s == "Dance; Restorative Expressive Arts" ] <- "E
 db$focus_area_s[ db$focus_area_s == "Psychology " ] <- "Education"
 db$focus_area_s[ db$focus_area_s == "Critical-Thinking" ] <- "Education"
 db$focus_area_s[ db$focus_area_s == "Misc: Art" ] <- "Education"
+db <- rename(db, category = focus_area_s)
 
 
 
@@ -87,6 +88,9 @@ db$focus_area_s[ db$focus_area_s == "Misc: Art" ] <- "Education"
 #Converting longitude and latitudes to coordinate type
 coordinates(db) <- c("longitude", "latitude") 
 proj4string(db) <- proj4string(db)
+
+saveRDS(db, file="guatemala_data.rds")
+write.csv(db, file="guatemala_data.csv")
 
 #plotting 
 mapview(Guatemala, color = "cyan", col.regions = "white") + mapview(db)
