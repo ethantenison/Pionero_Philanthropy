@@ -33,6 +33,9 @@ Encoding(db$name) <- "UTF-8"
 Encoding(db$focus_area_s) <- "UTF-8"
 db$focus_area_s <- str_replace_all(db$focus_area_s, "and", ",")
 db <- separate_rows(db,focus_area_s,sep=",\\s+")
+
+
+#Renaming categorgies to fit into the 9 already established 
 db$focus_area_s[ db$focus_area_s == "Girls" ] <- "Women & Girls"
 db$focus_area_s[ db$focus_area_s == "Girls " ] <- "Women & Girls"
 db$focus_area_s[ db$focus_area_s == "Women" ] <- "Women & Girls"
@@ -82,15 +85,48 @@ db$focus_area_s[ db$focus_area_s == "Critical-Thinking" ] <- "Education"
 db$focus_area_s[ db$focus_area_s == "Misc: Art" ] <- "Education"
 db <- rename(db, category = focus_area_s)
 
+#Creating the color palette 
+db <- mutate(db, color = NA)
 
+for (i in 1:length(db$category)){
+        if(db$category[i] == "Health"){        
+                db$color[i] <- "#a6cee3"               
+        }
+        else if(db$category[i] == "Education"){        
+                db$color[i] <- "#b2df8a"              
+        }
+        else if(db$category[i] == "Community Development"){        
+                db$color[i] <- "#1f78b4"              
+        }
+        else if(db$category[i] =="Youth & Children"){        
+                db$color[i] <- "#fdbf6f"              
+        }
+        else if(db$category[i] == "Women & Girls"){        
+                db$color[i] <- "#fb9a99"  
+        }
+        else if(db$category[i] == "Human Rights"){        
+                db$color[i] <- "#e31a1c"              
+        }
+        else if(db$category[i] == "Animal Welfare"){        
+                db$color[i] <- "#cab2d6"              
+        }
+        else if(db$category[i] == "Environment & Conservation"){        
+                db$color[i] <- "#33a02c"              
+        }
+        else if(db$category[i] == "Crime"){        
+                db$color[i] <- "#ff7f00"              
+        }
+}
 
 
 #Converting longitude and latitudes to coordinate type
 coordinates(db) <- c("longitude", "latitude") 
 proj4string(db) <- proj4string(db)
 
+
+#Saving 
 saveRDS(db, file="guatemala_data.rds")
 write.csv(db, file="guatemala_data.csv")
 
-#plotting 
+#plotting to check the points 
 mapview(Guatemala, color = "cyan", col.regions = "white") + mapview(db)
