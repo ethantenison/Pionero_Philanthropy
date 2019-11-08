@@ -120,13 +120,13 @@ for (i in 1:length(db$category)){
 
 
 #Converting longitude and latitudes to coordinate type
-coordinates(db) <- c("longitude", "latitude") 
-proj4string(db) <- proj4string(db)
+# coordinates(db) <- c("longitude", "latitude") 
+# proj4string(db) <- proj4string(db)
 
 
 #Saving 
 saveRDS(db, file="guatemala_data.rds")
-write.csv(db, file="guatemala_data.csv")
+write.csv(db, file="data.csv")
 
 #plotting to check the points 
 mapview(Guatemala, color = "cyan", col.regions = "white") + mapview(db)
