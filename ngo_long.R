@@ -126,7 +126,7 @@ for (i in 1:length(db$category)){
 
 #Saving 
 saveRDS(db, file="guatemala_data.rds")
-write.csv(db, file="data.csv")
+write.csv(db, file="./www/data.csv")
 
 #plotting to check the points 
 mapview(Guatemala, color = "cyan", col.regions = "white") + mapview(db)
