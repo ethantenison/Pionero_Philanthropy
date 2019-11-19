@@ -46,12 +46,14 @@ plot$category <- as.factor(plot$category)
 # ------------------------------- #
 # ------------------------------- #
 
-ui <- fluidPage(
-        mainPanel( 
-                #this will create a space for us to display our map
-                leafletOutput(outputId = "mymap"), 
+ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
+                            shinyjs::useShinyjs(),                      
+                            tags$style(type = "text/css", "html, body {width:100%;height:100%}"),
+                            tags$head(includeScript("google_analytics.js")),
+                            
+                            leafletOutput("map", width = "100%", height = "100%"),
                 #this allows me to put the checkmarks ontop of the map to allow people to view earthquake depth or overlay a heatmap
-                absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
+                            absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
                               draggable = TRUE, top = 50, left = "auto", right = 20, bottom = "auto",
                               width = 250, height = "auto",
                               
@@ -81,7 +83,7 @@ ui <- fluidPage(
 # ------------------------------- #
 
 
-server <- function(input, output, session) {
+server <- shinyServer(function(input, output, session) {
         #define the color pallate for the categories of NPO's 
         
         
@@ -95,7 +97,7 @@ server <- function(input, output, session) {
         })
     
         #create empty map
-        output$mymap <- renderLeaflet({
+        output$map <- renderLeaflet({
                 leaflet(data) %>% 
                         setView(lng = -90, lat = 15, zoom = 7)  %>% #setting the view over ~ center of  Guatemala
                         addTiles() 
@@ -115,7 +117,7 @@ server <- function(input, output, session) {
         
        
         
-}
+})
 # ------------------------------- #
 # ------------------------------- #
 # ------------------------------- #
