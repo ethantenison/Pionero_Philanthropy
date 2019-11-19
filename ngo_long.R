@@ -29,6 +29,7 @@ db <- read.xlsx("ngo_database.xlsx", sheet = 3, startRow = 1, colNames =TRUE)
 db <- clean_names(db)
 db$name <- as.character(db$name)
 db$focus_area_s <- as.character(db$focus_area_s)
+db$focus_area_s <- paste("All Nonprofits, ", db$focus_area_s, sep =" " )
 Encoding(db$name) <- "UTF-8"
 Encoding(db$focus_area_s) <- "UTF-8"
 db$focus_area_s <- str_replace_all(db$focus_area_s, "and", ",")
@@ -116,6 +117,9 @@ for (i in 1:length(db$category)){
         else if(db$category[i] == "Crime"){        
                 db$color[i] <- "#ff7f00"              
         }
+        else if(db$category[i] == "All Nonprofits"){
+                db$color[i] <- "#c0c0c0"
+        }
 }
 
 
@@ -126,7 +130,7 @@ for (i in 1:length(db$category)){
 
 #Saving 
 saveRDS(db, file="guatemala_data.rds")
-write.csv(db, file="./www/data.csv")
+
 
 #plotting to check the points 
 mapview(Guatemala, color = "cyan", col.regions = "white") + mapview(db)
