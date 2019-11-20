@@ -19,6 +19,7 @@ library(tidyr)
 library(leaflet)
 library(leaflet.extras)
 library(sf)
+library(htmltools)
 
 
 
@@ -107,15 +108,16 @@ server <- shinyServer(function(input, output, session) {
                 if(nrow(data())!=0){
                         leafletProxy("map", data= data()) %>%
                                 clearMarkers() %>% #you have to clear previously drawn markers
-                                addCircleMarkers(lng=~longitude, lat=~latitude, stroke = FALSE, popup=~as.character(category), 
-                                                 label= ~as.character(paste0("Non-Profit: ", sep = " ", name)), fillOpacity = 0.5,
-                                                 radius= 10, color = "black", fillColor="red")  
+                                addCircleMarkers(lng=~longitude, lat=~latitude, stroke = FALSE, 
+                                                 popup=~paste0("<br/>","Non-Profit: ", sep = " ", website), 
+                                                 label= ~paste0("Non-Profit: ", sep = " ", name), 
+                                                 fillOpacity = 0.5,radius= 10, color = "black", fillColor="red")  
                 }
                 else{leafletProxy("map") %>% clearMarkers()} #clear the map if the data() is empty
         })
       
         
-       
+        
         
 })
 # ------------------------------- #

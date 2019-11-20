@@ -128,9 +128,21 @@ for (i in 1:length(db$category)){
 # proj4string(db) <- proj4string(db)
 
 
+# Adding a column for NPO website 
+websites <- read.xlsx("ngo_database.xlsx", sheet = 8, startRow = 1, colNames =TRUE)
+websites <- clean_names(websites)
+websites$cause_name <- as.character(websites$cause_name)
+websites <- rename(websites, name = cause_name)
+websites$website <- as.character(websites$website)
+websites <- websites[,1:2]
+
+db <- left_join(db, websites, by = "name")
+db$website <- paste0("'<a href=\"",db$website,"\">",db$name,"</a>'")
+
+
 #Saving 
 saveRDS(db, file="./data/guatemala_data.rds")
 
 
 #plotting to check the points 
-mapview(Guatemala, color = "cyan", col.regions = "white") + mapview(db)
+#mapview(Guatemala, color = "cyan", col.regions = "white") + mapview(db)
