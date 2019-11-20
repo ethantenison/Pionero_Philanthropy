@@ -129,7 +129,7 @@ for (i in 1:length(db$category)){
 
 
 #Saving 
-saveRDS(db, file="guatemala_data.rds")
+saveRDS(db, file="./data/guatemala_data.rds")
 
 
 #plotting to check the points 

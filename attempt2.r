@@ -55,7 +55,7 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                 #this allows me to put the checkmarks ontop of the map to allow people to view earthquake depth or overlay a heatmap
                             absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
                               draggable = TRUE, top = 50, left = "auto", right = 20, bottom = "auto",
-                              width = 250, height = "auto",
+                              width = 225, height = "auto",
                               
                               ##################check boxes to select types of schools
                               fluidRow(
@@ -109,7 +109,7 @@ server <- shinyServer(function(input, output, session) {
                                 clearMarkers() %>% #you have to clear previously drawn markers
                                 addCircleMarkers(lng=~longitude, lat=~latitude, stroke = FALSE, popup=~as.character(category), 
                                                  label= ~as.character(paste0("Non-Profit: ", sep = " ", name)), fillOpacity = 0.5,
-                                                 radius= 2, color = "black", fillColor="red")  
+                                                 radius= 10, color = "black", fillColor="red")  
                 }
                 else{leafletProxy("map") %>% clearMarkers()} #clear the map if the data() is empty
         })
