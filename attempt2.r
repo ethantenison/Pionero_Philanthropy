@@ -37,6 +37,8 @@ library(htmltools)
 plot <- readRDS("./data/guatemala_data.rds")
 plot$category <- as.factor(plot$category)
 
+Guatemala <- st_transform(guatemala.shape_orig, "+proj=longlat +ellps=WGS84 +datum=WGS84")
+
 
 # ------------------------------- #
 # ------------------------------- #
@@ -101,7 +103,13 @@ server <- shinyServer(function(input, output, session) {
         output$map <- renderLeaflet({
                 leaflet(data) %>% 
                         setView(lng = -90, lat = 15, zoom = 7)  %>% #setting the view over ~ center of  Guatemala
-                        addTiles() 
+                        addTiles() %>%
+                        addPolygons(data=Guatemala,
+                                    stroke = .1,
+                                    smoothFactor = 0,
+                                    fill = T,
+                                    fillOpacity = 0.6,
+                                    color = "gray")
         })
         #next we use the observe function to make the drop down dynamic. If you leave this part out you will see that the checkboxes, when clicked on the first time, display our filters...But if you then uncheck them they stay on. So we need to tell the server to update the map when the checkboxes are unchecked.
         observe({
