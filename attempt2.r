@@ -37,7 +37,12 @@ library(htmltools)
 plot <- readRDS("./data/guatemala_data.rds")
 plot$category <- as.factor(plot$category)
 
+guatemala.shape_orig <- st_read("Guatemala_shape_files/GTM_adm0.shp", stringsAsFactors=FALSE)
 Guatemala <- st_transform(guatemala.shape_orig, "+proj=longlat +ellps=WGS84 +datum=WGS84")
+
+#guatemala.shape_orig <- st_read("Guatemala_shape_files/GTM_adm1.shp", stringsAsFactors=FALSE)
+#Guatemala <- st_transform(guatemala.shape_orig, "+proj=longlat +ellps=WGS84 +datum=WGS84")
+
 
 
 # ------------------------------- #
@@ -62,7 +67,7 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                               
                               ##################check boxes to select types of schools
                               fluidRow(
-                                      column(12,div(h3("Guatemala Nonprofit Explorer v0.1")))),
+                                      column(12,div(h3("Guatemala Nonprofit Explorer v0.3")))),
                               fluidRow(
                                       
                                       column(9, selectInput("category", label=NULL, choices = 
@@ -106,10 +111,10 @@ server <- shinyServer(function(input, output, session) {
                         addTiles() %>%
                         addPolygons(data=Guatemala,
                                     stroke = .1,
-                                    smoothFactor = 0,
-                                    fill = T,
-                                    fillOpacity = 0.6,
-                                    color = "gray")
+                                    smoothFactor = 2,
+                                    fill = F,
+                                    fillOpacity = .1,
+                                    color = "black")
         })
         #next we use the observe function to make the drop down dynamic. If you leave this part out you will see that the checkboxes, when clicked on the first time, display our filters...But if you then uncheck them they stay on. So we need to tell the server to update the map when the checkboxes are unchecked.
         observe({
@@ -119,7 +124,7 @@ server <- shinyServer(function(input, output, session) {
                                 addCircleMarkers(lng=~longitude, lat=~latitude, stroke = FALSE, 
                                                  popup=~paste0("<br/>","Non-Profit: ", sep = " ", website), 
                                                  label= ~paste0("Non-Profit: ", sep = " ", name), 
-                                                 fillOpacity = 0.5,radius= 10, color = "black", fillColor="red")  
+                                                 fillOpacity = 0.5,radius= 10, color = "black", fillColor="purple")  
                 }
                 else{leafletProxy("map") %>% clearMarkers()} #clear the map if the data() is empty
         })
