@@ -140,6 +140,16 @@ db <- left_join(db, websites, by = "name")
 db$website <- paste0("'<a href=\"",db$website,"\">",db$name,"</a>'")
 
 
+#adding size of organization
+more_info <- read.csv("Research Database - Sheet1.csv", stringsAsFactors = FALSE)
+more_info <- clean_names(more_info)
+db <- left_join(db, more_info, by = c("name"="npo"))
+db <- db %>% dplyr::select(name, category, address.x,region, latitude, longitude,color,
+                    website, year_founded, partner_status, size, budget) %>%
+             rename(address = address.x)
+db <- filter(db, size != "")
+db <- filter(db, year_founded != "")
+
 #Saving 
 saveRDS(db, file="./data/guatemala_data.rds")
 
