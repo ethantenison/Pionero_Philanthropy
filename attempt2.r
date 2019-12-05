@@ -60,7 +60,9 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                             tags$head(includeScript("google_analytics.js")),
                             
                             leafletOutput("map", width = "100%", height = "100%"),
-                #this allows me to put the checkmarks ontop of the map to allow people to view earthquake depth or overlay a heatmap
+                            
+                            #this allows me to put the checkmarks ontop of the map to allow people to 
+                            #view earthquake depth or overlay a heatmap
                             absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
                               draggable = TRUE, top = 50, left = "auto", right = 20, bottom = "auto",
                               width = 225, height = "auto",
@@ -75,7 +77,17 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                                                                      "Women & Girls", "Human Rights" ,"Environment & Conservation",
                                                                      "Animal Welfare","Crime", "All Nonprofits"),
                                                                    selected=c("All Nonprofits")))
-                                      )
+                                      ),
+                              
+                              #######################################graph controls
+                              tags$hr(),
+                              fluidRow(
+                                column(6, selectInput("sizevar", "Size variable:", 
+                                                      choices = c("Constant"="constant","Budget" = "budget"))),
+                                column(6, selectInput("colorvar", "Color variable:", 
+                                                      choices = c("Constant"="constant","Organization Size"="size",
+                                                                  "Partner Status"="partner_status", "Year Established"="year"))))
+                              
                               
                               )
                 )
