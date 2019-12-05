@@ -40,8 +40,8 @@ plot$category <- as.factor(plot$category)
 guatemala.shape_orig <- st_read("Guatemala_shape_files/GTM_adm0.shp", stringsAsFactors=FALSE)
 Guatemala <- st_transform(guatemala.shape_orig, "+proj=longlat +ellps=WGS84 +datum=WGS84")
 
-#guatemala.shape_orig <- st_read("Guatemala_shape_files/GTM_adm1.shp", stringsAsFactors=FALSE)
-#Guatemala <- st_transform(guatemala.shape_orig, "+proj=longlat +ellps=WGS84 +datum=WGS84")
+guatemala.shape_orig <- st_read("Guatemala_shape_files/GTM_adm1.shp", stringsAsFactors=FALSE)
+Guatemala_departments <- st_transform(guatemala.shape_orig, "+proj=longlat +ellps=WGS84 +datum=WGS84")
 
 
 
@@ -70,7 +70,7 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                                       column(12,div(h3("Guatemala Nonprofit Explorer v0.3")))),
                               fluidRow(
                                       
-                                      column(9, selectInput("category", label=NULL, choices = 
+                                      column(10, selectInput("category", label="Select Category", choices = 
                                                                    c("Health", "Education", "Community Development","Youth & Children",          
                                                                      "Women & Girls", "Human Rights" ,"Environment & Conservation",
                                                                      "Animal Welfare","Crime", "All Nonprofits"),
@@ -109,6 +109,12 @@ server <- shinyServer(function(input, output, session) {
                 leaflet(data) %>% 
                         setView(lng = -90, lat = 15, zoom = 7)  %>% #setting the view over ~ center of  Guatemala
                         addTiles() %>%
+                        addPolygons(data=Guatemala_departments,
+                                    stroke = .01,
+                                    smoothFactor = 2,
+                                    fill = F,
+                                    fillOpacity = .1,
+                                    color = "gray") %>%
                         addPolygons(data=Guatemala,
                                     stroke = .1,
                                     smoothFactor = 2,
@@ -118,6 +124,8 @@ server <- shinyServer(function(input, output, session) {
         })
         #next we use the observe function to make the drop down dynamic. If you leave this part out you will see that the checkboxes, when clicked on the first time, display our filters...But if you then uncheck them they stay on. So we need to tell the server to update the map when the checkboxes are unchecked.
         observe({
+                
+               
                 if(nrow(data())!=0){
                         leafletProxy("map", data= data()) %>%
                                 clearMarkers() %>% #you have to clear previously drawn markers
