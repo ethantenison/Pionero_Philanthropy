@@ -163,6 +163,8 @@ library(googlesheets)
               
                 db$year_founded_color <- colorRampPalette(c("#f7feae", "#045275"))(99)[ii]
                 
+                
+                
                 #color for partner status 
                 for (i in 1:length(db$partner_status)){
                         if(db$partner_status[i] == "Y"){        
@@ -191,6 +193,8 @@ library(googlesheets)
 #changing the order
                 db <- select(db, name, category, address, region, latitude, longitude,website,year_founded, 
                              year_founded_color, partner_status, partnercolor, size, sizecolor, budget, constant, constant_color)
+                
+                db <- db %>% arrange(year_founded)
 #Saving 
 saveRDS(db, file="./data/guatemala_data.rds")
 

@@ -86,7 +86,7 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                                                       choices = c("Constant"="constant","Budget" = "budget"))),
                                 column(6, selectInput("colorvar", "Color Variable:", 
                                                       choices = c("Same"="constant","Organization Size"="size",
-                                                                  "Partner Status"="partner_status", "Year Established"="year"))))
+                                                                  "Partner Status"="partner_status", "Year Established"="year_founded"))))
                               
                               
                               )
