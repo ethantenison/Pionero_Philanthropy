@@ -65,11 +65,11 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                             #view earthquake depth or overlay a heatmap
                             absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
                               draggable = TRUE, top = 50, left = "auto", right = 20, bottom = "auto",
-                              width = 225, height = "auto",
+                              width = 325, height = "auto",
                               
                               ##################check boxes to select types of schools
                               fluidRow(
-                                      column(12,div(h3("Guatemala Nonprofit Explorer v0.3")))),
+                                      column(12,div(h3("Guatemala Nonprofit Explorer v0.5")))),
                               fluidRow(
                                       
                                       column(10, selectInput("category", label="Select Category", choices = 
@@ -121,12 +121,13 @@ server <- shinyServer(function(input, output, session) {
                 leaflet(data) %>% 
                         setView(lng = -90, lat = 15, zoom = 7)  %>% #setting the view over ~ center of  Guatemala
                         addTiles() %>%
-                        addPolygons(data=Guatemala_departments,
-                                    stroke = .01,
-                                    smoothFactor = 2,
-                                    fill = F,
-                                    fillOpacity = .1,
-                                    color = "gray") %>%
+                        # addPolygons(data=Guatemala_departments,
+                        #             stroke = .01,
+                        #             smoothFactor = 2,
+                        #             fill = F,
+                        #             fillOpacity = 1,
+                        #             color = "gray",
+                        #             weight = 5) %>%
                         addPolygons(data=Guatemala,
                                     stroke = .1,
                                     smoothFactor = 2,

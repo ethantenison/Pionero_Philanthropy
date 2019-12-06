@@ -177,7 +177,7 @@ library(googlesheets)
                 }
                 
                 #adding a constant color 
-                db$constant_color <- "#A5AA99"
+                db$constant_color <- "#4b4b8f"
                 db$constant <- 1
                 
                 
