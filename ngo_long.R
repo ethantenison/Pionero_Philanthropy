@@ -175,10 +175,24 @@ library(googlesheets)
                                 db$partnercolor[i] <- "#3969AC"              
                         }
                 }
-
+                
+                #adding a constant color 
+                db$constant_color <- "#A5AA99"
+                db$constant <- 1
+                
+                
+#Altering the size variable 
+                db$budget <- str_replace_all(db$budget, "\\$", "")
+                db$budget <- str_replace_all(db$budget, ",", "")
+                db$budget <- as.numeric(db$budget)
+                
+                
+                
+#changing the order
+                db <- select(db, name, category, address, region, latitude, longitude,website,year_founded, 
+                             year_founded_color, partner_status, partnercolor, size, sizecolor, budget, constant, constant_color)
 #Saving 
 saveRDS(db, file="./data/guatemala_data.rds")
 
 
-#plotting to check the points 
-#mapview(Guatemala, color = "cyan", col.regions = "white") + mapview(db)
+
