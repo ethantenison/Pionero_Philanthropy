@@ -109,7 +109,7 @@ library(googlesheets)
                 more_info <- read.csv("Research Database - Sheet1.csv", stringsAsFactors = FALSE)
                 more_info <- clean_names(more_info)
                 db <- left_join(db, more_info, by = c("name"="npo"))
-                db <- db %>% dplyr::select(name, category, address.x,region, latitude, longitude,sizecolor,
+                db <- db %>% dplyr::select(name, category, address.x,region, latitude, longitude,
                                     website, year_founded, partner_status, size, budget) %>%
                              rename(address = address.x)
                 db <- filter(db, size != "")
@@ -164,6 +164,17 @@ library(googlesheets)
                 db$year_founded_color <- colorRampPalette(c("#f7feae", "#045275"))(99)[ii]
                 
                 #color for partner status 
+                for (i in 1:length(db$partner_status)){
+                        if(db$partner_status[i] == "Y"){        
+                                db$partnercolor[i] <- "#7F3C8D"               
+                        }
+                        else if(db$partner_status[i] == "D"){        
+                                db$partnercolor[i] <- "#11A579"              
+                        }
+                        else if(db$partner_status[i] == "N"){        
+                                db$partnercolor[i] <- "#3969AC"              
+                        }
+                }
 
 #Saving 
 saveRDS(db, file="./data/guatemala_data.rds")
