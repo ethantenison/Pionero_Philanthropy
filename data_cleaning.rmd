@@ -1,0 +1,79 @@
+---
+title: "Guatemalan Nonprofit Explorer"
+author: "Ethan Tenison"
+date: "12/18/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load Libraries 
+
+
+```{r libraries, message=FALSE, warning=FALSE}
+# This will install the packages that you do not have installed on your computer. If you add new ones, you #need to add them to the list.of.packages list. 
+
+list.of.packages <- c("raster", "sp", "sf", "labelled", "rgdal", "rio", "haven", "tidyverse", "geosphere", 
+                        "mapview", "openxlsx", "janitor", "googlesheets4", "gargle", "googledrive", "dplyr")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+
+#load libraries 
+library(raster)
+library(sp)
+library(sf)
+library(labelled)
+library(rgdal)
+library(rio)
+library(haven)
+library(tidyverse)
+library(geosphere) # library with lots of shape files
+library(mapview) # incredible interactive map visualization in R
+library(openxlsx)
+library(janitor)
+library(googlesheets4)
+library(gargle)
+library(googledrive)
+library(dplyr)
+
+```
+
+## Reading in the data 
+
+
+
+```{r data}
+# read the shape file using sf package and transform the coordinate system 
+guatemala.shape_orig <- st_read("Guatemala_shape_files/GTM_adm1.shp", stringsAsFactors=FALSE)
+Guatemala <- st_transform(guatemala.shape_orig, "+proj=longlat +ellps=WGS84 +datum=WGS84")
+
+# using googlesheets4 package to call the data directly from the mapping dataset 
+
+
+#for the time being
+data <- read.csv("Mapping dataset - Sheet1.csv", stringsAsFactors = FALSE)
+data <- clean_names(data)
+
+```
+
+## Data Cleaning 
+
+```{r datacleaning}
+# In this part I am converting the data frame from wide to long 
+        data_1st_add <- data %>% dplyr::select(-c(address2,latitude2,longitude2,municipality2, department2, address3                                        ,latitude3, longitude3, municipality3, department3, address4,latitude4,                                        longitude4,municipality4, department4, address5,latitude5, longitude5,                                        municipality5, department5))
+
+ data_2nd_add <- data %>% dplyr::select(-c(address,latitude,longitude, municipality, department, address3                                        ,latitude3, longitude3, municipality3, department3, address4,latitude4,                                        longitude4,municipality4, department4, address5,latitude5, longitude5,                                        municipality5, department5))  %>% rename(address = address2, latitude =                                       latitude2, longitude = longitude2, municipality = municipality2,                                              department = department2) 
+ 
+  data_3rd_add <- data %>% dplyr::select(-c(address,latitude,longitude, municipality, department, address2                                        ,latitude2, longitude2, municipality2, department2, address4,latitude4,                                        longitude4,municipality4, department4, address5,latitude5, longitude5,                                        municipality5, department5))  %>% rename(address = address3, latitude =                                       latitude3, longitude = longitude3, municipality = municipality3,                                              department = department3) 
+  
+  data_4th_add <- data %>% dplyr::select(-c(address,latitude,longitude, municipality, department, address2                                        ,latitude2, longitude2, municipality2, department2, address3,latitude3,                                        longitude3,municipality3, department3, address5,latitude5, longitude5,                                        municipality5, department5))  %>% rename(address = address4, latitude =                                       latitude4, longitude = longitude4, municipality = municipality4,                                              department = department4) 
+  
+   data_5th_add <- data %>% dplyr::select(-c(address,latitude,longitude, municipality, department, address2                                        ,latitude2, longitude2, municipality2, department2, address3,latitude3,                                        longitude3,municipality3, department3, address4,latitude4, longitude4,                                        municipality4, department4))  %>% rename(address = address5, latitude =                                       latitude5, longitude = longitude5, municipality = municipality5,                                              department = department5) 
+   
+data_long <- bind_rows(data_1st_add,data_2nd_add,data_3rd_add,data_4th_add, data_5th_add)
+data_long <- filter(data_long, !is.na(latitude))
+
+
+```
