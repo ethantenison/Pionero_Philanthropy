@@ -72,37 +72,59 @@ data$human_rights[data$human_rights == "Y" ] <- "Human Rights"
 data$animal_welfare[data$animal_welfare == "Y" ] <- "Animal Welfare"
 
 data <-pivot_longer(
-                data,
-                cols = c(
-                        "health",
-                        "edu",
-                        "comm_dev",
-                        "youth_child",
-                        "women_girls",
-                        "enviro_cons",
-                        "crime",
-                        "human_rights",
-                        "animal_welfare",
-                        "all_npos"
-                ),
-                names_to = "category",
-                
-        )
+        data,
+        cols = c(
+                "health",
+                "edu",
+                "comm_dev",
+                "youth_child",
+                "women_girls",
+                "enviro_cons",
+                "crime",
+                "human_rights",
+                "animal_welfare",
+                "all_npos"
+        ),
+        names_to = "category",
+        
+)
 
 data <- filter(data, !value %in% "N")
 data <- filter(data, !value %in% "")
 data <- dplyr::select(data, -c(category))
 data <- rename(data, category = value)
 
-data_1st_add <- data %>% dplyr::select(-c(address2,latitude2,longitude2,municipality2, department2, address3                                        ,latitude3, longitude3, municipality3, department3, address4,latitude4,                                        longitude4,municipality4, department4, address5,latitude5, longitude5,                                        municipality5, department5))
+data_1st_add <- data %>% dplyr::select(-c(address2,latitude2,longitude2,municipality2, department2, address3,latitude3, longitude3,
+                                          municipality3, department3, address4,latitude4,longitude4,municipality4, department4,
+                                          address5,latitude5, longitude5,municipality5, department5))
 
-data_2nd_add <- data %>% dplyr::select(-c(address,latitude,longitude, municipality, department, address3                                        ,latitude3, longitude3, municipality3, department3, address4,latitude4,                                        longitude4,municipality4, department4, address5,latitude5, longitude5,                                        municipality5, department5))  %>% rename(address = address2, latitude =                                       latitude2, longitude = longitude2, municipality = municipality2,                                              department = department2) 
+data_2nd_add <- data %>% dplyr::select(-c(address,latitude,longitude, municipality, department, address3                                
+                                          ,latitude3, longitude3, municipality3, department3, address4,latitude4,                            
+                                          longitude4,municipality4, department4, address5,latitude5, longitude5,                             
+                                          municipality5, department5))  %>% rename(address = address2, latitude =                            
+                                          latitude2, longitude = longitude2, municipality = municipality2,
+                                          department = department2) 
 
-data_3rd_add <- data %>% dplyr::select(-c(address,latitude,longitude, municipality, department, address2                                        ,latitude2, longitude2, municipality2, department2, address4,latitude4,                                        longitude4,municipality4, department4, address5,latitude5, longitude5,                                        municipality5, department5))  %>% rename(address = address3, latitude =                                       latitude3, longitude = longitude3, municipality = municipality3,                                              department = department3) 
+data_3rd_add <- data %>% dplyr::select(-c(address,latitude,longitude, municipality, department, address2                                 
+                                          ,latitude2, longitude2, municipality2, department2, address4,latitude4,                          
+                                          longitude4,municipality4, department4, address5,latitude5, longitude5,                             
+                                          municipality5, department5))  %>% rename(address = address3, latitude =                            
+                                          latitude3, longitude = longitude3, municipality = municipality3,                              
+                                          department = department3) 
 
-data_4th_add <- data %>% dplyr::select(-c(address,latitude,longitude, municipality, department, address2                                        ,latitude2, longitude2, municipality2, department2, address3,latitude3,                                        longitude3,municipality3, department3, address5,latitude5, longitude5,                                        municipality5, department5))  %>% rename(address = address4, latitude =                                       latitude4, longitude = longitude4, municipality = municipality4,                                              department = department4) 
+data_4th_add <- data %>% dplyr::select(-c(address,latitude,longitude, municipality, department, address2                                
+                                          ,latitude2, longitude2, municipality2, department2, address3,latitude3,                       
+                                          longitude3,municipality3, department3, address5,latitude5, longitude5,                
+                                          municipality5, department5))  %>% rename(address = address4, latitude =               
+                                           latitude4, longitude = longitude4, municipality = municipality4,                             
+                                           department = department4) 
 
-data_5th_add <- data %>% dplyr::select(-c(address,latitude,longitude, municipality, department, address2                                        ,latitude2, longitude2, municipality2, department2, address3,latitude3,                                        longitude3,municipality3, department3, address4,latitude4, longitude4,                                        municipality4, department4))  %>% rename(address = address5, latitude =                                       latitude5, longitude = longitude5, municipality = municipality5,                                              department = department5) 
+data_5th_add <- data %>% dplyr::select(-c(address,latitude,longitude, municipality, department, address2                        
+                                          ,latitude2, longitude2, municipality2, department2, address3,latitude3,                       
+                                          longitude3,municipality3, department3, address4,latitude4, longitude4,                        
+                                          municipality4, department4))  %>% rename(address = address5, latitude =                       
+                                          latitude5, longitude = longitude5, municipality = municipality5,                                  
+                                          department = department5) 
 
 data <- bind_rows(data_1st_add,data_2nd_add,data_3rd_add,data_4th_add, data_5th_add)
 data <- filter(data, !is.na(latitude))
@@ -116,12 +138,18 @@ data <- filter(data, !is.na(latitude))
 
 ```{r sizecolor}
 
+#This is the color palette 
+#7F3C8D,#11A579,#3969AC,#F2B701,#E73F74,#80BA5A,#E68310,#008695,#CF1C90,#f97b72,#4b4b8f,#A5AA99
+
 #Color for size 
                 data <- mutate(data, sizecolor = NA)
                 
                 
                 for (i in 1:length(data$size)){
-                        if(data$size[i] == "Small"){        
+                        if(is.na(data$size[i])){
+                                data$sizecolor[i] <-"#E68310"
+                        }
+                        else if(data$size[i] == "Small"){        
                                 data$sizecolor[i] <- "#7F3C8D"               
                         }
                         else if(data$size[i] == "Medium"){        
@@ -139,13 +167,32 @@ data <- filter(data, !is.na(latitude))
                         else if(data$size[i] == "Very Large"){        
                                 data$sizecolor[i] <- "#80BA5A"              
                         }
-                        else if(is.na(data$size[i])){
-                                data$sizecolor[i] <-"#E68310"
-                        }
+                     
                         
                 }
                 
 
 ```
 
+```{r yearcolor}
+
+#color for year founded. I used a scale. Importantly, it doesn't not work if there is an NA value
+#color palette for continous #f7feae,#045275
+        data$year_founded <- as.numeric(data$year_founded)
+        
+        data_na <- filter(data, is.na(year_founded))
+                data_na$year_founded_color <- "	#808080"
+        
+        data <- filter(data, year_founded != "NA")
+                ii <- cut(data$year_founded, breaks = seq(min(data$year_founded), max(data$year_founded), len = 100), include.lowest = TRUE)
+                
+                data$year_founded_color <- colorRampPalette(c("#f7feae", "#045275"))(99)[ii]
+                
+        data <- bind_rows(data, data_na)
+        
+```
+
+
+
+        
 
