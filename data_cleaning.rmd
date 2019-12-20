@@ -5,18 +5,15 @@ date: "12/18/2019"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 ## Load Libraries 
 
 
 ```{r libraries, message=FALSE, warning=FALSE}
 # This will install the packages that you do not have installed on your computer. If you add new ones, you #need to add them to the list.of.packages list. 
 
-list.of.packages <- c("raster", "sp", "sf", "labelled", "rgdal", "rio", "haven", "tidyverse", "geosphere", 
-                      "mapview", "openxlsx", "janitor", "googlesheets4", "gargle", "googledrive", "dplyr")
+list.of.packages <- c("raster", "sp", "sf", "labelled", "rgdal", "rio", "haven", 
+                      "tidyverse", "geosphere", "mapview", "openxlsx", "janitor", 
+                      "googlesheets4", "gargle", "googledrive", "dplyr")
 
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
@@ -235,10 +232,17 @@ data <- rename(data, category = value)
         data$budget <- as.numeric(data$budget)
                 
                 
-        data <- select(data, npo,category,latitude, longitude, address, municipality, department, budget, size, sizecolor,
+        data <- dplyr::select(data, npo,category,latitude, longitude, address, municipality, department, budget, size, sizecolor,
                        year_founded,year_founded_color, partner_status, partner_status_color, constant, constant_color, 
                        everything())
         
         data <- data %>% arrange(npo)
+
+```
+
+
+```{r saving}
+
+saveRDS(data, file="./data/npo_data.rds")
 
 ```
