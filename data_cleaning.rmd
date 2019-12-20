@@ -71,28 +71,6 @@ data$crime[data$crime == "Y" ] <- "Crime"
 data$human_rights[data$human_rights == "Y" ] <- "Human Rights"
 data$animal_welfare[data$animal_welfare == "Y" ] <- "Animal Welfare"
 
-data <-pivot_longer(
-        data,
-        cols = c(
-                "health",
-                "edu",
-                "comm_dev",
-                "youth_child",
-                "women_girls",
-                "enviro_cons",
-                "crime",
-                "human_rights",
-                "animal_welfare",
-                "all_npos"
-        ),
-        names_to = "category",
-        
-)
-
-data <- filter(data, !value %in% "N")
-data <- filter(data, !value %in% "")
-data <- dplyr::select(data, -c(category))
-data <- rename(data, category = value)
 
 data_1st_add <- data %>% dplyr::select(-c(address2,latitude2,longitude2,municipality2, department2, address3,latitude3, longitude3,
                                           municipality3, department3, address4,latitude4,longitude4,municipality4, department4,
@@ -128,6 +106,29 @@ data_5th_add <- data %>% dplyr::select(-c(address,latitude,longitude, municipali
 
 data <- bind_rows(data_1st_add,data_2nd_add,data_3rd_add,data_4th_add, data_5th_add)
 data <- filter(data, !is.na(latitude))
+
+data <-pivot_longer(
+        data,
+        cols = c(
+                "health",
+                "edu",
+                "comm_dev",
+                "youth_child",
+                "women_girls",
+                "enviro_cons",
+                "crime",
+                "human_rights",
+                "animal_welfare",
+                "all_npos"
+        ),
+        names_to = "category",
+        
+)
+
+data <- filter(data, !value %in% "N")
+data <- filter(data, !value %in% "")
+data <- dplyr::select(data, -c(category))
+data <- rename(data, category = value)
 
 ```
 
