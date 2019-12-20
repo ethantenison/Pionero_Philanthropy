@@ -104,12 +104,48 @@ data_4th_add <- data %>% dplyr::select(-c(address,latitude,longitude, municipali
 
 data_5th_add <- data %>% dplyr::select(-c(address,latitude,longitude, municipality, department, address2                                        ,latitude2, longitude2, municipality2, department2, address3,latitude3,                                        longitude3,municipality3, department3, address4,latitude4, longitude4,                                        municipality4, department4))  %>% rename(address = address5, latitude =                                       latitude5, longitude = longitude5, municipality = municipality5,                                              department = department5) 
 
-data_long <- bind_rows(data_1st_add,data_2nd_add,data_3rd_add,data_4th_add, data_5th_add)
-data_long <- filter(data_long, !is.na(latitude))
+data <- bind_rows(data_1st_add,data_2nd_add,data_3rd_add,data_4th_add, data_5th_add)
+data <- filter(data, !is.na(latitude))
 
 ```
 
 ```{r clickable_website}
- data_long$website <- paste0("<a href=\"",data_long$website,"\">",data_long$npo,"</a>")
+ data$website <- paste0("<a href=\"",data$website,"\">",data$npo,"</a>")
 
 ```
+
+```{r sizecolor}
+
+#Color for size 
+                data <- mutate(data, sizecolor = NA)
+                
+                
+                for (i in 1:length(data$size)){
+                        if(data$size[i] == "Small"){        
+                                data$sizecolor[i] <- "#7F3C8D"               
+                        }
+                        else if(data$size[i] == "Medium"){        
+                                data$sizecolor[i] <- "#11A579"              
+                        }
+                        else if(data$size[i] == "Large"){        
+                                data$sizecolor[i] <- "#3969AC"              
+                        }
+                        else if(data$size[i] =="Micro"){        
+                                data$sizecolor[i] <- "#F2B701"              
+                        }
+                        else if(data$size[i] == "Nano"){        
+                                data$sizecolor[i] <- "#E73F74"  
+                        }
+                        else if(data$size[i] == "Very Large"){        
+                                data$sizecolor[i] <- "#80BA5A"              
+                        }
+                        else if(is.na(data$size[i])){
+                                data$sizecolor[i] <-"#E68310"
+                        }
+                        
+                }
+                
+
+```
+
+
