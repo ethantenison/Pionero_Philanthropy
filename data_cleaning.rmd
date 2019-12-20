@@ -184,7 +184,8 @@ data <- filter(data, !is.na(latitude))
                 data_na$year_founded_color <- "	#808080"
         
         data <- filter(data, year_founded != "NA")
-                ii <- cut(data$year_founded, breaks = seq(min(data$year_founded), max(data$year_founded), len = 100), include.lowest = TRUE)
+                ii <- cut(data$year_founded, breaks = seq(min(data$year_founded), max(data$year_founded), len = 100),
+                          include.lowest = TRUE)
                 
                 data$year_founded_color <- colorRampPalette(c("#f7feae", "#045275"))(99)[ii]
                 
@@ -193,6 +194,48 @@ data <- filter(data, !is.na(latitude))
 ```
 
 
+```{r partner_status_color}
 
+#color for partner status 
+                data <- mutate(data, partner_status_color = NA)
+
+                for (i in 1:length(data$partner_status)){
+                        if(data$partner_status[i] == "P"){        
+                                data$partner_status_color[i] <- "#7F3C8D"               
+                        }
+                        else if(data$partner_status[i] == "E"){        
+                                data$partner_status_color[i] <- "#11A579"              
+                        }
+                        else if(data$partner_status[i] == "DP"){        
+                                data$partner_status_color[i] <- "#3969AC"              
+                        }
+                        else if(data$partner_status[i] == "NE"){        
+                                data$partner_status_color[i] <- "#F2B701"              
+                        }
+                }
+
+        data$partner_status[data$partner_status == "P" ] <- "Partnered"
+        data$partner_status[data$partner_status == "E" ] <- "Eligible"
+        data$partner_status[data$partner_status == "DP" ] <- "Discontinued Partnership"
+        data$partner_status[data$partner_status == "NE" ] <- "Not Eligible"
         
+         #adding a constant color 
+                data$constant_color <- "#4b4b8f"
+                data$constant <- 1
 
+```
+        
+        
+```{r altering_rearranging}
+
+#Altering the size variable 
+        data$budget <- str_replace_all(data$budget, "\\$", "")
+        data$budget <- str_replace_all(data$budget, ",", "")
+        data$budget <- as.numeric(data$budget)
+                
+                
+        data <- select(data, npo,category,latitude, longitude, address, municipality, department, budget, size, sizecolor,
+                       year_founded,year_founded_color, partner_status, partner_status_color, constant, constant_color, 
+                       everything())
+
+```
