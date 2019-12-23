@@ -143,7 +143,7 @@ server <- shinyServer(function(input, output, session) {
                         
                         #some of the functions below break down if data() is empty so I need this if statement
                         #below is how the colors and the legend work, each categorical variable has a sibling that contains color
-                        #associated with each value of the variable, e.g. type has typecolor
+                        #associated with each value of the variable, e.g. size has sizecolor
                         #below I find the position of the colorvar and the colors are in the column right next to it
                         #I am not using a pallete because when I filter data and the set of possible values changes
                         #the colors would change, e.g. public is green and then blue, that is why I want to "hard code" the colors
@@ -151,6 +151,7 @@ server <- shinyServer(function(input, output, session) {
                         colors <- data()[[pos+1]] #this contains vector of colors for each datapoint that will be plotted
                         colors_list <- unique(plot[[pos+1]]) #this gives vector of all possible colors(it uses plot, because I want the legend to be full even if not all values are displayed)
                         values_list <- unique(plot[[pos]]) #this gives vector of all possible values - used for legend
+                        
                         # below is how I control size of the marker - 
                         # the size variable has to be "standartized/scaled" because depending on what is chosen as the size variable, these variables could have totally different scale
                         x <- data()[[input$sizevar]] #put the size var in vector x
@@ -162,10 +163,11 @@ server <- shinyServer(function(input, output, session) {
                         leafletProxy("map", data= data()) %>%
                                 clearMarkers() %>% #you have to clear previously drawn markers
                                 addCircleMarkers(lng=~longitude, lat=~latitude, stroke = FALSE, 
-                                                 popup=~paste0("<br/>","Non-Profit: ", sep = " ", website), 
+                                                 popup=~paste0("<br/>","Non-Profit: ", sep = " ", website,
+                                                               "<br/>","Year Founded: ", sep= " ", year_founded), 
                                                  label= ~paste0("Non-Profit: ", sep = " ", npo), radius = size,
                                                  fillOpacity = 0.5, color = "black", fillColor=colors) %>%
-                                addLegend("bottomleft",  colors=colors_list, labels=values_list, layerId="legend") 
+                                addLegend("bottomleft",  colors=colors_list, labels=input$colorvar, layerId="legend") 
                 }
                 else{leafletProxy("map") %>% clearMarkers()} #clear the map if the data() is empty
         })

@@ -145,7 +145,7 @@ data <- rename(data, category = value)
                 
                 for (i in 1:length(data$size)){
                         if(is.na(data$size[i])){
-                                data$sizecolor[i] <-"#E68310"
+                                data$sizecolor[i] <-"#808080"
                         }
                         else if(data$size[i] == "Small"){        
                                 data$sizecolor[i] <- "#7F3C8D"               
@@ -168,7 +168,10 @@ data <- rename(data, category = value)
                      
                         
                 }
-                
+
+                data$size <- factor(data$size, levels=
+                                       c("Nano","Micro","Small","Medium","Large"),
+                                    exclude = NULL, ordered = TRUE)
 
 ```
 
@@ -182,12 +185,15 @@ data <- rename(data, category = value)
                 data_na$year_founded_color <- "	#808080"
         
         data <- filter(data, year_founded != "NA")
-                ii <- cut(data$year_founded, breaks = seq(min(data$year_founded), max(data$year_founded), len = 100),
-                          include.lowest = TRUE)
+                ii <- cut(data$year_founded, breaks = seq(min(data$year_founded), 
+                        max(data$year_founded), len = 100), include.lowest = TRUE)
                 
-                data$year_founded_color <- colorRampPalette(c("#f7feae", "#045275"))(99)[ii]
+                data$year_founded_color <- colorRampPalette(c("#7c1d6f", "#fcde9c"))(99)[ii]
                 
         data <- bind_rows(data, data_na)
+        
+        #setting it to factor 
+        
         
 ```
 
@@ -217,9 +223,15 @@ data <- rename(data, category = value)
         data$partner_status[data$partner_status == "DP" ] <- "Discontinued Partnership"
         data$partner_status[data$partner_status == "NE" ] <- "Not Eligible"
         
+        #changing it to an ordered factor 
+        data$partner_status <- factor(data$partner_status, levels=
+                                       c("Partnered","Eligible","Not Eligible", "Discontinued Partnership"))
+        
          #adding a constant color 
                 data$constant_color <- "#4b4b8f"
                 data$constant <- 1
+                
+                
 
 ```
         
