@@ -121,6 +121,7 @@ server <- shinyServer(function(input, output, session) {
                 leaflet(data) %>% 
                         setView(lng = -90, lat = 15, zoom = 7)  %>% #setting the view over ~ center of  Guatemala
                         addTiles() %>%
+                        #This part adds the department boundaries, but at this moment in time they are not relevant. 
                         # addPolygons(data=Guatemala_departments,
                         #             stroke = .01,
                         #             smoothFactor = 2,
@@ -135,9 +136,10 @@ server <- shinyServer(function(input, output, session) {
                                     fillOpacity = .1,
                                     color = "black")
         })
-        #next we use the observe function to make the drop down dynamic. If you leave this part out you will see that the checkboxes, when clicked on the first time, display our filters...But if you then uncheck them they stay on. So we need to tell the server to update the map when the checkboxes are unchecked.
+        #next we use the observe function to make the drop down dynamic. If you leave this part out you will see that the checkboxes, 
+        #when clicked on the first time, display our filters...But if you then uncheck them they stay on. So we need to tell the server 
+        #to update the map when the checkboxes are unchecked.
         observe({
-                
                 
                 if(nrow(data())!=0){
                         
@@ -163,11 +165,15 @@ server <- shinyServer(function(input, output, session) {
                         leafletProxy("map", data= data()) %>%
                                 clearMarkers() %>% #you have to clear previously drawn markers
                                 addCircleMarkers(lng=~longitude, lat=~latitude, stroke = FALSE, 
-                                                 popup=~paste0("<br/>","Non-Profit: ", sep = " ", website,
-                                                               "<br/>","Year Founded: ", sep= " ", year_founded), 
+                                                 popup=~paste0("<h3/>", npo,
+                                                               "<h5/>", "Parnter Status: ", sep= " ", partner_status,
+                                                               "<h5/>", "Nonprofit Size: ", sep= " ", size,
+                                                               "<h5/>","Year Founded: ", sep= " ", year_founded,
+                                                               "<h5/>","Budget: $", sep=" ", budget,
+                                                               "<h5/>","Website: ", sep = " ", website),
                                                  label= ~paste0("Non-Profit: ", sep = " ", npo), radius = size,
                                                  fillOpacity = 0.5, color = "black", fillColor=colors) %>%
-                                addLegend("bottomleft",  colors=colors_list, labels=input$colorvar, layerId="legend") 
+                                addLegend("bottomleft",  colors=colors_list, labels=values_list, layerId="legend") 
                 }
                 else{leafletProxy("map") %>% clearMarkers()} #clear the map if the data() is empty
         })
