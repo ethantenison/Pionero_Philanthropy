@@ -73,7 +73,7 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                                           
                                           ##################check boxes to select types of schools
                                           fluidRow(
-                                                  column(12,div(h3("Guatemala Nonprofit Explorer v0.5")))),
+                                                  column(12,div(h3("Guatemala Nonprofit Explorer v0.8")))),
                                           fluidRow(
                                                   
                                                   column(10, selectInput("category", label="Select Category", choices = 
