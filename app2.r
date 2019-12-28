@@ -143,21 +143,33 @@ server <- shinyServer(function(input, output, session) {
         #to update the map when the checkboxes are unchecked.
         observe({
                 
+             
+                
+                
                 if(nrow(data())!=0){
-                       
+                        
+                        
                         
                         if (input$colorvar == "constant") {
-                                pal <- colorFactor("#4b4b8f", domain= data()[[input$colorvar]])
+                                pal <- colorFactor("#4b4b8f", domain= plot[[input$colorvar]])
                         } else if (input$colorvar == "size") {
-                                pal <- colorFactor(c("#808080","#7F3C8D", "#11A579", "#3969AC","#F2B701","#E73F74", "#80BA5A"), domain= data()[[input$colorvar]])
+                                pal <- colorFactor(c("#808080","#7F3C8D", "#11A579", "#3969AC","#F2B701","#E73F74", "#80BA5A"), domain= plot[[input$colorvar]])
                         } else if (input$colorvar == "partner_status") {
-                                pal <- colorFactor(c("#7F3C8D" , "#11A579","#3969AC", "#F2B701"), domain= data()[[input$colorvar]])
+                                pal <- colorFactor(c("#7F3C8D" , "#11A579","#3969AC", "#F2B701"), domain= plot[[input$colorvar]])
                         } else if (input$colorvar == "year_founded") {
-                                pal <- colorNumeric(c("#8D99AE","#c12525"), domain= data()[[input$colorvar]], reverse = FALSE)
+                                pal <- colorNumeric(c("#8D99AE","#c12525"), domain= plot[[input$colorvar]], reverse = FALSE)
                         } else {
-                                pal <- colorNumeric(c("#8D99AE","#c12525"), domain = data()[[input$colorvar]], reverse = FALSE)
+                                pal <- colorNumeric(c("#8D99AE","#c12525"), domain = plot[[input$colorvar]], reverse = FALSE)
                         }
                         
+                        
+                        
+                        varname<-switch(input$colorvar,
+                                        "constant"="All the Same Color", 
+                                        "size"="Size of the Organization",
+                                        "partner_status"="Parnter Status",
+                                        "year_founded"="Year Organization Founded"
+                        )
                         
                         
                         # below is how I control size of the marker - 
@@ -178,10 +190,10 @@ server <- shinyServer(function(input, output, session) {
                                                                "<h5/>","Budget: $", sep=" ", budget,
                                                                "<h5/>","Website: ", sep = " ", website),
                                                  label= ~paste0("Non-Profit: ", sep = " ", npo), radius = size,
-                                                 fillOpacity = 0.5, color = "black", fillColor= ~pal(data()[[input$colorvar]])) %>%
+                                                 fillOpacity = 0.5, color = "black", fillColor= ~pal(plot[[input$colorvar]])) %>%
                                 
-                                addLegend("bottomleft",  colors=~pal(data()[[input$colorvar]]), values = ~data()[[input$colorvar]],
-                                                 labels = c(min(input$colorvar), max(input$colorar)), layerId="legend") 
+                                addLegend("bottomleft",  colors=~pal(plot[[input$colorvar]]), values = ~plot[[input$colorvar]],
+                                                 labels = c(min(input$colorvar), max(input$colorar))) 
                 }
                 else{leafletProxy("map") %>% clearMarkers()} #clear the map if the data() is empty
         })
