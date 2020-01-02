@@ -50,6 +50,10 @@ Guatemala <- st_transform(guatemala.shape_orig, "+proj=longlat +ellps=WGS84 +dat
 data <- read_sheet(ss= "https://docs.google.com/spreadsheets/d/1klJ0aUZF1HX8qwR8EjsOhWUB9EJH6PYYdzPl2fQUvuM/edit?usp=sharing", sheet = "Sheet1", col_names = TRUE)
 
 data <- clean_names(data)
+
+write.table(data, file="data.csv", fileEncoding = "UTF-8" )
+data <- read.table("data.csv", fileEncoding = "UTF-8", encoding = "UTF-8")
+
 ```
 
 ## Convert from wide dataset to long  
