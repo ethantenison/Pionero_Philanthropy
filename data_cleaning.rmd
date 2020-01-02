@@ -245,13 +245,19 @@ data <- rename(data, category = value)
         data <- mutate(data, budget_adj = budget)
         
         data$budget_adj[is.na(data$budget_adj)] <- 100000 
+        
+        data$yrs_old <- as.Date(as.character(data$year_founded), format = "%Y")
+        today <- as.Date(Sys.Date(), format='%Y')
+        data <- mutate(data, npo_age = lubridate::time_length(difftime(today, data$yrs_old), "years"))
+        
                 
                 
         data <- dplyr::select(data, npo,category,latitude, longitude, address, municipality, department, budget, budget_adj, size, sizecolor,
-                       year_founded,year_founded_color, partner_status, partner_status_color, constant, constant_color, 
+                       year_founded,year_founded_color,npo_age, partner_status, partner_status_color, constant, constant_color, 
                        everything())
         
         data <- data %>% arrange(npo)
+        
         
         
 

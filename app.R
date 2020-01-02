@@ -89,10 +89,10 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                                           tags$hr(),
                                           fluidRow(
                                                   column(6, selectInput("sizevar", "Size Variable:", 
-                                                                        choices = c("Constant"="constant","Budget" = "budget_adj"))),
+                                                                        choices = c("Constant"="constant","Budget" = "budget_adj", "Years Active" = "npo_age"))),
                                                   column(6, selectInput("colorvar", "Color Variable:", 
                                                                         choices = c("Same"="constant","Organization Size"="size",
-                                                                                    "Partner Status"="partner_status", "Year Established"="year_founded"))))
+                                                                                    "Partner Status"="partner_status"))))
                                           )))
 
 # ------------------------------- #
