@@ -43,6 +43,8 @@ library(htmltools)
 plot <- readRDS("./data/npo_data.rds")
 plot$category <- as.factor(plot$category)
 
+options(scipen=999)
+
 guatemala.shape_orig <- st_read("Guatemala_shape_files/GTM_adm0.shp", stringsAsFactors=FALSE)
 Guatemala <- st_transform(guatemala.shape_orig, "+proj=longlat +ellps=WGS84 +datum=WGS84")
 
@@ -87,7 +89,7 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                                           tags$hr(),
                                           fluidRow(
                                                   column(6, selectInput("sizevar", "Size Variable:", 
-                                                                        choices = c("Constant"="constant","Budget" = "budget"))),
+                                                                        choices = c("Constant"="constant","Budget" = "budget_adj"))),
                                                   column(6, selectInput("colorvar", "Color Variable:", 
                                                                         choices = c("Same"="constant","Organization Size"="size",
                                                                                     "Partner Status"="partner_status", "Year Established"="year_founded"))))

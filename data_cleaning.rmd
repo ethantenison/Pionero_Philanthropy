@@ -242,13 +242,18 @@ data <- rename(data, category = value)
         data$budget <- str_replace_all(data$budget, "\\$", "")
         data$budget <- str_replace_all(data$budget, ",", "")
         data$budget <- as.numeric(data$budget)
+        data <- mutate(data, budget_adj = budget)
+        
+        data$budget_adj[is.na(data$budget_adj)] <- 100000 
                 
                 
-        data <- dplyr::select(data, npo,category,latitude, longitude, address, municipality, department, budget, size, sizecolor,
+        data <- dplyr::select(data, npo,category,latitude, longitude, address, municipality, department, budget, budget_adj, size, sizecolor,
                        year_founded,year_founded_color, partner_status, partner_status_color, constant, constant_color, 
                        everything())
         
         data <- data %>% arrange(npo)
+        
+        
 
 ```
 
