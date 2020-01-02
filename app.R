@@ -43,6 +43,9 @@ library(htmltools)
 plot <- readRDS("./data/npo_data.rds")
 plot$category <- as.factor(plot$category)
 
+
+
+#eliminate scientific notation 
 options(scipen=999)
 
 guatemala.shape_orig <- st_read("Guatemala_shape_files/GTM_adm0.shp", stringsAsFactors=FALSE)
@@ -75,7 +78,7 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                                           
                                           ##################check boxes to select types of schools
                                           fluidRow(
-                                                  column(12,div(h3("Guatemala Nonprofit Explorer v0.8")))),
+                                                  column(12,div(h3("Guatemala Nonprofit Explorer v0.9")))),
                                           fluidRow(
                                                   
                                                   column(10, selectInput("category", label="Select Category", choices = 
