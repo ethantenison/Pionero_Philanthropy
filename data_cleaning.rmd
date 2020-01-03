@@ -221,6 +221,8 @@ data <- rename(data, category = value)
                                 data$partner_status_color[i] <- "#F2B701"              
                         }
                 }
+        
+        data$partner_status <- as.character(data$partner_status)
 
         data$partner_status[data$partner_status == "P" ] <- "Partnered"
         data$partner_status[data$partner_status == "E" ] <- "Eligible"

@@ -148,6 +148,8 @@ server <- shinyServer(function(input, output, session) {
                 
                 if(nrow(data())!=0){
                         
+                     
+                        
                         #some of the functions below break down if data() is empty so I need this if statement
                         #below is how the colors and the legend work, each categorical variable has a sibling that contains color
                         #associated with each value of the variable, e.g. size has sizecolor
