@@ -78,7 +78,7 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                                           
                                           ##################check boxes to select types of schools
                                           fluidRow(
-                                                  column(12,div(h3("Guatemala Nonprofit Explorer v0.9")))),
+                                                  column(12,div(h3("Guatemala Nonprofit Explorer v1.0")))),
                                           fluidRow(
                                                   
                                                   column(10, selectInput("category", label="Select Category", choices = 
@@ -94,7 +94,7 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                                                   column(6, selectInput("sizevar", "Size Variable:", 
                                                                         choices = c("Constant"="constant","Budget" = "budget_adj", "Years Active" = "npo_age"))),
                                                   column(6, selectInput("colorvar", "Color Variable:", 
-                                                                        choices = c("Same"="constant","Organization Size"="size",
+                                                                        choices = c("Same Color"="constant","Organization Size"="size",
                                                                                     "Partner Status"="partner_status"))))
                                           )))
 
@@ -154,14 +154,11 @@ server <- shinyServer(function(input, output, session) {
                         
                      
                         colorBy <- input$colorvar
+                        sizeBy <- input$sizevar
                         
-                        if (input$colorvar == "constant") {
-                                pal <- colorFactor("#4b4b8f", domain=plot[[input$colorvar]])
-                        } else if (input$colorvar == "size") {
-                                pal <- colorFactor(c("#808080","#7F3C8D", "#11A579", "#3969AC","#F2B701","#E73F74", "#80BA5A"), domain= plot[[input$colorvar]])
-                        } else if (input$colorvar == "partner_status") {
-                                pal <- colorFactor(c("#7F3C8D" , "#11A579","#3969AC", "#F2B701"), domain= plot[[input$colorvar]])
-                        }
+                        colorData <- data()[[colorBy]]
+                        pal <- colorFactor("viridis", colorData)
+                      
                         
                         
                         varname<-switch(input$colorvar,
@@ -172,20 +169,9 @@ server <- shinyServer(function(input, output, session) {
                         
                       
                         
-                        #some of the functions below break down if data() is empty so I need this if statement
-                        #below is how the colors and the legend work, each categorical variable has a sibling that contains color
-                        #associated with each value of the variable, e.g. size has sizecolor
-                        #below I find the position of the colorvar and the colors are in the column right next to it
-                        #I am not using a pallete because when I filter data and the set of possible values changes
-                        #the colors would change, e.g. public is green and then blue, that is why I want to "hard code" the colors
-                        pos <- match(input$colorvar,names(plot)) # find the column number of the colorvariable
-                        colors <- data()[[pos+1]] #this contains vector of colors for each datapoint that will be plotted
-                        colors_list <- unique(plot[[pos+1]]) #this gives vector of all possible colors(it uses plot, because I want the legend to be full even if not all values are displayed)
-                        values_list <- unique(plot[[pos]]) #this gives vector of all possible values - used for legend
-                        
                         # below is how I control size of the marker - 
                         # the size variable has to be "standartized/scaled" because depending on what is chosen as the size variable, these variables could have totally different scale
-                        x <- data()[[input$sizevar]] #put the size var in vector x
+                        x <- data()[[sizeBy]] #put the size var in vector x
                         # I take the 95th percentile of the x (size variable) to scale all of the values in x
                         # I took 95th percentile instead of maximum because there are some outlier and they may make the majority of markers tiny
                         # make that proportional to the sqrt of size and multiply by 440 - a constant that makes the size ok (not too big or too small)
@@ -201,8 +187,8 @@ server <- shinyServer(function(input, output, session) {
                                                                "<h5/>","Budget: $", sep=" ", budget,
                                                                "<h5/>","Website: ", sep = " ", website),
                                                  label= ~paste0("Non-Profit: ", sep = " ", npo), radius = size,
-                                                 fillOpacity = 0.5, color = "black", fillColor=~pal(plot[[input$colorvar]])) %>%
-                                clearControls() %>% addLegend("bottomleft", pal=pal, values= ~plot[[input$colorvar]], title = varname) 
+                                                 fillOpacity = 0.5, color = "black", fillColor=~pal(colorData)) %>%
+                                clearControls() %>% addLegend("bottomleft", pal=pal, values= colorData, title = varname) 
                 }
                 else{leafletProxy("map") %>% clearMarkers()} #clear the map if the data() is empty
         })
