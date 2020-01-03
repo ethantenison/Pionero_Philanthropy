@@ -144,6 +144,10 @@ server <- shinyServer(function(input, output, session) {
         #next we use the observe function to make the drop down dynamic. If you leave this part out you will see that the checkboxes, 
         #when clicked on the first time, display our filters...But if you then uncheck them they stay on. So we need to tell the server 
         #to update the map when the checkboxes are unchecked.
+        
+        
+        
+        
         observe({
                 
                 if(nrow(data())!=0){
@@ -158,6 +162,14 @@ server <- shinyServer(function(input, output, session) {
                         } else if (input$colorvar == "partner_status") {
                                 pal <- colorFactor(c("#7F3C8D" , "#11A579","#3969AC", "#F2B701"), domain= plot[[input$colorvar]])
                         }
+                        
+                        
+                        varname<-switch(input$colorvar,
+                                        "constant"="All Nonprofits", 
+                                        "size"="Nonprofit Size",
+                                        "partner_status"="Pionero Partner Status",
+                                        )
+                        
                       
                         
                         #some of the functions below break down if data() is empty so I need this if statement
@@ -190,7 +202,7 @@ server <- shinyServer(function(input, output, session) {
                                                                "<h5/>","Website: ", sep = " ", website),
                                                  label= ~paste0("Non-Profit: ", sep = " ", npo), radius = size,
                                                  fillOpacity = 0.5, color = "black", fillColor=~pal(plot[[input$colorvar]])) %>%
-                                addLegend("bottomleft", pal=pal, values= ~plot[[input$colorvar]], title = colorBy) 
+                                addLegend("bottomleft", pal=pal, values= ~plot[[input$colorvar]], title = varname) 
                 }
                 else{leafletProxy("map") %>% clearMarkers()} #clear the map if the data() is empty
         })
