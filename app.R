@@ -202,7 +202,7 @@ server <- shinyServer(function(input, output, session) {
                                                                "<h5/>","Website: ", sep = " ", website),
                                                  label= ~paste0("Non-Profit: ", sep = " ", npo), radius = size,
                                                  fillOpacity = 0.5, color = "black", fillColor=~pal(plot[[input$colorvar]])) %>%
-                                addLegend("bottomleft", pal=pal, values= ~plot[[input$colorvar]], title = varname) 
+                                clearControls() %>% addLegend("bottomleft", pal=pal, values= ~plot[[input$colorvar]], title = varname) 
                 }
                 else{leafletProxy("map") %>% clearMarkers()} #clear the map if the data() is empty
         })
