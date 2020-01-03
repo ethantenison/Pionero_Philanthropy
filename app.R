@@ -149,6 +149,16 @@ server <- shinyServer(function(input, output, session) {
                 if(nrow(data())!=0){
                         
                      
+                        colorBy <- input$colorvar
+                        
+                        if (input$colorvar == "constant") {
+                                pal <- colorFactor("#4b4b8f", domain=plot[[input$colorvar]])
+                        } else if (input$colorvar == "size") {
+                                pal <- colorFactor(c("#808080","#7F3C8D", "#11A579", "#3969AC","#F2B701","#E73F74", "#80BA5A"), domain= plot[[input$colorvar]])
+                        } else if (input$colorvar == "partner_status") {
+                                pal <- colorFactor(c("#7F3C8D" , "#11A579","#3969AC", "#F2B701"), domain= plot[[input$colorvar]])
+                        }
+                      
                         
                         #some of the functions below break down if data() is empty so I need this if statement
                         #below is how the colors and the legend work, each categorical variable has a sibling that contains color
@@ -179,8 +189,8 @@ server <- shinyServer(function(input, output, session) {
                                                                "<h5/>","Budget: $", sep=" ", budget,
                                                                "<h5/>","Website: ", sep = " ", website),
                                                  label= ~paste0("Non-Profit: ", sep = " ", npo), radius = size,
-                                                 fillOpacity = 0.5, color = "black", fillColor=colors) %>%
-                                addLegend("bottomleft",  colors=colors_list, labels=values_list, layerId="legend") 
+                                                 fillOpacity = 0.5, color = "black", fillColor=~pal(plot[[input$colorvar]])) %>%
+                                addLegend("bottomleft", pal=pal, values= ~plot[[input$colorvar]], title = colorBy) 
                 }
                 else{leafletProxy("map") %>% clearMarkers()} #clear the map if the data() is empty
         })

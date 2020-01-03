@@ -151,7 +151,7 @@ server <- shinyServer(function(input, output, session) {
                         
                         
                         if (input$colorvar == "constant") {
-                                pal <- colorFactor("#4b4b8f", domain= plot[[input$colorvar]])
+                                pal <- colorFactor("#4b4b8f", domain=plot[[input$colorvar]])
                         } else if (input$colorvar == "size") {
                                 pal <- colorFactor(c("#808080","#7F3C8D", "#11A579", "#3969AC","#F2B701","#E73F74", "#80BA5A"), domain= plot[[input$colorvar]])
                         } else if (input$colorvar == "partner_status") {
