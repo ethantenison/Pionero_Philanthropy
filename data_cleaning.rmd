@@ -47,11 +47,12 @@ guatemala.shape_orig <- st_read("Guatemala_shape_files/GTM_adm1.shp", stringsAsF
 Guatemala <- st_transform(guatemala.shape_orig, "+proj=longlat +ellps=WGS84 +datum=WGS84")
 
 # using googlesheets4 package to call the data directly from the mapping dataset 
-data <- read_sheet(ss= "https://docs.google.com/spreadsheets/d/1klJ0aUZF1HX8qwR8EjsOhWUB9EJH6PYYdzPl2fQUvuM/edit?usp=sharing", sheet = "Sheet1", col_names = TRUE)
+data <- read_sheet(ss= "https://docs.google.com/spreadsheets/d/1klJ0aUZF1HX8qwR8EjsOhWUB9EJH6PYYdzPl2fQUvuM/edit?usp=sharing", sheet = "Sheet1", col_names = TRUE, guess_max = 5) # Here I had to set guess_max = 5 because it was reading in the longitude column as a list
 
 data <- clean_names(data)
 
-write.table(data, file="data.csv", fileEncoding = "UTF-8" )
+
+write.csv(data, file="data.csv", fileEncoding = "UTF-8" )
 data <- read.table("data.csv", fileEncoding = "UTF-8", encoding = "UTF-8", stringsAsFactors = FALSE)
 
 ```
