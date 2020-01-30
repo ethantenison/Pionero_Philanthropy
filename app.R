@@ -86,7 +86,7 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                                                                                    "Women & Girls", "Human Rights" ,"Environment & Conservation",
                                                                                    "Animal Welfare","Crime", "Faith Based", "All Nonprofits"),
                                                                          selected=c("All Nonprofits")))
-                                          ),
+                                                   ),
                                           
                                           #######################################graph controls
                                           tags$hr(),
@@ -95,8 +95,14 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                                                                         choices = c("Constant"="constant","Budget" = "budget_adj", "Years Active" = "npo_age"))),
                                                   column(6, selectInput("colorvar", "Color Variable:", 
                                                                         choices = c("Same Color"="constant","Organization Size"="size",
-                                                                                    "Partner Status"="partner_status"))))
-                                          )))
+                                                                                    "Partner Status"="partner_status")))
+                                                  ),
+                                          
+                                          ####################################### Histogram of Budget 
+                                          plotOutput("histBudget", height = 200)
+                                          )
+                            )
+              )
 
 # ------------------------------- #
 # ------------------------------- #
@@ -145,8 +151,28 @@ server <- shinyServer(function(input, output, session) {
         #when clicked on the first time, display our filters...But if you then uncheck them they stay on. So we need to tell the server 
         #to update the map when the checkboxes are unchecked.
         
+   
+        
+        # Precalculate the breaks we'll need for the two histograms
+        
+        his <- plot[!is.na(plot$budget), ]  
+        BudgetBreaks <- hist(plot = FALSE, his$budget, breaks = 20)$breaks
+        
+        output$histBudget <- renderPlot({
+                # If no zipcodes are in view, don't plot
+                if (nrow(data()) == 0)
+                        return(NULL)
+                
+                hist(his$budget,
+                     breaks = BudgetBreaks,
+                     main = "Non-profit Budget (visible npos)",
+                     xlab = "Budget",
+                     xlim = range(his$budget),
+                     col = '#00DD00',
+                     border = 'white')
         
         
+        })
         
         observe({
                 
