@@ -211,20 +211,6 @@ data <- rename(data, category = value)
 #color for partner status 
                 data <- mutate(data, partner_status_color = NA)
 
-                for (i in 1:length(data$partner_status)){
-                        if(data$partner_status[i] == "P"){        
-                                data$partner_status_color[i] <- "#7F3C8D"               
-                        }
-                        else if(data$partner_status[i] == "E"){        
-                                data$partner_status_color[i] <- "#11A579"              
-                        }
-                        else if(data$partner_status[i] == "DP"){        
-                                data$partner_status_color[i] <- "#3969AC"              
-                        }
-                        else if(data$partner_status[i] == "NE"){        
-                                data$partner_status_color[i] <- "#F2B701"              
-                        }
-                }
         
         data$partner_status <- as.character(data$partner_status)
 

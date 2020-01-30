@@ -84,7 +84,7 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                                                   column(10, selectInput("category", label="Select Category", choices = 
                                                                                  c("Health", "Education", "Community Development","Youth & Children",          
                                                                                    "Women & Girls", "Human Rights" ,"Environment & Conservation",
-                                                                                   "Animal Welfare","Crime", "All Nonprofits"),
+                                                                                   "Animal Welfare","Crime", "Faith Based", "All Nonprofits"),
                                                                          selected=c("All Nonprofits")))
                                           ),
                                           
