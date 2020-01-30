@@ -78,7 +78,7 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                                           
                                           ##################check boxes to select types of schools
                                           fluidRow(
-                                                  column(12,div(h3("Guatemala Nonprofit Explorer v1.0")))),
+                                                  column(12,div(h3("Guatemala Nonprofit Explorer v1.1")))),
                                           fluidRow(
                                                   
                                                   column(10, selectInput("category", label="Select Category", choices = 
@@ -168,7 +168,7 @@ server <- shinyServer(function(input, output, session) {
                      main = "Non-profit Budget (visible npos)",
                      xlab = "Budget",
                      xlim = range(his$budget),
-                     col = '#00DD00',
+                     col = '#A7E0AC',
                      border = 'white')
         
         
