@@ -53,7 +53,7 @@ data <- clean_names(data)
 
 
 write.csv(data, file="data.csv", fileEncoding = "UTF-8" )
-data <- read.table("data.csv", fileEncoding = "UTF-8", encoding = "UTF-8", stringsAsFactors = FALSE)
+data <- read.csv("data.csv", fileEncoding = "UTF-8", encoding = "UTF-8", stringsAsFactors = FALSE)
 
 ```
 
@@ -72,6 +72,7 @@ data$enviro_cons[data$enviro_cons == "Y" ] <- "Environment & Conservation"
 data$crime[data$crime == "Y" ] <- "Crime"
 data$human_rights[data$human_rights == "Y" ] <- "Human Rights"
 data$animal_welfare[data$animal_welfare == "Y" ] <- "Animal Welfare"
+data$faith_based[data$faith_based == "Y"] <- "Faith Based"
 
 
 data_1st_add <- data %>% dplyr::select(-c(address2,latitude2,longitude2,municipality2, department2, address3,latitude3, longitude3,
@@ -106,8 +107,9 @@ data_5th_add <- data %>% dplyr::select(-c(address,latitude,longitude, municipali
                                           latitude5, longitude = longitude5, municipality = municipality5,                                  
                                           department = department5) 
 
-data <- bind_rows(data_1st_add,data_2nd_add,data_3rd_add,data_4th_add, data_5th_add)
+data <- do.call("rbind", list(data_1st_add,data_2nd_add,data_3rd_add,data_4th_add, data_5th_add))
 data <- filter(data, !is.na(latitude))
+data <- data[ , names(data) != "X"]
 
 data <-pivot_longer(
         data,
@@ -121,6 +123,7 @@ data <-pivot_longer(
                 "crime",
                 "human_rights",
                 "animal_welfare",
+                "faith_based",
                 "all_npos"
         ),
         names_to = "category",
