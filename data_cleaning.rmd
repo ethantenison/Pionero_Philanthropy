@@ -142,40 +142,9 @@ data <- rename(data, category = value)
 
 ```
 
-```{r sizecolor}
+```{r size}
 
-#This is the color palette 
-#7F3C8D,#11A579,#3969AC,#F2B701,#E73F74,#80BA5A,#E68310,#008695,#CF1C90,#f97b72,#4b4b8f,#A5AA99
 
-#Color for size 
-                data <- mutate(data, sizecolor = NA)
-                
-                
-                for (i in 1:length(data$size)){
-                        if(is.na(data$size[i])){
-                                data$sizecolor[i] <-"#808080"
-                        }
-                        else if(data$size[i] == "Small"){        
-                                data$sizecolor[i] <- "#7F3C8D"               
-                        }
-                        else if(data$size[i] == "Medium"){        
-                                data$sizecolor[i] <- "#11A579"              
-                        }
-                        else if(data$size[i] == "Large"){        
-                                data$sizecolor[i] <- "#3969AC"              
-                        }
-                        else if(data$size[i] =="Micro"){        
-                                data$sizecolor[i] <- "#F2B701"              
-                        }
-                        else if(data$size[i] == "Nano"){        
-                                data$sizecolor[i] <- "#E73F74"  
-                        }
-                        else if(data$size[i] == "Very Large"){        
-                                data$sizecolor[i] <- "#80BA5A"              
-                        }
-                     
-                        
-                }
 
                 data$size <- factor(data$size, levels=
                                        c("Nano","Micro","Small","Medium","Large"),
@@ -185,8 +154,6 @@ data <- rename(data, category = value)
 
 ```{r yearcolor}
 
-#color for year founded. I used a scale. Importantly, it doesn't not work if there is an NA value
-#color palette for continous #f7feae,#045275
         data$year_founded <- as.numeric(data$year_founded)
         
         data_na <- filter(data, is.na(year_founded))
@@ -209,7 +176,7 @@ data <- rename(data, category = value)
 ```{r partner_status_color}
 
 #color for partner status 
-                data <- mutate(data, partner_status_color = NA)
+                
 
         
         data$partner_status <- as.character(data$partner_status)
@@ -222,10 +189,7 @@ data <- rename(data, category = value)
         #changing it to an ordered factor 
         data$partner_status <- factor(data$partner_status, levels=
                                        c("Partnered","Eligible","Not Eligible", "Discontinued Partnership"))
-        
-         #adding a constant color 
-                data$constant_color <- "#4b4b8f"
-                data$constant <- 1
+    
                 
                 
 
