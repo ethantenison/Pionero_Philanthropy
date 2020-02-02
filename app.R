@@ -100,8 +100,8 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                                           
                                           #######################################Search bar
                                           fluidRow(
-                                                  selectizeInput("search", label = "Search Name: ", choices = unique(plot$npo), selected = NULL, multiple = TRUE,
-                                                                 options = list(maxItems = 3, placeholder = 'Select a non profit by name'))
+                                                  selectizeInput("search", label = "Search Name: ", choices = unique(plot$npo), selected = NULL, multiple = FALSE,
+                                                                 options = list(placeholder = 'Select a non profit by name'))
                                           ),
                                           ####################################### Histogram of Budget 
                                           plotOutput("histBudget", height = 200)
@@ -129,7 +129,10 @@ server <- shinyServer(function(input, output, session) {
                 
                 data <- filter(data, category %in% input$category)
                 
-                data <- filter(data, npo %in% input$search)
+                if(input$search != ""){
+                        data <- filter(data, npo %in% input$search)     
+                }
+             
                 
                 
         })
