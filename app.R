@@ -10,7 +10,7 @@
 # ------------------------------- #
 
 list.of.packages <- c("shiny","devtools","shinydashboard","V8","shinyjs","RColorBrewer", "tidyverse",
-                      "leaflet", "leaflet.extras", "sf", "htmltools")
+                      "leaflet", "leaflet.extras", "sf", "htmltools","shinyWidgets")
 
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 
@@ -28,6 +28,7 @@ library(leaflet)
 library(leaflet.extras)
 library(sf)
 library(htmltools)
+library(shinyWidgets)
 
 
 # ------------------------------- #
@@ -78,7 +79,7 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                                           
                                           ##################check boxes to select types of schools
                                           fluidRow(
-                                                  column(12,div(h3("Guatemala Nonprofit Explorer v1.1")))),
+                                                  column(12,div(h3("Guatemala Nonprofit Explorer v1.2")))),
                                           fluidRow(
                                                   
                                                   column(10, selectInput("category", label="Select Category", choices = 
@@ -126,12 +127,9 @@ server <- shinyServer(function(input, output, session) {
         # create dataframe 'data' to be plotted starts with dataframe 'plot', filtering depends on inputs from the UI
         data <- reactive({
                 data <- plot
-                
                 data <- filter(data, category %in% input$category)
                 
-                if(input$search != ""){
-                        data <- filter(data, npo %in% input$search)     
-                }
+                
              
                 
                 
