@@ -98,6 +98,11 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                                                                                     "Partner Status"="partner_status")))
                                                   ),
                                           
+                                          #######################################Search bar
+                                          fluidRow(
+                                                  selectizeInput("search", label = "Search Name: ", choices = unique(plot$npo), selected = NULL, multiple = TRUE,
+                                                                 options = list(maxItems = 3, placeholder = 'Select a non profit by name'))
+                                          ),
                                           ####################################### Histogram of Budget 
                                           plotOutput("histBudget", height = 200)
                                           )
@@ -123,6 +128,8 @@ server <- shinyServer(function(input, output, session) {
                 data <- plot
                 
                 data <- filter(data, category %in% input$category)
+                
+                data <- filter(data, npo %in% input$search)
                 
                 
         })
@@ -165,7 +172,7 @@ server <- shinyServer(function(input, output, session) {
                 
                 hist(his$budget,
                      breaks = BudgetBreaks,
-                     main = "Non-profit Budget (visible npos)",
+                     main = "Non-profit Budget Distribution",
                      xlab = "Budget",
                      xlim = range(his$budget),
                      col = '#A7E0AC',
@@ -214,7 +221,7 @@ server <- shinyServer(function(input, output, session) {
                                                                "<h5/>","Website: ", sep = " ", website),
                                                  label= ~paste0("Non-Profit: ", sep = " ", npo), radius = size,
                                                  fillOpacity = 0.5, color = "black", fillColor=~pal(colorData)) %>%
-                                clearControls() %>% addLegend("bottomleft", pal=pal, values= colorData, title = varname) 
+                                                 clearControls() %>% addLegend("bottomleft", pal=pal, values= colorData, title = varname) 
                 }
                 else{leafletProxy("map") %>% clearMarkers()} #clear the map if the data() is empty
         })
