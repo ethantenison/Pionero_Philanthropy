@@ -127,13 +127,10 @@ server <- shinyServer(function(input, output, session) {
         # create dataframe 'data' to be plotted starts with dataframe 'plot', filtering depends on inputs from the UI
         data <- reactive({
                 data <- plot
+                
                 data <- filter(data, category %in% input$category)
                 
-                
-             
-                
-                
-        })
+        }) 
         
         #create empty map
         output$map <- renderLeaflet({
