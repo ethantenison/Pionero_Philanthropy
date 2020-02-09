@@ -79,14 +79,15 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                                           
                                           ##################check boxes to select types of schools
                                           fluidRow(
-                                                  column(12,div(h3("Guatemala Nonprofit Explorer v1.2")))),
+                                                  column(12,div(h3("Guatemala Nonprofit Explorer v1.3")))),
                                           fluidRow(
                                                   
-                                                  column(10, selectInput("category", label="Select Category", choices = 
+                                                  column(8, selectInput("category", label="Select Category", choices = 
                                                                                  c("Health", "Education", "Community Development","Youth & Children",          
                                                                                    "Women & Girls", "Human Rights" ,"Environment & Conservation",
                                                                                    "Animal Welfare","Crime", "Faith Based", "All Nonprofits"),
-                                                                         selected=c("All Nonprofits")))
+                                                                         selected=c("All Nonprofits"))),
+                                                  column(1,checkboxInput("select_na", label = "Include NAs?", TRUE))
                                                    ),
                                           
                                           #######################################graph controls
@@ -101,8 +102,8 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                                           
                                           #######################################Search bar
                                           fluidRow(
-                                                  selectizeInput("search", label = "Search Name: ", choices = unique(plot$npo), selected = NULL, multiple = FALSE,
-                                                                 options = list(placeholder = 'Select a non profit by name'))
+                                                  column(12, selectizeInput("search", label = "Search Name: ", choices = unique(plot$npo), selected = NULL, multiple = FALSE,
+                                                                 options = list(placeholder = 'Select a non profit by name')))
                                           ),
                                           ####################################### Histogram of Budget 
                                           plotOutput("histBudget", height = 200)
@@ -129,6 +130,9 @@ server <- shinyServer(function(input, output, session) {
                 data <- plot
                 
                 data <- filter(data, category %in% input$category)
+                
+                if(input$select_na){data <- filter(data, is.na(budget) | budget)}
+                else{(data <- filter(data, !is.na(budget)))}
                 
         }) 
         
@@ -161,7 +165,7 @@ server <- shinyServer(function(input, output, session) {
         # Precalculate the breaks we'll need for the two histograms
         
         his <- plot[!is.na(plot$budget), ]  
-        BudgetBreaks <- hist(plot = FALSE, his$budget, breaks = 20)$breaks
+        BudgetBreaks <- hist(plot = FALSE, his$budget, breaks = 5)$breaks
         
         output$histBudget <- renderPlot({
                 # If no zipcodes are in view, don't plot
@@ -170,9 +174,10 @@ server <- shinyServer(function(input, output, session) {
                 
                 hist(his$budget,
                      breaks = BudgetBreaks,
-                     main = "Non-profit Budget Distribution",
-                     xlab = "Budget",
+                     main = "Nonprofit Budget Distribution",
+                     xlab = "Annual Budget",
                      xlim = range(his$budget),
+                     ylab = "Number of Nonprofits", 
                      col = '#A7E0AC',
                      border = 'white')
         
@@ -217,7 +222,7 @@ server <- shinyServer(function(input, output, session) {
                                                                "<h5/>","Year Founded: ", sep= " ", year_founded,
                                                                "<h5/>","Budget: $", sep=" ", budget,
                                                                "<h5/>","Website: ", sep = " ", website),
-                                                 label= ~paste0("Non-Profit: ", sep = " ", npo), radius = size,
+                                                 label= ~paste0("Nonprofit: ", sep = " ", npo), radius = size,
                                                  fillOpacity = 0.5, color = "black", fillColor=~pal(colorData)) %>%
                                                  clearControls() %>% addLegend("bottomleft", pal=pal, values= colorData, title = varname) 
                 }

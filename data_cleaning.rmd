@@ -210,11 +210,12 @@ data <- rename(data, category = value)
         today <- as.Date(Sys.Date(), format='%Y')
         data <- mutate(data, npo_age = lubridate::time_length(difftime(today, data$yrs_old), "years"))
         
+        data <- mutate(data, constant = 1)
+        
                 
                 
-        data <- dplyr::select(data, npo,category,latitude, longitude, address, municipality, department, budget, budget_adj, size, sizecolor,
-                       year_founded,year_founded_color,npo_age, partner_status, partner_status_color, constant, constant_color, 
-                       everything())
+        data <- dplyr::select(data, npo,category,latitude, longitude, address, municipality, department, budget, budget_adj, size,
+                       year_founded,npo_age, partner_status, constant, everything())
         
         data <- data %>% arrange(npo)
         
