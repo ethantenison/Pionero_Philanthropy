@@ -74,7 +74,7 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                             #this allows me to put the checkmarks ontop of the map to allow people to 
                             #view earthquake depth or overlay a heatmap
                             absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
-                                          draggable = TRUE, top = 50, left = "auto", right = 20, bottom = "auto",
+                                          draggable = FALSE, top = 50, left = "auto", right = 20, bottom = "auto",
                                           width = 325, height = "auto",
                                           
                                           ##################check boxes to select types of schools
@@ -86,7 +86,7 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                                                                                  c("Health", "Education", "Community Development","Youth & Children",          
                                                                                    "Women & Girls", "Human Rights" ,"Environment & Conservation",
                                                                                    "Animal Welfare","Crime", "Faith Based", "All Nonprofits"),
-                                                                         selected=c("All Nonprofits"))),
+                                                                         selected=c("All Nonprofits"),width = "220px")),
                                                   column(1,checkboxInput("select_na", label = "Include NAs?", TRUE))
                                                    ),
                                           
