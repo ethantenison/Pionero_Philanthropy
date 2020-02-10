@@ -138,8 +138,8 @@ data <- rename(data, category = value)
 ```
 
 ```{r clickable_website}
- data$website <- paste0("<a href=\"",data$website,"\">","Click here","</a>")
-
+# data$website <- paste0("<a href=\"",data$website,"\">","Click here","</a>")
+ data$website <- paste0("<a href='",data$website,"' target='_blank'>","Click here","</a>")
 ```
 
 ```{r size}
