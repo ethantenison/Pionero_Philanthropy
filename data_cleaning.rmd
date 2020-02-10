@@ -204,7 +204,7 @@ data <- rename(data, category = value)
         data$budget <- as.numeric(data$budget)
         data <- mutate(data, budget_adj = budget)
         
-        data$budget_adj[is.na(data$budget_adj)] <- 100000 
+        data$budget_adj[is.na(data$budget_adj)] <- 25000 
         
         data$yrs_old <- as.Date(as.character(data$year_founded), format = "%Y")
         today <- as.Date(Sys.Date(), format='%Y')

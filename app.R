@@ -94,7 +94,7 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                                           tags$hr(),
                                           fluidRow(
                                                   column(6, selectInput("sizevar", "Size Variable:", 
-                                                                        choices = c("Constant"="constant","Budget" = "budget_adj", "Years Active" = "npo_age"))),
+                                                                        choices = c("Constant"="constant","Annual Budget" = "budget_adj", "Years Active" = "npo_age"))),
                                                   column(6, selectInput("colorvar", "Color Variable:", 
                                                                         choices = c("Same Color"="constant","Organization Size"="size",
                                                                                     "Partner Status"="partner_status")))
@@ -211,7 +211,8 @@ server <- shinyServer(function(input, output, session) {
                         # I take the 95th percentile of the x (size variable) to scale all of the values in x
                         # I took 95th percentile instead of maximum because there are some outlier and they may make the majority of markers tiny
                         # make that proportional to the sqrt of size and multiply by 440 - a constant that makes the size ok (not too big or too small)
-                        size <- sqrt(x/quantile(x,0.95,na.rm=TRUE)*440) 
+                        #size <- sqrt(x/quantile(x,0.95,na.rm=TRUE)*250) 
+                       
                         
                         leafletProxy("map", data= data()) %>%
                                 clearMarkers() %>% #you have to clear previously drawn markers
@@ -222,7 +223,7 @@ server <- shinyServer(function(input, output, session) {
                                                                "<h5/>","Year Founded: ", sep= " ", year_founded,
                                                                "<h5/>","Budget: $", sep=" ", budget,
                                                                "<h5/>","Website: ", sep = " ", website),
-                                                 label= ~paste0("Nonprofit: ", sep = " ", npo), radius = size,
+                                                 label= ~paste0("Nonprofit: ", sep = " ", npo), radius = ~x,
                                                  fillOpacity = 0.5, color = "black", fillColor=~pal(colorData)) %>%
                                                  clearControls() %>% addLegend("bottomleft", pal=pal, values= colorData, title = varname) 
                 }
