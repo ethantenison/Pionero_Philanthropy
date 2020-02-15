@@ -47,7 +47,7 @@ guatemala.shape_orig <- st_read("Guatemala_shape_files/GTM_adm1.shp", stringsAsF
 Guatemala <- st_transform(guatemala.shape_orig, "+proj=longlat +ellps=WGS84 +datum=WGS84")
 
 # using googlesheets4 package to call the data directly from the mapping dataset 
-data <- read_sheet(ss= "https://docs.google.com/spreadsheets/d/1klJ0aUZF1HX8qwR8EjsOhWUB9EJH6PYYdzPl2fQUvuM/edit?usp=sharing", sheet = "Sheet1", col_names = TRUE, guess_max = 5) # Here I had to set guess_max = 5 because it was reading in the longitude column as a list
+data <- read_sheet(ss= "https://docs.google.com/spreadsheets/d/1klJ0aUZF1HX8qwR8EjsOhWUB9EJH6PYYdzPl2fQUvuM/edit?usp=sharing", sheet = "MD", col_names = TRUE, guess_max = 5) # Here I had to set guess_max = 5 because it was reading in the longitude column as a list
 
 data <- clean_names(data)
 
@@ -210,7 +210,7 @@ data <- rename(data, category = value)
         today <- as.Date(Sys.Date(), format='%Y')
         data <- mutate(data, npo_age = lubridate::time_length(difftime(today, data$yrs_old), "years"))
         
-        data <- mutate(data, constant = 1)
+        data <- mutate(data, constant = .5)
         
                 
                 

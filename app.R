@@ -211,7 +211,7 @@ server <- shinyServer(function(input, output, session) {
                         # I take the 95th percentile of the x (size variable) to scale all of the values in x
                         # I took 95th percentile instead of maximum because there are some outlier and they may make the majority of markers tiny
                         # make that proportional to the sqrt of size and multiply by 440 - a constant that makes the size ok (not too big or too small)
-                        size <- sqrt(x/quantile(x,0.95,na.rm=TRUE)*250) 
+                        size <- sqrt(x/quantile(x,0.95,na.rm=TRUE)*150) 
                        
                         
                         leafletProxy("map", data= data()) %>%
