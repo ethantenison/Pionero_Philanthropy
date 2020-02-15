@@ -102,7 +102,7 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                                           
                                           #######################################Search bar
                                           fluidRow(
-                                                  column(12, selectizeInput("search", label = "Search Name: ", choices = unique(plot$npo), selected = NULL, multiple = FALSE,
+                                                  column(12, selectizeInput("search", label = "Search Name: ", choices = plot$npo, selected = NULL, multiple = TRUE,
                                                                  options = list(placeholder = 'Select a non profit by name',  onInitialize = I('function() { this.setValue(""); }'))))
                                           ),
                                           ####################################### Histogram of Budget 
@@ -129,7 +129,11 @@ server <- shinyServer(function(input, output, session) {
         data <- reactive({
                 data <- plot
                 
+                
                 data <- filter(data, category %in% input$category)
+                
+                #data <- filter(data, npo %in% input$search)
+                
                 
                 if(input$select_na){data <- filter(data, is.na(budget) | budget, is.na(year_founded) | year_founded)}
                 else{(data <- filter(data, !is.na(budget), !is.na(year_founded)))}
