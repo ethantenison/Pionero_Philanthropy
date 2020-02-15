@@ -75,11 +75,11 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                             #view earthquake depth or overlay a heatmap
                             absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
                                           draggable = FALSE, top = 50, left = "auto", right = 20, bottom = "auto",
-                                          width = 325, height = "auto",
+                                          width = 350, height = "auto",
                                           
                                           ##################check boxes to select types of schools
                                           fluidRow(
-                                                  column(12,div(h3("Guatemala Nonprofit Explorer v1.3")))),
+                                                  column(12,div(h3("Guatemala Nonprofit Explorer v1.4")))),
                                           fluidRow(
                                                   
                                                   column(8, selectInput("category", label="Select Category", choices = 
@@ -94,16 +94,16 @@ ui <- shinyUI(bootstrapPage(theme="bootstrap.css",
                                           tags$hr(),
                                           fluidRow(
                                                   column(6, selectInput("sizevar", "Size Variable:", 
-                                                                        choices = c("Constant"="constant","Annual Budget" = "budget_adj", "Years Active" = "npo_age"))),
+                                                                        choices = c("Annual Budget" = "budget_adj","Same Size"="constant", "Years Active" = "npo_age"))),
                                                   column(6, selectInput("colorvar", "Color Variable:", 
-                                                                        choices = c("Same Color"="constant","Organization Size"="size",
-                                                                                    "Partner Status"="partner_status")))
+                                                                        choices = c("Organization Size"="size", "Partner Status"="partner_status",
+                                                                                    "Same Color"="constant")))
                                                   ),
                                           
                                           #######################################Search bar
                                           fluidRow(
                                                   column(12, selectizeInput("search", label = "Search Name: ", choices = unique(plot$npo), selected = NULL, multiple = FALSE,
-                                                                 options = list(placeholder = 'Select a non profit by name')))
+                                                                 options = list(placeholder = 'Select a non profit by name',  onInitialize = I('function() { this.setValue(""); }'))))
                                           ),
                                           ####################################### Histogram of Budget 
                                           plotOutput("histBudget", height = 200)
@@ -131,15 +131,15 @@ server <- shinyServer(function(input, output, session) {
                 
                 data <- filter(data, category %in% input$category)
                 
-                if(input$select_na){data <- filter(data, is.na(budget) | budget)}
-                else{(data <- filter(data, !is.na(budget)))}
+                if(input$select_na){data <- filter(data, is.na(budget) | budget, is.na(year_founded) | year_founded)}
+                else{(data <- filter(data, !is.na(budget), !is.na(year_founded)))}
                 
         }) 
         
         #create empty map
         output$map <- renderLeaflet({
                 leaflet(data) %>% 
-                        setView(lng = -90, lat = 15, zoom = 7)  %>% #setting the view over ~ center of  Guatemala
+                        setView(lng = -90.506882, lat = 15.583471, zoom = 8)  %>% #setting the view over ~ center of  Guatemala
                         addTiles() %>%
                         #This part adds the department boundaries, but at this moment in time they are not relevant. 
                         # addPolygons(data=Guatemala_departments,
@@ -152,8 +152,8 @@ server <- shinyServer(function(input, output, session) {
                         addPolygons(data=Guatemala,
                                     stroke = .1,
                                     smoothFactor = 2,
-                                    fill = F,
-                                    fillOpacity = .1,
+                                    fill = T,
+                                    fillOpacity = .05,
                                     color = "black")
         })
         #next we use the observe function to make the drop down dynamic. If you leave this part out you will see that the checkboxes, 
@@ -200,7 +200,7 @@ server <- shinyServer(function(input, output, session) {
                         varname<-switch(input$colorvar,
                                         "constant"="All Nonprofits", 
                                         "size"="Nonprofit Size",
-                                        "partner_status"="Pionero Partner Status",
+                                        "partner_status"="Pionero Partner Status"
                                         )
                         
                       
@@ -224,7 +224,7 @@ server <- shinyServer(function(input, output, session) {
                                                                "<h5/>","Budget: $", sep=" ", budget,
                                                                "<h5/>","Website: ", sep = " ", website),
                                                  label= ~paste0("Nonprofit: ", sep = " ", npo), radius = size,
-                                                 fillOpacity = 0.5, color = "black", fillColor=~pal(colorData)) %>%
+                                                 fillOpacity = 0.75, color = "black", fillColor=~pal(colorData)) %>%
                                                  clearControls() %>% addLegend("bottomleft", pal=pal, values= colorData, title = varname) 
                 }
                 else{leafletProxy("map") %>% clearMarkers()} #clear the map if the data() is empty
