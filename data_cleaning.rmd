@@ -53,7 +53,7 @@ data <- clean_names(data)
 
 
 write.csv(data, file="data.csv", fileEncoding = "UTF-8" )
-data <- read.csv("data.csv", fileEncoding = "UTF-8", encoding = "UTF-8", stringsAsFactors = FALSE)
+df <- read.csv("data.csv", fileEncoding = "UTF-8", encoding = "UTF-8", stringsAsFactors = FALSE)
 
 ```
 
@@ -62,7 +62,7 @@ data <- read.csv("data.csv", fileEncoding = "UTF-8", encoding = "UTF-8", strings
 ```{r wide2long}
 # In this part I am converting the data frame from wide to long 
 
-data <- mutate(data, all_npos = "All Nonprofits")
+data <- mutate(df, all_npos = "All Nonprofits")
 data$health[data$health == "Y" ] <- "Health"
 data$edu[data$edu == "Y" ] <- "Education"
 data$comm_dev[data$comm_dev == "Y" ] <- "Community Development"
@@ -138,9 +138,10 @@ data <- rename(data, category = value)
 ```
 
 ```{r clickable_website}
-# data$website <- paste0("<a href=\"",data$website,"\">","Click here","</a>")
- data <- filter(data, !is.na(website))
+
+ #data <- filter(data, !is.na(website))
  data$website <- paste0("<a href='",data$website,"' target='_blank'>","Click here","</a>")
+ data$website <- gsub("<a href='NA' target='_blank'>Click here</a>", 'NA', data$website)
 ```
 
 ```{r size}
@@ -157,18 +158,6 @@ data <- rename(data, category = value)
 
         data$year_founded <- as.numeric(data$year_founded)
         
-        data_na <- filter(data, is.na(year_founded))
-                data_na$year_founded_color <- "	#808080"
-        
-        data <- filter(data, year_founded != "NA")
-                ii <- cut(data$year_founded, breaks = seq(min(data$year_founded), 
-                        max(data$year_founded), len = 100), include.lowest = TRUE)
-                
-                data$year_founded_color <- colorRampPalette(c("#7c1d6f", "#fcde9c"))(99)[ii]
-                
-        data <- bind_rows(data, data_na)
-        
-        #setting it to factor 
         
         
 ```
