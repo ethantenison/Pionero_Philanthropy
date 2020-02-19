@@ -65,7 +65,6 @@ guatemala.shape_orig <- st_read("Guatemala_shape_files/GTM_adm0.shp", stringsAsF
 Guatemala <-st_transform(guatemala.shape_orig,"+proj=longlat +ellps=WGS84 +datum=WGS84")
 
 guatemala.shape_orig <-st_read("Guatemala_shape_files/GTM_adm1.shp", stringsAsFactors = FALSE)
-
 Guatemala_departments <-st_transform(guatemala.shape_orig,"+proj=longlat +ellps=WGS84 +datum=WGS84")
 
 # ------------------------------- #
@@ -164,44 +163,35 @@ ui <- shinyUI(
 # ------------------------------- #
 
 
+# create dataframe 'data' to be plotted starts with dataframe 'plot', filtering depends on inputs from the UI
 server <- shinyServer(function(input, output, session) {
-        data <- reactive({
-                data <- plot
-                
-                data <- filter(data, category %in% input$category)
-                
-                
-                if (input$select_na) {data <-filter(data,is.na(budget) | budget,is.na(year_founded) |year_founded)}
-                else{(category <- filter(data,!is.na(budget),!is.na(year_founded)))}
-                })
         
-        # create dataframe 'data' to be plotted starts with dataframe 'plot', filtering depends on inputs from the UI
-        # category <- reactive({
-        #         category <- plot
-        #
-        #
-        #         category <- filter(category, category %in% input$category)
-        #
-        #
-        #         if(input$select_na){category <- filter(data, is.na(budget) | budget, is.na(year_founded) | year_founded)}
-        #         else{(category <- filter(category, !is.na(budget), !is.na(year_founded)))}
-        #
-        # })
-        #
-        # data <- reactive({
-        #         if(input$search == 'Select a non profit by name') {
-        #                 category()
-        #         }
-        #         else {
-        #                 data <- filter(plot, npo %in% input$search)
-        #         }
-        # })
+         category <- reactive({
+                 category <- plot
+        
+        
+                 category <- filter(category, category %in% input$category)
+        
+        
+                 if(input$select_na){category <- filter(data, is.na(budget) | budget, is.na(year_founded) | year_founded)}
+                 else{(category <- filter(category, !is.na(budget), !is.na(year_founded)))}
+        
+         })
+        
+         data <- reactive({
+                 if(input$search == 'Select a non profit by name') {
+                         category()
+                 }
+                 else {
+                         data <- filter(plot, npo %in% input$search)
+                 }
+         })
         
         
         
         #create empty map
-        output$map <- renderLeaflet({leaflet(data) %>%setView(lng = -90.506882,lat = 15.583471,zoom = 8) 
-                        %>% #setting the view over ~ center of  Guatemala
+        output$map <- renderLeaflet({leaflet(data) %>%
+                        setView(lng = -90.506882,lat = 15.583471,zoom = 8) %>%
                         addTiles() %>%
                         addPolygons(
                                 data = Guatemala,
@@ -213,7 +203,8 @@ server <- shinyServer(function(input, output, session) {
                         })
         
         #Histogram settings
-        his <- plot[!is.na(plot$budget), ]BudgetBreaks <-hist(plot = FALSE, his$budget, breaks = 5)$breaks
+        his <- plot[!is.na(plot$budget), ]
+        BudgetBreaks <-hist(plot = FALSE, his$budget, breaks = 5)$breaks
         output$histBudget <- renderPlot({
                 # If no zipcodes are in view, don't plot
                 if (nrow(data()) == 0)
