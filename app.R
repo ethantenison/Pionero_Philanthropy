@@ -12,8 +12,7 @@
 # ------------------------------- #
 
 list.of.packages <-
-        c(
-                "shiny",
+        c( "shiny",
                 "devtools",
                 "shinydashboard",
                 "V8",
@@ -25,10 +24,9 @@ list.of.packages <-
                 "sf",
                 "htmltools",
                 "shinyWidgets"
-        )
+           )
 
-new.packages <-
-        list.of.packages[!(list.of.packages %in% installed.packages()[, "Package"])]
+new.packages <-list.of.packages[!(list.of.packages %in% installed.packages()[, "Package"])]
 
 
 library(shiny)
@@ -94,18 +92,18 @@ ui <- shinyUI(
                         left = "auto",
                         right = 20,
                         bottom = "auto",
-                        width = 440,
+                        width = 335,
                         height = "auto",
                         
                         ##################drop down menu to select nonprofit categories
-                        fluidRow(column(8, div(
+                        fluidRow(column(6, offset = 1, style='padding:4px;', div(
                                 h3("Nonprofit Explorer v1.4"))),
                         
-                                column( 4,h6("(",textOutput("num_matching", inline = TRUE),"NPOs selected)",
+                                column( 4, style='padding:4px;',h6("(",textOutput("num_matching", inline = TRUE),"NPOs selected)",
                                      style = "padding:20px 0 0 0;"))),
                         
                         
-                        fluidRow(column(8,
+                        fluidRow(column(8,offset = 1, style='padding:4px;',
                                 selectInput("category",label = "Select Category",choices =
                                                 c(
                                                         "Health",
@@ -121,27 +119,28 @@ ui <- shinyUI(
                                                         "All Nonprofits"
                                                 ),selected = c("All Nonprofits"),width = "220px")),
                                 
-                                column( 1, checkboxInput("select_na", label = "Include NAs?", TRUE))),
+                                column( 2, style='padding:4px;',checkboxInput("select_na", label = "Include NAs?", TRUE))),
                         
                         
                         
                         #######################################graph controls
                         tags$hr(),
-                        fluidRow(column(6, selectInput("sizevar","Size Variable:",
+                        fluidRow(column(5, offset = 1,style='padding:4px;',selectInput("sizevar","Size Variable:",
                                         choices = c(
                                                 "Annual Budget" = "budget_adj",
                                                 "Same Size" = "constant",
-                                                "Years Active" = "npo_age"))),
+                                                "Years Active" = "npo_age"),
+                                        selected = "constant")),
                                  
-                                column(6, selectInput("colorvar","Color Variable:",
+                                column(5, style='padding:4px;',selectInput("colorvar","Color Variable:",
                                                 choices = c(
-                                                        "Organization Size" = "size",
+                                                        "Nonprofit Size" = "size",
                                                         "Partner Status" = "partner_status",
-                                                        "Same Color" =
-                                                                "constant")))),
+                                                        "Same Color" ="constant"),
+                                                selected = "partner_status"))),
                         
                         #######################################Search bar
-                        fluidRow(column( 12,selectizeInput(
+                        fluidRow(column( 10,offset = 1, style='padding:4px;',selectizeInput(
                                         "search",
                                         label = "Search Name: ",
                                         choices = plot$npo,
@@ -166,32 +165,28 @@ ui <- shinyUI(
 # create dataframe 'data' to be plotted starts with dataframe 'plot', filtering depends on inputs from the UI
 server <- shinyServer(function(input, output, session) {
         
-         category <- reactive({
-                 category <- plot
-        
-        
-                 category <- filter(category, category %in% input$category)
-        
-        
-                 if(input$select_na){category <- filter(data, is.na(budget) | budget, is.na(year_founded) | year_founded)}
-                 else{(category <- filter(category, !is.na(budget), !is.na(year_founded)))}
-        
-         })
-        
-         data <- reactive({
-                 if(input$search == 'Select a non profit by name') {
-                         category()
-                 }
-                 else {
-                         data <- filter(plot, npo %in% input$search)
-                 }
-         })
+        data <- reactive({
+                if (input$search == "") {
+                        plot %>% 
+                                filter(category %in% input$category) %>% 
+                                { 
+                                        if(input$select_na) { 
+                                                filter(., is.na(budget) | budget, is.na(year_founded) | year_founded)
+                                        } else { 
+                                                filter(., !is.na(budget), !is.na(year_founded))
+                                        }
+                                }
+                }
+                else {
+                        filter(plot, npo %in% input$search)
+                }
+        })
         
         
         
         #create empty map
         output$map <- renderLeaflet({leaflet(data) %>%
-                        setView(lng = -90.506882,lat = 15.583471,zoom = 8) %>%
+                        setView(lng = -89.506882,lat = 15.883471,zoom = 7.3) %>%
                         addTiles() %>%
                         addPolygons(
                                 data = Guatemala,
