@@ -182,11 +182,11 @@ server <- shinyServer(function(input, output, session) {
                 }
         })
         
-        
+        #  setView(lng = -89.506882,lat = 15.883471,zoom = 8) %>%
         
         #create empty map
-        output$map <- renderLeaflet({leaflet(data) %>%
-                        setView(lng = -89.506882,lat = 15.883471,zoom = 7.3) %>%
+        output$map <- renderLeaflet({leaflet(plot) %>%
+                        fitBounds( -90.74078, 13.52793, -88.0067, 17.78793) %>%
                         addTiles() %>%
                         addPolygons(
                                 data = Guatemala,
