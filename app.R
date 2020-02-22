@@ -241,7 +241,8 @@ server <- shinyServer(function(input, output, session) {
                                                 "<h5/>","Nonprofit Size: ",sep = " ",size,
                                                 "<h5/>","Year Founded: ",sep = " ",year_founded,
                                                 "<h5/>","Budget: $",sep = " ",budget,
-                                                "<h5/>","Website: ",sep = " ",website),
+                                                "<h5/>","Website: ",sep = " ",website,
+                                                "<h5/>","All Categories: ",sep = " ",list_categories),
                                                 
                                                 label = ~ paste0("Nonprofit: ", sep = " ", npo),
                                                 radius = size,

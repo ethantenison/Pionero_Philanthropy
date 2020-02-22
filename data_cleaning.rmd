@@ -74,6 +74,19 @@ data$human_rights[data$human_rights == "Y" ] <- "Human Rights"
 data$animal_welfare[data$animal_welfare == "Y" ] <- "Animal Welfare"
 data$faith_based[data$faith_based == "Y"] <- "Faith Based"
 
+data$health[data$health == "N" ] <- NA
+data$edu[data$edu == "N" ] <- NA
+data$comm_dev[data$comm_dev == "N" ] <- NA
+data$youth_child[data$youth_child == "N" ] <- NA
+data$women_girls[data$women_girls == "N" ] <- NA
+data$enviro_cons[data$enviro_cons == "N" ] <- NA
+data$crime[data$crime == "N" ] <- NA
+data$human_rights[data$human_rights == "N" ] <- NA
+data$animal_welfare[data$animal_welfare == "N" ] <- NA
+data$faith_based[data$faith_based == "N"] <- NA
+
+data <- data %>% unite(list_categories,health:faith_based, remove = FALSE, sep =", ",na.rm = TRUE)
+
 
 data_1st_add <- data %>% dplyr::select(-c(address2,latitude2,longitude2,municipality2, department2, address3,latitude3, longitude3,
                                           municipality3, department3, address4,latitude4,longitude4,municipality4, department4,
@@ -130,10 +143,11 @@ data <-pivot_longer(
         
 )
 
-data <- filter(data, !value %in% "N")
+data <- filter(data, !value %in% NA)
 data <- filter(data, !value %in% "")
 data <- dplyr::select(data, -c(category))
 data <- rename(data, category = value)
+
 
 ```
 
