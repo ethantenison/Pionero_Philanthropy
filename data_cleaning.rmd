@@ -52,8 +52,8 @@ data <- read_sheet(ss= "https://docs.google.com/spreadsheets/d/1klJ0aUZF1HX8qwR8
 data <- clean_names(data)
 
 
-write.csv(data, file="data.csv", fileEncoding = "UTF-8" )
-df <- read.csv("data.csv", fileEncoding = "UTF-8", encoding = "UTF-8", stringsAsFactors = FALSE)
+write.csv(data, file="data/data.csv", fileEncoding = "UTF-8" )
+df <- read.csv("data/data.csv", fileEncoding = "UTF-8", encoding = "UTF-8", stringsAsFactors = FALSE)
 
 ```
 

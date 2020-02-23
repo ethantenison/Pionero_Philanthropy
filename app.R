@@ -61,10 +61,10 @@ plot <- readRDS("./data/npo_data.rds")
 plot$category <- as.factor(plot$category)
 options(scipen = 999)
 
-guatemala.shape_orig <- st_read("Guatemala_shape_files/GTM_adm0.shp", stringsAsFactors = FALSE)
+guatemala.shape_orig <- st_read("data/GTM_adm0.shp", stringsAsFactors = FALSE)
 Guatemala <-st_transform(guatemala.shape_orig,"+proj=longlat +ellps=WGS84 +datum=WGS84")
 
-guatemala.shape_orig <-st_read("Guatemala_shape_files/GTM_adm1.shp", stringsAsFactors = FALSE)
+guatemala.shape_orig <-st_read("data/GTM_adm1.shp", stringsAsFactors = FALSE)
 Guatemala_departments <-st_transform(guatemala.shape_orig,"+proj=longlat +ellps=WGS84 +datum=WGS84")
 
 # ------------------------------- #
@@ -75,14 +75,15 @@ Guatemala_departments <-st_transform(guatemala.shape_orig,"+proj=longlat +ellps=
 # ------------------------------- #
 # ------------------------------- #
 # ------------------------------- #
-introjsUI(includeOnly = TRUE, cdn = TRUE)
+#introjsUI(includeOnly = TRUE, cdn = TRUE)
 
 ui <- shinyUI(
         bootstrapPage(
-                theme = "bootstrap.css",
+                theme = "www/css/bootstrap.css",
                 shinyjs::useShinyjs(),
+                introjsUI(),
                 tags$style(type = "text/css", "html, body {width:100%;height:100%}"),
-                tags$head(includeScript("google_analytics.js")),
+                tags$head(includeScript("www/js/google_analytics.js")),
                 
                 leafletOutput("map", width = "100%", height = "100%"),
                 
@@ -150,14 +151,13 @@ ui <- shinyUI(
                                         selected = NULL,
                                         multiple = FALSE,
                                         options = list(
-                                                placeholder = 'Select a non profit by name',
+                                                placeholder = 'Select a nonprofit by name',
                                                 onInitialize = I('function() { this.setValue(""); }'))))),
                         
                         ######################################Tutorial Button 
                         fluidRow(column(10, offset =1 , style= 'padding:4px;',actionButton(
-                                "help", "Tutorial", icon = icon("book-open", class = "fa-pull-left"), style="color: #152934"),
-                                HTML("<button type='button' class='btn btn-default action-button shiny-bound-input' style='display: block; margin: 6px 5px 6px 15px; width: 200px;color: #152934;' onclick = 'shinyjs.toggleFullScreen();'><i class='fa fa-expand fa-pull-left'></i> Fullscreen</button>"))
-                        ),
+                                "help", "Tutorial", icon = icon("book-open", class = "fa-pull-left"), style="color: #152934"))),
+                                
                         
                         ####################################### Histogram of Budget
                         plotOutput("histBudget", height = 200))))
@@ -181,11 +181,11 @@ server <- shinyServer(function(input, output, session) {
                 steps = data.frame(element = c("#category",
                                                "#select_na",
                                                "#sizevar",
-                                               "colorvar",
+                                               "#colorvar",
                                                "#search",
                                                "#histbudget"
                                                
-                                               
+                               
                 ),
                 intro = c(includeMarkdown("tooltips/categories.md"), #This section is used in the tutorial section 
                           includeMarkdown("tooltips/select_na.md"),
