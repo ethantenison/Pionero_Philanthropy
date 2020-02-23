@@ -183,8 +183,8 @@ server <- shinyServer(function(input, output, session) {
                                                "#select_na",
                                                "#sizevar + .selectize-control",
                                                "#colorvar + .selectize-control",
-                                               "#search",
-                                               "#histbudget"
+                                               "#search + .form-control",
+                                               "#histBudget "
                                                
                                
                 ),
