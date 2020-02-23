@@ -179,12 +179,12 @@ server <- shinyServer(function(input, output, session) {
         # start introjs when button is pressed with custom options and events
         observeEvent(input$help,
         introjs(session, options = list(
-                steps = data.frame(element = c("#category ",
-                                               "#select_na ",
-                                               "#sizevar ",
-                                               "#colorvar ",
-                                               "#search ",
-                                               "#histbudget "
+                steps = data.frame(element = c("#category + .selectize-control",
+                                               "#select_na",
+                                               "#sizevar + .selectize-control",
+                                               "#colorvar + .selectize-control",
+                                               "#search",
+                                               "#histbudget"
                                                
                                
                 ),

@@ -1,4 +1,129 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700");
+
+/* ------------------------------- */
+/* ------------------------------- */
+/* ------------------------------- */
+/* ------------------------------- */
+/* ---SECTION: INTROJS STYLING---- */
+/* ------------------------------- */
+/* ------------------------------- */
+/* ------------------------------- */
+/* ------------------------------- */
+
+.introjs-helperNumberLayer {
+	box-sizing: content-box;
+	position: absolute;
+	visibility: visible;
+	float: left;
+	top: -16px;
+	left: 10px;
+	z-index: 9999999999!important;
+	padding: 2px;
+	font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	font-size: 20px;
+	font-weight: 700;
+	color: black;
+	text-align: center;
+	text-shadow: 1px 1px 1px rgba(0,0,0,.4);
+	background: #5da5da;
+	width: 25px;
+	height: 25px;
+	line-height: 25px;
+	border: .5px solid black;
+	border-radius: 50%;
+	filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3019', endColorstr='#cf0404', GradientType=0)";
+	filter: "progid:DXImageTransform.Microsoft.Shadow(direction=135, strength=2, color=ff0000)";
+}
+
+.introjs-button:hover{
+  border-color:#bcbcbc;
+  text-decoration:none
+  /* box-shadow:0 1px 1px #e3e3e3 */
+}
+
+.introjs-hint-pulse {
+box-sizing: content-box;
+width: 10px;
+height: 10px;
+border: 5px solid rgba(0, 81, 145, 0.35);
+-webkit-border-radius: 30px;
+-moz-border-radius: 30px;
+border-radius: 30px;
+background-color: rgba(0, 81, 145, 0.53);
+z-index: 10;
+position: absolute;
+-webkit-transition: all .2s ease-out;
+-moz-transition: all .2s ease-out;
+-ms-transition: all .2s ease-out;
+-o-transition: all .2s ease-out;
+transition: all .2s ease-out;
+}
+
+.introjs-button {
+	box-sizing: content-box;
+	position: relative;
+	overflow: visible;
+	display: inline-block;
+	padding: .3em .8em;
+	border: 0px solid #d4d4d4;
+	font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	font-size: 13px;
+	font-weight: 500;
+	color: #3d3d3d;
+	white-space: nowrap;
+	cursor: pointer;
+	outline: 0;
+	background-color: #ffffff; /* no idea */
+	border-radius: .2em;
+	zoom: 1;
+	margin-left: 5px;
+	margin-top: 10px;
+}
+
+.introjs-prevbutton {
+  margin-right: 1px;
+
+}
+
+.introjs-tooltiptext, h1{
+  font-weight: 700;
+}
+
+.introjs-tooltiptext, h2, h3{
+  font-weight: 600;
+}
+
+.introjs-tooltiptext p{
+  font-weight: 300;
+  font-size: 16px;
+  color: #000000
+}
+
+.introjs-tooltip {
+box-sizing: content-box;
+position: absolute;
+visibility: visible;
+padding: 10px;
+/* top: 0px !important; */
+font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+background-color: white; /* changes the background of the tutorial windows */
+min-width: 400px;
+max-width: 500px !important;
+border-radius: 3px;
+box-shadow: 0 1px 10px rgba(0,0,0,.4);
+-webkit-transition: opacity .1s ease-out;
+-moz-transition: opacity .1s ease-out;
+-ms-transition: opacity .1s ease-out;
+-o-transition: opacity .1s ease-out;
+transition: opacity .1s ease-out;
+}
+
+
+
+
+
+
+
 /*!
  * bootswatch v3.3.7
  * Homepage: http://bootswatch.com
