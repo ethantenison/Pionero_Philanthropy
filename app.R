@@ -84,6 +84,7 @@ ui <- shinyUI(
                 introjsUI(),
                 tags$style(type = "text/css", "html, body {width:100%;height:100%}"),
                 tags$head(includeScript("www/js/google_analytics.js")),
+                tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "www/css/bootstrap.css")),
                 
                 leafletOutput("map", width = "100%", height = "100%"),
                 
