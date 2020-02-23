@@ -23,7 +23,8 @@ list.of.packages <-
                 "leaflet.extras",
                 "sf",
                 "htmltools",
-                "shinyWidgets"
+                "shinyWidgets",
+                "rintrojs"
            )
 
 new.packages <-list.of.packages[!(list.of.packages %in% installed.packages()[, "Package"])]
@@ -33,6 +34,7 @@ library(shiny)
 library(devtools)
 library(shinydashboard)
 library(V8)
+library(rintrojs)
 library(shinyjs)
 library(RColorBrewer)
 library(dplyr)
@@ -73,6 +75,7 @@ Guatemala_departments <-st_transform(guatemala.shape_orig,"+proj=longlat +ellps=
 # ------------------------------- #
 # ------------------------------- #
 # ------------------------------- #
+introjsUI(includeOnly = TRUE, cdn = TRUE)
 
 ui <- shinyUI(
         bootstrapPage(
@@ -149,8 +152,16 @@ ui <- shinyUI(
                                         options = list(
                                                 placeholder = 'Select a non profit by name',
                                                 onInitialize = I('function() { this.setValue(""); }'))))),
+                        
+                        ######################################Tutorial Button 
+                        fluidRow(column(10, offset =1 , style= 'padding:4px;',actionButton(
+                                "help", "Tutorial", icon = icon("book-open", class = "fa-pull-left"), style="color: #152934"),
+                                HTML("<button type='button' class='btn btn-default action-button shiny-bound-input' style='display: block; margin: 6px 5px 6px 15px; width: 200px;color: #152934;' onclick = 'shinyjs.toggleFullScreen();'><i class='fa fa-expand fa-pull-left'></i> Fullscreen</button>"))
+                        ),
+                        
                         ####################################### Histogram of Budget
                         plotOutput("histBudget", height = 200))))
+
 
 # ------------------------------- #
 # ------------------------------- #
@@ -165,6 +176,38 @@ ui <- shinyUI(
 # create dataframe 'data' to be plotted starts with dataframe 'plot', filtering depends on inputs from the UI
 server <- shinyServer(function(input, output, session) {
         
+        # start introjs when button is pressed with custom options and events
+        introjs(session, options = list(
+                steps = data.frame(element = c("#category",
+                                               "#select_na",
+                                               "#sizevar",
+                                               "colorvar",
+                                               "#search",
+                                               "#histbudget"
+                                               
+                                               
+                ),
+                intro = c(includeMarkdown("tooltips/categories.md"), #This section is used in the tutorial section 
+                          includeMarkdown("tooltips/select_na.md"),
+                          includeMarkdown("tooltips/sizevar.md"),
+                          includeMarkdown("tooltips/colorvar.md"),
+                          includeMarkdown("tooltips/search.md"),
+                          includeMarkdown("tooltips/hist.md")
+                ),
+                position = c("auto",
+                             "auto",
+                             "auto",
+                             "auto",
+                             "auto",
+                             "auto"
+                )
+                ),
+                "nextLabel"="Next",
+                "prevLabel"="Previous",
+                "skipLabel"="Exit"),
+        )
+
+
         data <- reactive({
                 if (input$search == "") {
                         plot %>% 
