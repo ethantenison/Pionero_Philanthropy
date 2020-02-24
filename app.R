@@ -79,13 +79,17 @@ Guatemala_departments <-st_transform(guatemala.shape_orig,"+proj=longlat +ellps=
 
 ui <- shinyUI(
         bootstrapPage(
-                theme = "www/css/bootstrap.css",
+                #theme = "www/css/bootstrap.css",
                 shinyjs::useShinyjs(),
                 introjsUI(),
+                tags$head(includeCSS("www/css/bootstrap.css")),
                 tags$style(type = "text/css", "html, body {width:100%;height:100%}"),
                 tags$head(includeScript("www/js/google_analytics.js")),
                 tags$head(includeScript("www/js/intro.js")),
                 tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "www/css/bootstrap.css")),
+                tags$head(tags$link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.1.0/css/all.css",
+                                    integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt", crossorigin="anonymous")),
+                tags$head(tags$script(src = "www/js/wordwrap.js")),
                 
                 leafletOutput("map", width = "100%", height = "100%"),
                 
