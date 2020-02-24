@@ -113,7 +113,7 @@ ui <- shinyUI(
                         
                         
                         ######################################Tutorial Button 
-                        fluidRow(column(10, offset =1 , style= 'padding:4px;',actionButton(
+                        fluidRow(column(8, offset =1 , style= 'padding:4px;',actionButton(
                                 "help", "Tutorial", icon = icon("book-open", class = "fa-pull-left"),
                                 style="color: #555555;border-color: #bcbcbc; background: #fff",
                                 width = "100%"))),
