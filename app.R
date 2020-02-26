@@ -286,7 +286,7 @@ server <- shinyServer(function(input, output, session) {
                         
                         
                         x <-data()[[sizeBy]] 
-                        size <-sqrt(x / quantile(x, 0.95, na.rm = TRUE) * 150)
+                        size <-sqrt(x / quantile(x, 0.95, na.rm = TRUE) * 100)
                         
                         
                         leafletProxy("map", data = data()) %>%
@@ -301,7 +301,7 @@ server <- shinyServer(function(input, output, session) {
                                                 
                                                 label = ~ paste0("Nonprofit: ", sep = " ", npo),
                                                 radius = size,
-                                                fillOpacity = 0.75,
+                                                fillOpacity = 0.5,
                                                 color = "black",
                                                 fillColor =  ~ pal(colorData)
                                 ) %>%
