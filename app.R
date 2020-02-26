@@ -79,13 +79,14 @@ Guatemala_departments <-st_transform(guatemala.shape_orig,"+proj=longlat +ellps=
 
 ui <- shinyUI(
         bootstrapPage(
-                theme = "www/css/bootstrap.css",
                 shinyjs::useShinyjs(),
                 introjsUI(),
+                tags$head(includeCSS("www/css/bootstrap.css")),
                 tags$style(type = "text/css", "html, body {width:100%;height:100%}"),
                 tags$head(includeScript("www/js/google_analytics.js")),
-                tags$head(includeScript("www/js/intro.js")),
-                tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "www/css/bootstrap.css")),
+                tags$head(tags$link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.1.0/css/all.css",
+                                    integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt", crossorigin="anonymous")),
+                tags$head(tags$script(src = "www/js/wordwrap.js")),
                 
                 leafletOutput("map", width = "100%", height = "100%"),
                 
@@ -101,7 +102,9 @@ ui <- shinyUI(
                         width = 335,
                         height = "auto",
                         
-                        ##################drop down menu to select nonprofit categories
+                        
+                        
+                        ######################################Sidebar header and nummatching
                         fluidRow(column(6, offset = 1, style='padding:4px;', div(
                                 h3("Nonprofit Explorer v1.4"))),
                         
@@ -109,6 +112,14 @@ ui <- shinyUI(
                                      style = "padding:20px 0 0 0;"))),
                         
                         
+                        ######################################Tutorial Button 
+                        fluidRow(column(8, offset =1 , style= 'padding:4px;',actionButton(
+                                "help", "Tutorial", icon = icon("book-open", class = "fa-pull-left"),
+                                style="color: #555555;border-color: #bcbcbc; background: #fff",
+                                width = "100%"))),
+                        
+                        
+                        ##################drop down menu to select nonprofit categories
                         fluidRow(column(8,offset = 1, style='padding:4px;',
                                 selectInput("category",label = "Select Category",choices =
                                                 c(
@@ -156,9 +167,6 @@ ui <- shinyUI(
                                                 placeholder = 'Select a nonprofit by name',
                                                 onInitialize = I('function() { this.setValue(""); }'))))),
                         
-                        ######################################Tutorial Button 
-                        fluidRow(column(10, offset =1 , style= 'padding:4px;',actionButton(
-                                "help", "Tutorial", icon = icon("book-open", class = "fa-pull-left"), style="color: #152934"))),
                                 
                         
                         ####################################### Histogram of Budget
