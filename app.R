@@ -119,27 +119,48 @@ ui <- shinyUI(
                                 width = "100%"))),
                         
                         
+                        
+                        ##################check boxes for nonprofit categories
+                        fluidRow(
+                                column(8,checkboxGroupInput("category",label= NULL,
+                                                            c("Health","Education", "Community Development","Youth & Children", "Women & Girls",
+                                                              "Human Rights" ,"Environment & Conservation","Animal Welfare","Crime"),
+                                                            selected=c("Health",
+                                                                       "Education",
+                                                                       "Community Development",
+                                                                       "Youth & Children",
+                                                                       "Women & Girls",
+                                                                       "Human Rights" ,
+                                                                       "Environment & Conservation",
+                                                                       "Animal Welfare",
+                                                                       "Crime"))),
+
+                                column(2, checkboxGroupInput("other_options", label=NULL,
+                                                             c("Faith Based"),
+                                                             selected=c("Faith Based")))
+                        ),
+                        
+                        
+                        
                         ##################drop down menu to select nonprofit categories
-                        fluidRow(column(8,offset = 1, style='padding:4px;',
-                                selectInput("category",label = "Select Category",choices =
-                                                c(
-                                                        "Health",
-                                                        "Education",
-                                                        "Community Development",
-                                                        "Youth & Children",
-                                                        "Women & Girls",
-                                                        "Human Rights" ,
-                                                        "Environment & Conservation",
-                                                        "Animal Welfare",
-                                                        "Crime",
-                                                        "Faith Based",
-                                                        "All Nonprofits"
-                                                ),selected = c("All Nonprofits"),width = "220px")),
-                                
-                                column( 2, style='padding:4px;',checkboxInput("select_na", label = "Include NAs?", TRUE))),
+                        fluidRow(column( 2, style='padding:4px;',checkboxInput("select_na", label = "Include NAs?", TRUE))),
                         
                         
-                        
+                        # column(8,offset = 1, style='padding:4px;',
+                        #        selectInput("category",label = "Select Category",choices =
+                        #                            c(
+                        #                                    "Health",
+                        #                                    "Education",
+                        #                                    "Community Development",
+                        #                                    "Youth & Children",
+                        #                                    "Women & Girls",
+                        #                                    "Human Rights" ,
+                        #                                    "Environment & Conservation",
+                        #                                    "Animal Welfare",
+                        #                                    "Crime",
+                        #                                    "Faith Based",
+                        #                                    "All Nonprofits"
+                        #                            ),selected = c("All Nonprofits"),width = "220px")),
                         #######################################graph controls
                         tags$hr(),
                         fluidRow(column(5, offset = 1,style='padding:4px;',selectInput("sizevar","Size Variable:",
