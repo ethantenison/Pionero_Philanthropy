@@ -43,7 +43,7 @@ library(dplyr)
 
 ```{r data}
 # read the shape file using sf package and transform the coordinate system 
-guatemala.shape_orig <- st_read("Guatemala_shape_files/GTM_adm1.shp", stringsAsFactors=FALSE)
+guatemala.shape_orig <- st_read("data/GTM_adm1.shp", stringsAsFactors=FALSE)
 Guatemala <- st_transform(guatemala.shape_orig, "+proj=longlat +ellps=WGS84 +datum=WGS84")
 
 # using googlesheets4 package to call the data directly from the mapping dataset 
@@ -136,7 +136,6 @@ data <-pivot_longer(
                 "crime",
                 "human_rights",
                 "animal_welfare",
-                "faith_based",
                 "all_npos"
         ),
         names_to = "category",

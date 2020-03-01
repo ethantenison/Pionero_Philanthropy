@@ -136,15 +136,13 @@ ui <- shinyUI(
                                                                        "Animal Welfare",
                                                                        "Crime"))),
                                 
-                                column(6,checkboxGroupInput("other_options", label=h4("Other Options"),
-                                                            c("Include NAs", "Only Faith Based", "Only Partners"),
-                                                            selected=c("Include NAs")))
+                                column(6,checkboxInput("na_select", "Include NAs", TRUE),
+                                         checkboxInput("faith", "Faith Based Only", FALSE),
+                                         checkboxInput("parnters", "Partners Only", FALSE))
+                                                           
                         ),
                         
                         
-                        
-                        ##################drop down menu to select nonprofit categories
-                        fluidRow(column( 2, style='padding:4px;',checkboxInput("select_na", label = "Include NAs?", TRUE))),
                                  
         
                         #######################################graph controls
@@ -233,21 +231,42 @@ server <- shinyServer(function(input, output, session) {
                 
                 if (input$search == "") {
                         plot %>% 
-                                filter(category %in% input$category) %>% 
-                                { 
-                                        if(input$select_na) { 
-                                                filter(., is.na(budget) | budget, is.na(year_founded) | year_founded)
+                                filter(category %in% input$category) %>% filter(.,
+                                 
+                                        if(input$na_select) { 
+                                                is.na(budget) | budget
                                         } else { 
-                                                filter(., !is.na(budget), !is.na(year_founded))
+                                                 !is.na(budget)
+                                        },
+                                        
+                                        if(input$na_select) { 
+                                                is.na(year_founded) | year_founded
+                                        } else { 
+                                                !is.na(year_founded)
+                                        },
+                                        
+                                        if(input$faith) {
+                                                faith_based == "Faith Based"
+                                        } else { 
+                                                faith_based == "Faith Based" | is.na(faith_based) 
+                                        },
+                                        
+                                        if(input$parnters) {
+                                                partner_status == "Partnered"
+                                        } else { 
+                                                partner_status == "Partnered" | partner_status == "Eligible" | 
+                                                               partner_status == "Discontinued Partnership" | partner_status == "Not Eligible" |
+                                                               is.na(partner_status)
                                         }
-                                }
+                                )
+                                
                 }
                 else {
                         filter(plot, npo %in% input$search)
                 }
         })
         
-        #  setView(lng = -89.506882,lat = 15.883471,zoom = 8) %>%
+        #  setView(lng = -89.506882,lat = 15.883471,zoom = 8) %>% "Only Faith Based", "Only Partners"
         
         #create empty map
         output$map <- renderLeaflet({leaflet(plot) %>%
