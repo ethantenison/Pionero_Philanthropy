@@ -87,6 +87,7 @@ ui <- shinyUI(
                 tags$head(tags$link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.1.0/css/all.css",
                                     integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt", crossorigin="anonymous")),
                 tags$head(tags$script(src = "www/js/wordwrap.js")),
+                tags$head(tags$style(".checkbox-inline {margin: 0 !important;}")), #changes the margins of checkboxes 
                 
                 leafletOutput("map", width = "100%", height = "100%"),
                 
@@ -122,7 +123,7 @@ ui <- shinyUI(
                         
                         ##################check boxes for nonprofit categories
                         fluidRow(
-                                column(8,checkboxGroupInput("category",label= NULL,
+                                column(6,checkboxGroupInput("category",label= h4("Categories"),inline=FALSE,
                                                             c("Health","Education", "Community Development","Youth & Children", "Women & Girls",
                                                               "Human Rights" ,"Environment & Conservation","Animal Welfare","Crime"),
                                                             selected=c("Health",
@@ -134,33 +135,18 @@ ui <- shinyUI(
                                                                        "Environment & Conservation",
                                                                        "Animal Welfare",
                                                                        "Crime"))),
-
-                                column(2, checkboxGroupInput("other_options", label=NULL,
-                                                             c("Faith Based"),
-                                                             selected=c("Faith Based")))
+                                
+                                column(6,checkboxGroupInput("other_options", label=h4("Other Options"),
+                                                            c("Include NAs", "Only Faith Based", "Only Partners"),
+                                                            selected=c("Include NAs")))
                         ),
                         
                         
                         
                         ##################drop down menu to select nonprofit categories
                         fluidRow(column( 2, style='padding:4px;',checkboxInput("select_na", label = "Include NAs?", TRUE))),
-                        
-                        
-                        # column(8,offset = 1, style='padding:4px;',
-                        #        selectInput("category",label = "Select Category",choices =
-                        #                            c(
-                        #                                    "Health",
-                        #                                    "Education",
-                        #                                    "Community Development",
-                        #                                    "Youth & Children",
-                        #                                    "Women & Girls",
-                        #                                    "Human Rights" ,
-                        #                                    "Environment & Conservation",
-                        #                                    "Animal Welfare",
-                        #                                    "Crime",
-                        #                                    "Faith Based",
-                        #                                    "All Nonprofits"
-                        #                            ),selected = c("All Nonprofits"),width = "220px")),
+                                 
+        
                         #######################################graph controls
                         tags$hr(),
                         fluidRow(column(5, offset = 1,style='padding:4px;',selectInput("sizevar","Size Variable:",
@@ -242,6 +228,9 @@ server <- shinyServer(function(input, output, session) {
 
 
         data <- reactive({
+                
+                
+                
                 if (input$search == "") {
                         plot %>% 
                                 filter(category %in% input$category) %>% 
