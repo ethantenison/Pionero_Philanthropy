@@ -95,9 +95,9 @@ ui <- shinyUI(
                         class = "panel panel-default",
                         fixed = TRUE,
                         draggable = FALSE,
-                        top = 50,
+                        top = "2.5%",
                         left = "auto",
-                        right = 20,
+                        right = "2.5%",
                         bottom = "auto",
                         width = 335,
                         height = "auto",
@@ -175,7 +175,7 @@ ui <- shinyUI(
                                                         "Nonprofit Size" = "size",
                                                         "Partner Status" = "partner_status",
                                                         "Same Color" ="constant"),
-                                                selected = "partner_status"))),
+                                                selected = "constant"))),
                         
                         #######################################Search bar
                         fluidRow(column( 10,offset = 1, style='padding:4px;',selectizeInput(
@@ -283,7 +283,7 @@ server <- shinyServer(function(input, output, session) {
                 hist(
                         his$budget,
                         breaks = BudgetBreaks,
-                        main = "Nonprofit Budget Distribution",
+                        main = "Nonprofit Partner Budget Distribution",
                         xlab = "Annual Budget",
                         xlim = range(his$budget),
                         ylab = "Number of Nonprofits",
@@ -307,7 +307,7 @@ server <- shinyServer(function(input, output, session) {
                         
                         
                         x <-data()[[sizeBy]] 
-                        size <-sqrt(x / quantile(x, 0.95, na.rm = TRUE) * 150)
+                        size <-sqrt(x / quantile(x, 0.95, na.rm = TRUE) * 100)
                         
                         
                         leafletProxy("map", data = data()) %>%
@@ -316,13 +316,13 @@ server <- shinyServer(function(input, output, session) {
                                                 "<h3/>",npo,"<h5/>","Parnter Status: ",sep = " ",partner_status,
                                                 "<h5/>","Nonprofit Size: ",sep = " ",size,
                                                 "<h5/>","Year Founded: ",sep = " ",year_founded,
-                                                "<h5/>","Budget: $",sep = " ",budget,
+                                                "<h5/>","Annual Budget: $",sep = " ",budget,
                                                 "<h5/>","Website: ",sep = " ",website,
                                                 "<h5/>","All Categories: ",sep = " ",list_categories),
                                                 
                                                 label = ~ paste0("Nonprofit: ", sep = " ", npo),
                                                 radius = size,
-                                                fillOpacity = 0.75,
+                                                fillOpacity = 0.5,
                                                 color = "black",
                                                 fillColor =  ~ pal(colorData)
                                 ) %>%
