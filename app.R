@@ -87,7 +87,10 @@ ui <- shinyUI(
                 tags$head(tags$link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.1.0/css/all.css",
                                     integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt", crossorigin="anonymous")),
                 tags$head(tags$script(src = "www/js/wordwrap.js")),
-                tags$head(tags$style(".checkbox-inline {margin: 0 !important;}")), #changes the margins of checkboxes 
+                tags$head(tags$style(".checkbox-inline {margin: 0 !important;}")),
+                tags$head(tags$style(HTML('.form-group, .selectize-control {margin-bottom: 0px;}.box-body {padding-bottom: 0px;}'))), #changes marginscheckboxes
+                tags$style(".pretty.p-default input:checked~.state label:after {background-color: #A7E0AC !important;}"), #change color widgets 
+               
                 
                 leafletOutput("map", width = "100%", height = "100%"),
                 
@@ -96,25 +99,25 @@ ui <- shinyUI(
                         class = "panel panel-default",
                         fixed = TRUE,
                         draggable = FALSE,
-                        top = "2.5%",
+                        top = "5%",
                         left = "auto",
                         right = "2.5%",
-                        bottom = "auto",
-                        width = 335,
+                        bottom = "5%",
+                        
+                        width = 300,
                         height = "auto",
                         
                         
-                        
                         ######################################Sidebar header and nummatching
-                        fluidRow(column(6, offset = 1, style='padding:4px;', div(
+                        fluidRow(column(6, offset = 1, style='padding:0px;padding-bottom:0px;',
                                 h3("Nonprofit Explorer v1.4"))),
                         
-                                column( 4, style='padding:4px;',h6("(",textOutput("num_matching", inline = TRUE),"NPOs selected)",
-                                     style = "padding:20px 0 0 0;"))),
+                        fluidRow(column( 6, offset = 1, style='padding:0px; top:0px;margin-top:-1em',h4("(",textOutput("num_matching", inline = TRUE),"selected)",
+                                     ))),
                         
                         
                         ######################################Tutorial Button 
-                        fluidRow(column(8, offset =1 , style= 'padding:4px;',actionButton(
+                        fluidRow(column(8, offset =1 , style= 'padding:2px;',actionButton(
                                 "help", "Tutorial", icon = icon("book-open", class = "fa-pull-left"),
                                 style="color: #555555;border-color: #bcbcbc; background: #fff",
                                 width = "100%"))),
@@ -123,7 +126,7 @@ ui <- shinyUI(
                         
                         ##################check boxes for nonprofit categories
                         fluidRow(
-                                column(6,checkboxGroupInput("category",label= h4("Categories"),inline=FALSE,
+                                column(6,offset = 1, style='padding:2px;color: #555555;',prettyCheckboxGroup("category", label= h4("Category Filters"),inline=TRUE,
                                                             c("Health","Education", "Community Development","Youth & Children", "Women & Girls",
                                                               "Human Rights" ,"Environment & Conservation","Animal Welfare","Crime"),
                                                             selected=c("Health",
@@ -134,27 +137,30 @@ ui <- shinyUI(
                                                                        "Human Rights" ,
                                                                        "Environment & Conservation",
                                                                        "Animal Welfare",
-                                                                       "Crime"))),
-                                
-                                column(6,checkboxInput("na_select", "Include NAs", TRUE),
-                                         checkboxInput("faith", "Faith Based Only", FALSE),
-                                         checkboxInput("parnters", "Partners Only", FALSE))
+                                                                       "Crime")))
                                                            
                         ),
                         
                         
-                                 
+                        #######################################Other Options
+                        fluidRow(column(6, offset = 1, style='padding:2px;', h4("Other Filters"))),
+                        
+                        fluidRow(
+                                column(4, offset = 1, style='padding:2px; color: #555555;',prettyCheckbox("na_select", "Include NAs", TRUE),
+                                       prettyCheckbox("faith", "Faith Based Only", FALSE),
+                                       prettyCheckbox("parnters", "Partners Only", FALSE))
+                        ),
         
                         #######################################graph controls
                         tags$hr(),
-                        fluidRow(column(5, offset = 1,style='padding:4px;',selectInput("sizevar","Size Variable:",
+                        fluidRow(column(5, offset = 1,style='padding:2px;',selectInput("sizevar","Size Variable:",
                                         choices = c(
                                                 "Annual Budget" = "budget_adj",
                                                 "Same Size" = "constant",
                                                 "Years Active" = "npo_age"),
                                         selected = "constant")),
                                  
-                                column(5, style='padding:4px;',selectInput("colorvar","Color Variable:",
+                                column(5, style='padding:2px;',selectInput("colorvar","Color Variable:",
                                                 choices = c(
                                                         "Nonprofit Size" = "size",
                                                         "Partner Status" = "partner_status",
@@ -162,7 +168,7 @@ ui <- shinyUI(
                                                 selected = "constant"))),
                         
                         #######################################Search bar
-                        fluidRow(column( 10,offset = 1, style='padding:4px;',selectizeInput(
+                        fluidRow(column( 10,offset = 1, style='padding:2px;',selectizeInput(
                                         "search",
                                         label = "Search Name: ",
                                         choices = plot$npo,
@@ -175,7 +181,7 @@ ui <- shinyUI(
                                 
                         
                         ####################################### Histogram of Budget
-                        plotOutput("histBudget", height = 200))))
+                        fluidRow(column(10, offset = 1, style='padding:0px;',plotOutput("histBudget", height = 200))))))
 
 
 # ------------------------------- #
@@ -291,7 +297,7 @@ server <- shinyServer(function(input, output, session) {
                 hist(
                         his$budget,
                         breaks = BudgetBreaks,
-                        main = "Nonprofit Partner Budget Distribution",
+                        main = "Partner Budget Distribution",
                         xlab = "Annual Budget",
                         xlim = range(his$budget),
                         ylab = "Number of Nonprofits",
