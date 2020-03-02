@@ -61,11 +61,13 @@ plot <- readRDS("./data/npo_data.rds")
 plot$category <- as.factor(plot$category)
 options(scipen = 999)
 
-guatemala.shape_orig <- st_read("data/GTM_adm0.shp", stringsAsFactors = FALSE)
-Guatemala <-st_transform(guatemala.shape_orig,"+proj=longlat +ellps=WGS84 +datum=WGS84")
+#guatemala.shape_orig <- st_read("data/GTM_adm0.shp", stringsAsFactors = FALSE)
+#Guatemala <-st_transform(guatemala.shape_orig,"+proj=longlat +ellps=WGS84 +datum=WGS84")
 
-demographic_map <- readRDS("./data/demographic_map")
-
+demographic_map <- readRDS("./data/demographic_map.rds")
+demographic_map <- as.data.frame(demographic_map)
+demographic_map <- st_as_sf(demographic_map)
+demographic_map <- st_transform(demographic_map,"+proj=longlat +ellps=WGS84 +datum=WGS84")
 # ------------------------------- #
 # ------------------------------- #
 # ------------SECTION:----------- #
@@ -177,7 +179,14 @@ ui <- shinyUI(
                                                 placeholder = 'Select a nonprofit by name',
                                                 onInitialize = I('function() { this.setValue(""); }'))))),
                         
-                                
+                        #######################################Search bar
+                        fluidRow(column( 10,offset = 1, style='padding:2px;',selectInput(
+                                        "demographics",
+                                        label = "Change Demography by Department",
+                                        choices = unique(demographic_map$measure),
+                                        selected = "same",
+                                        multiple = FALSE))
+                                 ),       
                         
                         ####################################### Histogram of Budget
                         fluidRow(column(10, offset = 1, style='padding:0px;',plotOutput("histBudget", height = 200))))))
@@ -232,8 +241,6 @@ server <- shinyServer(function(input, output, session) {
 
         data <- reactive({
                 
-                
-                
                 if (input$search == "") {
                         plot %>% 
                                 filter(category %in% input$category) %>% filter(.,
@@ -271,14 +278,30 @@ server <- shinyServer(function(input, output, session) {
                 }
         })
         
-        #  setView(lng = -89.506882,lat = 15.883471,zoom = 8) %>% "Only Faith Based", "Only Partners"
         
+        
+        #  setView(lng = -89.506882,lat = 15.883471,zoom = 8) %>% "Only Faith Based", "Only Partners"
         #create empty map
+        
+        
+        
+        #set up the department map
+        
+                
+        #map_departments <- demographic_map %>% dplyr::filter(measure == input$demographics)
+        
+        
+        #pal <- colorNumeric(
+         #       palette = "viridis", n = 10,
+          #      domain = map_departments$value)
+        
+        
+        
         output$map <- renderLeaflet({leaflet(plot) %>%
                         fitBounds( -90.74078, 13.52793, -88.0067, 17.78793) %>%
                         addTiles() %>%
                         addPolygons(
-                                data = Guatemala,
+                                data = demographic_map,
                                 stroke = .1,
                                 smoothFactor = 2,
                                 fill = T,
