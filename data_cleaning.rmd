@@ -228,6 +228,25 @@ data <- rename(data, category = value)
 ```
 
 
+```{r demographics}
+
+demo <- read_sheet(ss= "https://docs.google.com/spreadsheets/d/1KKSd_gHdtlYTdN0jnOtI86eCnRHQwoiBa6cMH9LnTA4/edit#gid=0", 
+                   sheet = "Sheet1", col_names = TRUE)
+
+demo <- clean_names(demo)
+write.csv(demo, file="data/demographics.csv", fileEncoding = "UTF-8" )
+demographics <- read.csv("data/demographics.csv", fileEncoding = "UTF-8", encoding = "UTF-8", stringsAsFactors = FALSE)
+
+guatemala.dep_orig <- st_read("data/GTM_adm1.shp", stringsAsFactors=FALSE)
+guatemala_departments <- st_transform(guatemala.dep_orig, "+proj=longlat +ellps=WGS84 +datum=WGS84")
+
+demographic_map <- left_join(demographics, guatemala_departments, by = c("department" = "NAME_1"))
+
+saveRDS(demographic_map, file="./data/demographic_map.rds")
+
+```
+
+
 ```{r saving}
 
 saveRDS(data, file="./data/npo_data.rds")

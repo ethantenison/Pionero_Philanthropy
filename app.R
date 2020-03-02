@@ -64,8 +64,7 @@ options(scipen = 999)
 guatemala.shape_orig <- st_read("data/GTM_adm0.shp", stringsAsFactors = FALSE)
 Guatemala <-st_transform(guatemala.shape_orig,"+proj=longlat +ellps=WGS84 +datum=WGS84")
 
-guatemala.shape_orig <-st_read("data/GTM_adm1.shp", stringsAsFactors = FALSE)
-Guatemala_departments <-st_transform(guatemala.shape_orig,"+proj=longlat +ellps=WGS84 +datum=WGS84")
+demographic_map <- readRDS("./data/demographic_map")
 
 # ------------------------------- #
 # ------------------------------- #
@@ -327,7 +326,7 @@ server <- shinyServer(function(input, output, session) {
                         leafletProxy("map", data = data()) %>%
                                 clearMarkers() %>% #you have to clear previously drawn markers
                                 addCircleMarkers(lng =  ~ longitude,lat =  ~ latitude,stroke = FALSE,popup =  ~ paste0(
-                                                "<h3/>",npo,"<h5/>","Parnter Status: ",sep = " ",partner_status,
+                                                "<h4/><b>",npo,"</b><h5/>","Parnter Status: ",sep = " ",partner_status,
                                                 "<h5/>","Nonprofit Size: ",sep = " ",size,
                                                 "<h5/>","Year Founded: ",sep = " ",year_founded,
                                                 "<h5/>","Annual Budget: $",sep = " ",budget,
