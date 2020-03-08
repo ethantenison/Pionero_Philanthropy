@@ -56,27 +56,32 @@ library(shinyWidgets)
 # ------------------------------- #
 # ------------------------------- #
 
-#It has to be an .rds file so that the accents are maintained
+
 plot <- readRDS("./data/npo_data.rds")
 plot$category <- as.factor(plot$category)
 options(scipen = 999)
 
-#guatemala.shape_orig <- st_read("data/GTM_adm0.shp", stringsAsFactors = FALSE)
-#Guatemala <-st_transform(guatemala.shape_orig,"+proj=longlat +ellps=WGS84 +datum=WGS84")
+guatemala.shape_orig <- st_read("data/GTM_adm0.shp", stringsAsFactors = FALSE)
+Guatemala <-st_transform(guatemala.shape_orig,"+proj=longlat +ellps=WGS84 +datum=WGS84")
+
+guatemala.shape_orig2 <- st_read("data/GTM_adm1.shp", stringsAsFactors = FALSE)
+Guatemala_department <-st_transform(guatemala.shape_orig2,"+proj=longlat +ellps=WGS84 +datum=WGS84")
 
 demographic_map <- readRDS("./data/demographic_map.rds")
 demographic_map <- as.data.frame(demographic_map)
 demographic_map <- st_as_sf(demographic_map)
 demographic_map <- st_transform(demographic_map,"+proj=longlat +ellps=WGS84 +datum=WGS84")
+
+
 # ------------------------------- #
 # ------------------------------- #
 # ------------SECTION:----------- #
 # ----------Dashboard UI--------- #
-# ----Header, Siderbar, & Body--- #
 # ------------------------------- #
 # ------------------------------- #
 # ------------------------------- #
-#introjsUI(includeOnly = TRUE, cdn = TRUE)
+# ------------------------------- #
+
 
 ui <- shinyUI(
         bootstrapPage(
@@ -113,7 +118,7 @@ ui <- shinyUI(
                         fluidRow(column(6, offset = 1, style='padding:0px;padding-bottom:0px;',
                                 h3("Nonprofit Explorer v1.4"))),
                         
-                        fluidRow(column( 6, offset = 1, style='padding:0px; top:0px;margin-top:-1em',h4("(",textOutput("num_matching", inline = TRUE),"selected)",
+                        fluidRow(column( 8, offset = 1, style='padding:0px; top:0px;margin-top:-1.5em',h3("(",textOutput("num_matching", inline = TRUE),"selected)",
                                      ))),
                         
                         
@@ -123,6 +128,9 @@ ui <- shinyUI(
                                 style="color: #555555;border-color: #bcbcbc; background: #fff",
                                 width = "100%"))),
                         
+                        ######################################Partner Filter 
+                        fluidRow(column(8, offset =1 , style= 'padding:2px;',
+                                        prettyCheckbox("parnters", "Partners Only", TRUE))),
                         
                         
                         ##################check boxes for nonprofit categories
@@ -148,8 +156,7 @@ ui <- shinyUI(
                         
                         fluidRow(
                                 column(4, offset = 1, style='padding:2px; color: #555555;',prettyCheckbox("na_select", "Include NAs", TRUE),
-                                       prettyCheckbox("faith", "Faith Based Only", FALSE),
-                                       prettyCheckbox("parnters", "Partners Only", FALSE))
+                                       prettyCheckbox("faith", "Faith Based Only", FALSE))
                         ),
         
                         #######################################graph controls
@@ -184,12 +191,12 @@ ui <- shinyUI(
                                         "demographics",
                                         label = "Change Demography by Department",
                                         choices = unique(demographic_map$measure),
-                                        selected = "same",
+                                        selected = "extreme_poverty",
                                         multiple = FALSE))
                                  ),       
                         
                         ####################################### Histogram of Budget
-                        fluidRow(column(10, offset = 1, style='padding:0px;',plotOutput("histBudget", height = 200))))))
+                        fluidRow(column(10, offset = 1, style='padding:0px;',plotOutput("histBudget", height = 175))))))
 
 
 # ------------------------------- #
@@ -238,7 +245,7 @@ server <- shinyServer(function(input, output, session) {
         )
         )
 
-
+        #######################################Data for Circle markers 
         data <- reactive({
                 
                 if (input$search == "") {
@@ -277,39 +284,36 @@ server <- shinyServer(function(input, output, session) {
                         filter(plot, npo %in% input$search)
                 }
         })
+
+        #######################################Data for Departments 
+        
+         demographic <- reactive({
+                 demographic_map %>% dplyr::filter(measure == input$demographics)     
+         })        
         
         
+         pal2 <- reactive({
+                 colorNumeric(
+                         palette = "viridis",
+                         domain = demographic()$value )
+                 })
+                 
+    
         
-        #  setView(lng = -89.506882,lat = 15.883471,zoom = 8) %>% "Only Faith Based", "Only Partners"
-        #create empty map
-        
-        
-        
-        #set up the department map
-        
-                
-        #map_departments <- demographic_map %>% dplyr::filter(measure == input$demographics)
-        
-        
-        #pal <- colorNumeric(
-         #       palette = "viridis", n = 10,
-          #      domain = map_departments$value)
-        
-        
-        
-        output$map <- renderLeaflet({leaflet(plot) %>%
-                        fitBounds( -90.74078, 13.52793, -88.0067, 17.78793) %>%
+        output$map <- renderLeaflet({
+                leaflet(data = demographic()) %>%
                         addTiles() %>%
+                        fitBounds( -90.74078, 13.52793, -88.0067, 17.78793) %>%
                         addPolygons(
-                                data = demographic_map,
                                 stroke = .1,
                                 smoothFactor = 2,
-                                fill = T,
-                                fillOpacity = .05,
-                                color = "black")
+                                fillColor = ~ pal2(demographic()$value),
+                                fillOpacity = .2,
+                                color = "black") 
                         })
         
-        #Histogram settings
+        
+        #######################################Histogram settings
         his <- plot[!is.na(plot$budget), ]
         BudgetBreaks <-hist(plot = FALSE, his$budget, breaks = 5)$breaks
         output$histBudget <- renderPlot({
@@ -328,7 +332,7 @@ server <- shinyServer(function(input, output, session) {
                     )
                  })
         
-        #next we use the observe function to update map when the check box is checked 
+        #######################################Observer Function for Circle Markers 
         observe({if (nrow(data()) != 0) {
                         colorBy <- input$colorvar
                         sizeBy <- input$sizevar
