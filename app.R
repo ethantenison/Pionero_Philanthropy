@@ -186,7 +186,7 @@ ui <- shinyUI(
                                                 placeholder = 'Select a nonprofit by name',
                                                 onInitialize = I('function() { this.setValue(""); }'))))),
                         
-                        #######################################Search bar
+                        #######################################Demographic filter
                         fluidRow(column( 10,offset = 1, style='padding:2px;',selectInput(
                                         "demographics",
                                         label = "Change Demography by Department",
@@ -292,11 +292,9 @@ server <- shinyServer(function(input, output, session) {
          })        
         
         
-         pal2 <- reactive({
-                 colorNumeric(
+         pal2 <- colorNumeric(
                          palette = "viridis",
-                         domain = demographic()$value )
-                 })
+                         domain = demographic()$value)
                  
     
         
