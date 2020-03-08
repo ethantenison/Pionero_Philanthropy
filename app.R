@@ -191,7 +191,7 @@ ui <- shinyUI(
                                         "demographics",
                                         label = "Change Demography by Department",
                                         choices = unique(demographic_map$measure),
-                                        selected = "extreme_poverty",
+                                        selected = "same",
                                         multiple = FALSE))
                                  ),       
                         
@@ -292,10 +292,10 @@ server <- shinyServer(function(input, output, session) {
          })        
         
         
-         pal2 <- colorNumeric(
+         pal2 <- reactive({ colorNumeric(
                          palette = "viridis",
                          domain = demographic()$value)
-                 
+         }) 
     
         
         output$map <- renderLeaflet({
@@ -305,7 +305,7 @@ server <- shinyServer(function(input, output, session) {
                         addPolygons(
                                 stroke = .1,
                                 smoothFactor = 2,
-                                fillColor = ~ pal2(demographic()$value),
+                                fillColor = ~ pal2()(demographic()$value),
                                 fillOpacity = .2,
                                 color = "black") 
                         })
@@ -368,6 +368,12 @@ server <- shinyServer(function(input, output, session) {
                                 )
                 }
                 else{leafletProxy("map") %>% clearMarkers()} #clear the map if the data() is empty
+            
+            
+            
+            
+            
+            
         })
         
         output$num_matching <-renderText({format(nrow(data()), big.mark = ",")})
