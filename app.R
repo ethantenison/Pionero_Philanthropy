@@ -105,10 +105,10 @@ ui <- shinyUI(
                         class = "panel panel-default",
                         fixed = TRUE,
                         draggable = FALSE,
-                        top = "5%",
+                        top = "1%",
                         left = "auto",
                         right = "2.5%",
-                        bottom = "5%",
+                        bottom = "1%",
                         
                         width = 300,
                         height = "auto",
