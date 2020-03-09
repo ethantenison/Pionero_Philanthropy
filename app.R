@@ -298,29 +298,29 @@ server <- shinyServer(function(input, output, session) {
          }) 
     
         
-        output$map <- renderLeaflet({
-                leaflet(data = demographic()) %>%
-                        addTiles() %>%
-                        fitBounds( -90.74078, 13.52793, -88.0067, 17.78793) %>%
-                        addPolygons(
-                                stroke = TRUE,
-                                smoothFactor = 1,
-                                fillColor = ~ pal2()(demographic()$value),
-                                fillOpacity = .4,
-                                weight = 3, 
-                                color = "black",
-                                highlight = highlightOptions(
-                                    weight = 5,
-                                    fillOpacity = 0.7,
-                                    bringToFront = FALSE),
-                                popup =  ~ paste0(
-                                    "<h4/><b>",department,"</b><h5/>","Measure: ",sep = " ",input$demographics,
-                                    "<h5/>","Value: ",sep = " ",demographic()$value)) %>%
-              
-                        addLegend(pal = pal2(), values = ~demographic()$value, opacity = 0.7, title = 
-                                  ~ paste0(input$demographics),
-                                  position = "topleft")
-                        })
+         output$map <- renderLeaflet({
+                 leaflet(data = demographic()) %>%
+                         addTiles() %>%
+                         fitBounds( -90.74078, 13.52793, -88.0067, 17.78793) #%>%
+                        #  addPolygons(
+                        #          stroke = TRUE,
+                        #          smoothFactor = 1,
+                        #          fillColor = ~ pal2()(demographic()$value),
+                        #          fillOpacity = .4,
+                        #          weight = 3, 
+                        #          color = "black",
+                        #          highlight = highlightOptions(
+                        #              weight = 5,
+                        #             fillOpacity = 0.7,
+                        #              bringToFront = FALSE),
+                        #          popup =  ~ paste0(
+                        #              "<h4/><b>",department,"</b><h5/>","Measure: ",sep = " ",input$demographics,
+                        #              "<h5/>","Value: ",sep = " ",demographic()$value)) %>%
+                        # 
+                        # addLegend(pal = pal2(), values = ~demographic()$value, opacity = 0.7, title = 
+                        #            ~ paste0(input$demographics),
+                        #            position = "topleft")
+                         })
         
         
         #######################################Histogram settings
@@ -360,9 +360,23 @@ server <- shinyServer(function(input, output, session) {
                         size <-sqrt(x / quantile(x, 0.95, na.rm = TRUE) * 100)
                         
                         
-                        leafletProxy("map", data = data()) %>%
+                        leafletProxy("map") %>%
+                                addPolygons(    data = demographic(),
+                                                stroke = TRUE,
+                                                smoothFactor = 1,
+                                                fillColor = ~ pal2()(demographic()$value),
+                                                fillOpacity = .4,
+                                                weight = 3, 
+                                                color = "black",
+                                                highlight = highlightOptions(
+                                                    weight = 5,
+                                                    fillOpacity = 0.7,
+                                                    bringToFront = FALSE),
+                                                popup =  ~ paste0(
+                                                    "<h4/><b>",department,"</b><h5/>","Measure: ",sep = " ",input$demographics,
+                                                    "<h5/>","Value: ",sep = " ",demographic()$value)) %>%
                                 clearMarkers() %>% #you have to clear previously drawn markers
-                                addCircleMarkers(lng =  ~ longitude,lat =  ~ latitude,stroke = FALSE,popup =  ~ paste0(
+                                addCircleMarkers(data = data(), lng =  ~ longitude,lat =  ~ latitude,stroke = FALSE,popup =  ~ paste0(
                                                 "<h4/><b>",npo,"</b><h5/>","Parnter Status: ",sep = " ",partner_status,
                                                 "<h5/>","Nonprofit Size: ",sep = " ",size,
                                                 "<h5/>","Year Founded: ",sep = " ",year_founded,
@@ -376,7 +390,7 @@ server <- shinyServer(function(input, output, session) {
                                                 color = "black",
                                                 fillColor =  ~ pal(colorData)
                                 ) %>%
-                                clearControls() %>% addLegend("bottomleft",pal = pal, values = colorData, title = varname
+                                clearControls() %>% addLegend(data = data(), "bottomleft",pal = pal, values = colorData, title = varname
                                 )
                 }
                 else{leafletProxy("map") %>% clearMarkers()} #clear the map if the data() is empty
