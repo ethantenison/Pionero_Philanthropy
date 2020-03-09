@@ -302,20 +302,7 @@ server <- shinyServer(function(input, output, session) {
                  leaflet(data = demographic()) %>%
                          addTiles() %>%
                          fitBounds( -90.74078, 13.52793, -88.0067, 17.78793) #%>%
-                        #  addPolygons(
-                        #          stroke = TRUE,
-                        #          smoothFactor = 1,
-                        #          fillColor = ~ pal2()(demographic()$value),
-                        #          fillOpacity = .4,
-                        #          weight = 3, 
-                        #          color = "black",
-                        #          highlight = highlightOptions(
-                        #              weight = 5,
-                        #             fillOpacity = 0.7,
-                        #              bringToFront = FALSE),
-                        #          popup =  ~ paste0(
-                        #              "<h4/><b>",department,"</b><h5/>","Measure: ",sep = " ",input$demographics,
-                        #              "<h5/>","Value: ",sep = " ",demographic()$value)) %>%
+                       
                         # 
                         # addLegend(pal = pal2(), values = ~demographic()$value, opacity = 0.7, title = 
                         #            ~ paste0(input$demographics),
