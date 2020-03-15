@@ -108,9 +108,9 @@ ui <- shinyUI(
                         top = "1%",
                         left = "auto",
                         right = "2.5%",
-                        bottom = "1%",
+                        bottom = "25%",
                         
-                        width = 300,
+                        width = 275,
                         height = "auto",
                         
                         
@@ -128,12 +128,11 @@ ui <- shinyUI(
                                 style="color: #555555;border-color: #bcbcbc; background: #fff",
                                 width = "100%"))),
                         
-                        ######################################Partner Filter 
-                        fluidRow(column(8, offset =1 , style= 'padding:2px;',
-                                        prettyCheckbox("parnters", "Partners Only", TRUE))),
-                        
+                    
                         
                         ##################check boxes for nonprofit categories
+                        h5("Filter Categories", a(id = "togglecategories", "show/hide")),
+                        shinyjs::hidden(div(id = "filtercategories",
                         fluidRow(
                                 column(6,offset = 1, style='padding:2px;color: #555555;',prettyCheckboxGroup("category", label= h4("Category Filters"),inline=TRUE,
                                                             c("Health","Education", "Community Development","Youth & Children", "Women & Girls",
@@ -148,16 +147,18 @@ ui <- shinyUI(
                                                                        "Animal Welfare",
                                                                        "Crime")))
                                                            
-                        ),
+                        ))),
                         
                         
                         #######################################Other Options
-                        fluidRow(column(6, offset = 1, style='padding:2px;', h4("Other Filters"))),
-                        
-                        fluidRow(
-                                column(4, offset = 1, style='padding:2px; color: #555555;',prettyCheckbox("na_select", "Include NAs", TRUE),
-                                       prettyCheckbox("faith", "Faith Based Only", FALSE))
-                        ),
+                        h5("Other Filters", a(id = "toggleother", "show/hide")),
+                        shinyjs::hidden(div(id = "filterother",
+                                fluidRow(column(6, offset = 1, style='padding:2px;', h4("Other Filters"))),
+                                
+                                fluidRow(
+                                        column(4, offset = 1, style='padding:2px; color: #555555;',prettyCheckbox("na_select", "Include NAs", TRUE),
+                                               prettyCheckbox("faith", "Faith Based Only", FALSE), prettyCheckbox("parnters", "Partners Only", TRUE))
+                        ))),
         
                         #######################################graph controls
                         tags$hr(),
@@ -196,7 +197,7 @@ ui <- shinyUI(
                                  ),       
                         
                         ####################################### Histogram of Budget
-                        fluidRow(column(10, offset = 1, style='padding:0px;',plotOutput("histBudget", height = 175))))))
+                        fluidRow(column(10, offset = 1, style='padding:0px;',plotOutput("histBudget", height = 200))))))
 
 
 # ------------------------------- #
@@ -390,6 +391,14 @@ server <- shinyServer(function(input, output, session) {
         })
         
         output$num_matching <-renderText({format(nrow(data()), big.mark = ",")})
+        
+        
+        #below is what is needed for the "unfolding" UI
+        shinyjs::onclick("togglecategories",
+                         shinyjs::toggle(id = "filtercategories", anim = TRUE))
+        
+        shinyjs::onclick("toggleother",
+                         shinyjs::toggle(id = "filterother", anim = TRUE))
         
         
 })
