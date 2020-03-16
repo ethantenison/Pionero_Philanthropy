@@ -134,21 +134,41 @@ ui <- shinyUI(
                         h5("Filter Categories", a(id = "togglecategories", "show/hide")),
                         shinyjs::hidden(div(id = "filtercategories",
                         fluidRow(
-                                column(6,offset = 1, style='padding:2px;color: #555555;',prettyCheckboxGroup("category", label= h4("Category Filters"),inline=TRUE,
-                                                            c("Health","Education", "Community Development","Youth & Children", "Women & Girls",
-                                                              "Human Rights" ,"Environment & Conservation","Animal Welfare","Crime"),
-                                                            selected=c("Health",
-                                                                       "Education",
-                                                                       "Community Development",
-                                                                       "Youth & Children",
-                                                                       "Women & Girls",
-                                                                       "Human Rights" ,
-                                                                       "Environment & Conservation",
-                                                                       "Animal Welfare",
-                                                                       "Crime")))
+                                column(6,offset = 1, style='padding:2px;color: #555555;',
+                                       prettyCheckboxGroup("category", label= h4("Category Filters"),inline=FALSE,
+                                                        c("Health","Education", "Community Development","Youth & Children", "Women & Girls",
+                                                          "Human Rights" ,"Environment & Conservation","Animal Welfare","Crime"),
+                                                        selected=c("Health",
+                                                                   "Education",
+                                                                   "Community Development",
+                                                                   "Youth & Children",
+                                                                   "Women & Girls",
+                                                                   "Human Rights" ,
+                                                                   "Environment & Conservation",
+                                                                   "Animal Welfare",
+                                                                   "Crime")))
                                                            
                         ))),
                         
+                        #######################################Department Options
+                        h5("Filter Departments", a(id = "toggledepartment", "show/hide")),
+                        shinyjs::hidden(div(id = "filterdepartment",
+                        fluidRow(
+                            column(6,offset = 1, style='padding:2px;color: #555555;',
+                                   prettyCheckboxGroup("depart_filters", label= h4("Department Filters"),inline=FALSE,
+                                                     c("Guatemala", "Quetzaltenango", "Huehuetenango", "Retalhuleu",    
+                                                       "Petén", "Quiché", "Chimaltenango",  "Sacatepéquez",  
+                                                       "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
+                                                       "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
+                                                       "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos"),
+                                                     selected=c("Guatemala", "Quetzaltenango", "Huehuetenango", "Retalhuleu",    
+                                                                "Petén", "Quiché", "Chimaltenango",  "Sacatepéquez",  
+                                                                "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
+                                                                "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
+                                                                "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos")))
+                                            
+                                            
+                        ))),
                         
                         #######################################Other Options
                         h5("Other Filters", a(id = "toggleother", "show/hide")),
@@ -156,7 +176,7 @@ ui <- shinyUI(
                                 fluidRow(column(6, offset = 1, style='padding:2px;', h4("Other Filters"))),
                                 
                                 fluidRow(
-                                        column(4, offset = 1, style='padding:2px; color: #555555;',prettyCheckbox("na_select", "Include NAs", TRUE),
+                                        column(4, offset = 1, style='padding:2px; color: #555555;',#prettyCheckbox("na_select", "Include NAs", TRUE),
                                                prettyCheckbox("faith", "Faith Based Only", FALSE), prettyCheckbox("parnters", "Partners Only", TRUE))
                         ))),
         
@@ -253,17 +273,17 @@ server <- shinyServer(function(input, output, session) {
                         plot %>% 
                                 filter(category %in% input$category) %>% filter(.,
                                  
-                                        if(input$na_select) { 
-                                                is.na(budget) | budget
-                                        } else { 
-                                                 !is.na(budget)
-                                        },
-                                        
-                                        if(input$na_select) { 
-                                                is.na(year_founded) | year_founded
-                                        } else { 
-                                                !is.na(year_founded)
-                                        },
+                                        # if(input$na_select) { 
+                                        #         is.na(budget) | budget
+                                        # } else { 
+                                        #          !is.na(budget)
+                                        # },
+                                        # 
+                                        # if(input$na_select) { 
+                                        #         is.na(year_founded) | year_founded
+                                        # } else { 
+                                        #         !is.na(year_founded)
+                                        # },
                                         
                                         if(input$faith) {
                                                 faith_based == "Faith Based"
@@ -278,7 +298,7 @@ server <- shinyServer(function(input, output, session) {
                                                                partner_status == "Discontinued Partnership" | partner_status == "Not Eligible" |
                                                                is.na(partner_status)
                                         }
-                                )
+                                ) %>% filter(department %in% input$depart_filters)
                                 
                 }
                 else {
@@ -348,7 +368,7 @@ server <- shinyServer(function(input, output, session) {
                         size <-sqrt(x / quantile(x, 0.95, na.rm = TRUE) * 100)
                         
                         
-                        leafletProxy("map") %>%
+                        leafletProxy("map") %>% 
                                 addPolygons(    data = demographic(),
                                                 stroke = TRUE,
                                                 smoothFactor = 1,
@@ -400,7 +420,10 @@ server <- shinyServer(function(input, output, session) {
         shinyjs::onclick("toggleother",
                          shinyjs::toggle(id = "filterother", anim = TRUE))
         
+        shinyjs::onclick("toggledepartment",
+                         shinyjs::toggle(id = "filterdepartment", anim = TRUE))
         
+            
 })
 # ------------------------------- #
 # ------------------------------- #

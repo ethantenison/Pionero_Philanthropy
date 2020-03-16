@@ -167,7 +167,7 @@ data <- rename(data, category = value)
 
 ```
 
-```{r yearcolor}
+```{r year}
 
         data$year_founded <- as.numeric(data$year_founded)
         
@@ -176,12 +176,8 @@ data <- rename(data, category = value)
 ```
 
 
-```{r partner_status_color}
+```{r partner_status}
 
-#color for partner status 
-                
-
-        
         data$partner_status <- as.character(data$partner_status)
 
         data$partner_status[data$partner_status == "P" ] <- "Partnered"
@@ -224,6 +220,22 @@ data <- rename(data, category = value)
         data <- filter(data, !is.na(category))
         
         
+
+```
+
+```{r fixing_department_names}
+
+data$department <- as.character(data$department)
+
+data$department[data$department == "Péten" ] <- "Petén"
+data$department[data$department == "Peten" ] <- "Petén"
+data$department[data$department == "Solola" ] <- "Sololá"
+data$department[data$department == "Suchitepequez" ] <- "Suchitepéquez"
+data$department[data$department == "Sacatepequez" ] <- "Sacatepéquez"
+data$department[data$department == "Quiche" ] <- "Quiché"
+data$department[data$department == "Quezaltenango" ] <- "Quetzaltenango"
+data$department[data$department == "Totonicapan" ] <- "Totonicapán"
+
 
 ```
 
