@@ -105,10 +105,10 @@ ui <- shinyUI(
                         class = "panel panel-default",
                         fixed = TRUE,
                         draggable = FALSE,
-                        top = "1%",
+                        top = "2.5%",
                         left = "auto",
                         right = "2.5%",
-                        bottom = "25%",
+                        bottom = "20%",
                         
                         width = 275,
                         height = "auto",
@@ -212,7 +212,7 @@ ui <- shinyUI(
                                         "demographics",
                                         label = "Change Demography by Department",
                                         choices = unique(demographic_map$measure),
-                                        selected = "same",
+                                        selected = "poverty",
                                         multiple = FALSE))
                                  ),       
                         
@@ -322,12 +322,7 @@ server <- shinyServer(function(input, output, session) {
          output$map <- renderLeaflet({
                  leaflet(data = demographic()) %>%
                          addTiles() %>%
-                         fitBounds( -90.74078, 13.52793, -88.0067, 17.78793) #%>%
-                       
-                        # 
-                        # addLegend(pal = pal2(), values = ~demographic()$value, opacity = 0.7, title = 
-                        #            ~ paste0(input$demographics),
-                        #            position = "topleft")
+                         fitBounds( -90.74078, 13.52793, -88.0067, 17.78793) 
                          })
         
         
@@ -398,8 +393,10 @@ server <- shinyServer(function(input, output, session) {
                                                 color = "black",
                                                 fillColor =  ~ pal(colorData)
                                 ) %>%
-                                clearControls() %>% addLegend(data = data(), "bottomleft",pal = pal, values = colorData, title = varname
-                                )
+                                clearControls() %>% 
+                                addLegend(data = data(), "bottomleft",pal = pal, values = colorData, title = varname) %>%
+                                addLegend(data = demographic(), "bottomleft", pal = pal2(), values = ~demographic()$value,
+                                          opacity = 0.7, title = ~ paste0(input$demographics))
                 }
                 else{leafletProxy("map") %>% clearMarkers()} #clear the map if the data() is empty
             
