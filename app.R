@@ -115,11 +115,11 @@ ui <- shinyUI(
                         
                         
                         ######################################Sidebar header and nummatching
-                        fluidRow(column(6, offset = 1, style='padding:0px;padding-bottom:0px;',
-                                h3("Nonprofit Explorer v1.4"))),
-                        
-                        fluidRow(column( 8, offset = 1, style='padding:0px; top:0px;margin-top:-1.5em',h3("(",textOutput("num_matching", inline = TRUE),"selected)",
-                                     ))),
+                         fluidRow(column(6, offset = 1, style='padding:0px;padding-bottom:0px;',
+                                 h3("Nonprofit Explorer v1.4"))),
+                         
+                         fluidRow(column( 8, offset = 1, style='padding:0px; top:0px;margin-top:-1.5em',h3("(",textOutput("num_matching", inline = TRUE),"selected)")
+                                      )),
                         
                         
                         ######################################Tutorial Button 
