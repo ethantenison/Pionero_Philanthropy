@@ -494,7 +494,7 @@ server <- shinyServer(function(input, output, session) {
                                 clearControls() %>% 
                                 addLegend(data = data(), "bottomleft",pal = pal, values = colorData, title = varname) %>%
                                 addLegend(data = demographic(), "bottomleft", pal = pal2(), values = ~demographic()$value,
-                                          opacity = 0.7, title = ~ paste0("<h3/><b>", unique(measure),"</b><h5/>",unique(units)))
+                                          opacity = 0.7, title = ~ paste0(unique(units)))
                 }
                 else{leafletProxy("map") %>% clearMarkers()} #clear the map if the data() is empty
             
