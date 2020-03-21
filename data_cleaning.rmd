@@ -242,6 +242,7 @@ data$department[data$department == "Totonicapan" ] <- "Totonicapán"
 
 ```{r demographics}
 
+
 demo <- read_sheet(ss= "https://docs.google.com/spreadsheets/d/1KKSd_gHdtlYTdN0jnOtI86eCnRHQwoiBa6cMH9LnTA4/edit#gid=0", 
                    sheet = "Sheet1", col_names = TRUE)
 
@@ -258,9 +259,11 @@ demographic_map <- left_join(demographics, guatemala_departments, by = c("depart
 
 demographic_map <- dplyr::select(demographic_map, -c(X))
 demographic_map$population <- as.numeric(demographic_map$population)
+demographic_map$forest_fires <- as.numeric(demographic_map$forest_fires)
 
 
 columns <- colnames(demographic_map[2:33])
+
 demographic_map <-pivot_longer(demographic_map, cols = columns, names_to = "measure")
 demographic_map <- dplyr::select(demographic_map, department, measure, value, geometry)
 
