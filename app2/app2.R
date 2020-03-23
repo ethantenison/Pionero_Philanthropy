@@ -200,7 +200,6 @@ ui <- shinyUI(
         
         absolutePanel(
             id = "topbar",
-            class = "panel panel-default",
             fixed = TRUE,
             draggable = FALSE,
             top = "0%",
@@ -211,10 +210,10 @@ ui <- shinyUI(
             fluidRow(column(2, offset = 1, style='padding:0px;padding-bottom:0px;',
                             h3("Nonprofit Explorer v2.1")),
                      
-                     column(2, style='padding:0px;padding-bottom:0px;',
+                     column(2,
                              h3("(",textOutput("num_matching", inline = TRUE),"selected)")),
                      
-                     column(2, style='padding:0px;padding-bottom:0px;',
+                     column(2, 
                         selectizeInput(
                          "search",
                          label = NULL,
@@ -225,7 +224,7 @@ ui <- shinyUI(
                              placeholder = 'Select a nonprofit by name',
                              onInitialize = I('function() { this.setValue(""); }')))),
                      
-                     column(2, offset = 1, style= 'padding:0px;padding-bottom:0px;',actionButton(
+                     column(2, offset = 1, actionButton(
                          "help", "Tutorial", icon = icon("book-open", class = "fa-pull-left"),
                          style="color: #555555;border-color: #bcbcbc; background: #fff", width = '100%'))
                      
