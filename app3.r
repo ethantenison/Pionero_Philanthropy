@@ -196,140 +196,129 @@ ui <- shinyUI(
                 tags$style(".pretty.p-default input:checked~.state label:after {background-color: #A7E0AC !important;}"), #change color widgets 
                 
                 
-                leafletOutput("map", width = "100%", height = "100%"),
-                
-                # fluidRow(
-                #         column(3,
-                #         ),
-                #         
-                #         column(4,
-                #         ),
-                #         
-                #         column(3,
-                # )
-        
+                leafletOutput("map", width = "100%", height = "80%"),
                 
                 absolutePanel(
-                        id = "controls",
-                        class = "panel panel-default",
+                        id = "topbar",
                         fixed = TRUE,
                         draggable = FALSE,
-                        top = "2.5%",
-                        left = "auto",
-                        right = "2.5%",
-                        bottom = "20%",
-                        
-                        width = 275,
-                        height = "auto",
+                        top = "0%",
+                        left = "0%",
+                        right = "0%",
+                        bottom = "92.5%",
                         
                         
-                        ######################################Sidebar header and nummatching
-                        fluidRow(column(6, offset = 1, style='padding:0px;padding-bottom:0px;',
-                                        h3("Nonprofit Explorer v1.4"))),
-                        
-                        fluidRow(column( 8, offset = 1, style='padding:0px; top:0px;margin-top:-1.5em',h3("(",textOutput("num_matching", inline = TRUE),"selected)")
-                        )),
-                        
-                        
-                        ######################################Tutorial Button 
-                        fluidRow(column(8, offset =1 , style= 'padding:2px;',actionButton(
-                                "help", "Tutorial", icon = icon("book-open", class = "fa-pull-left"),
-                                style="color: #555555;border-color: #bcbcbc; background: #fff",
-                                width = "100%"))),
+                        fluidRow(
+                                column(5, offset = 1, 
+                                h1("Nonprofit Explorer v2.1"),
+                                h3("(",textOutput("num_matching", inline = TRUE),"selected)"))
+                        )
                         
                         
-                        
-                        ##################check boxes for nonprofit categories
-                                            fluidRow(
-                                                    column(6,offset = 1, style='padding:2px;color: #555555;',
-                                                           pickerInput("category", label= h4("Category Filters"),inline=FALSE,multiple = TRUE, 
-                                                                       options = list(
-                                                                               `actions-box` = TRUE, 
-                                                                               size = 10,
-                                                                               `selected-text-format` = "count > 3"
-                                                                       ),
-                                                                               c("Health","Education", "Community Development","Youth & Children", "Women & Girls",
-                                                                                 "Human Rights" ,"Environment & Conservation","Animal Welfare","Crime"),
-                                                                               selected=c("Health",
-                                                                                          "Education",
-                                                                                          "Community Development",
-                                                                                          "Youth & Children",
-                                                                                          "Women & Girls",
-                                                                                          "Human Rights" ,
-                                                                                          "Environment & Conservation",
-                                                                                          "Animal Welfare",
-                                                                                          "Crime")),
-                                                           
-                                                           pickerInput("depart_filters", label= h4("Department Filters"),inline=FALSE,
-                                                                       ,multiple = TRUE, 
-                                                                       options = list(
-                                                                               `actions-box` = TRUE, 
-                                                                               size = 10,
-                                                                               `selected-text-format` = "count > 3"
-                                                                       ),choices =
-                                                                       c("Guatemala", "Quetzaltenango", "Huehuetenango", "Retalhuleu",    
-                                                                         "Petén", "Quiché", "Chimaltenango",  "Sacatepéquez",  
-                                                                         "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
-                                                                         "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
-                                                                         "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos"),
-                                                                       selected=c("Guatemala", "Quetzaltenango", "Huehuetenango", "Retalhuleu",    
-                                                                                  "Petén", "Quiché", "Chimaltenango",  "Sacatepéquez",  
-                                                                                  "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
-                                                                                  "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
-                                                                                  "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos"))
-                                                           
-                                                           )
-                                                    
+                        ),
+                
+                fluidRow(
+                         column(3, 
+                                pickerInput("category", label= "Category Filters",inline=FALSE,multiple = TRUE, 
+                                            options = list(
+                                                    `actions-box` = TRUE, 
+                                                    size = 10,
+                                                    `selected-text-format` = "count > 3"
                                             ),
-                        
-                        #######################################Other Options
-                        h5("Other Filters", a(id = "toggleother", "show/hide")),
-                        shinyjs::hidden(div(id = "filterother",
-                                            fluidRow(column(6, offset = 1, style='padding:2px;', h4("Other Filters"))),
-                                            
-                                            fluidRow(
-                                                    column(4, offset = 1, style='padding:2px; color: #555555;',#prettyCheckbox("na_select", "Include NAs", TRUE),
-                                                           prettyCheckbox("faith", "Faith Based Only", FALSE), prettyCheckbox("parnters", "Partners Only", TRUE))
-                                            ))),
-                        
-                        #######################################graph controls
-                        tags$hr(),
-                        fluidRow(column(5, offset = 1,style='padding:2px;',selectInput("sizevar","Size Variable:",
-                                                                                       choices = c(
-                                                                                               "Annual Budget" = "budget_adj",
-                                                                                               "Same Size" = "constant",
-                                                                                               "Years Active" = "npo_age"),
-                                                                                       selected = "constant")),
+                                            c("Health","Education", "Community Development","Youth & Children", "Women & Girls",
+                                              "Human Rights" ,"Environment & Conservation","Animal Welfare","Crime"),
+                                            selected=c("Health",
+                                                       "Education",
+                                                       "Community Development",
+                                                       "Youth & Children",
+                                                       "Women & Girls",
+                                                       "Human Rights" ,
+                                                       "Environment & Conservation",
+                                                       "Animal Welfare",
+                                                       "Crime")),
+                                
+                                pickerInput("depart_filters", label= "Department Filters",inline=FALSE,
+                                            multiple = TRUE, 
+                                            options = list(
+                                                    `actions-box` = TRUE, 
+                                                    size = 10,
+                                                    `selected-text-format` = "count > 3"
+                                            ),choices =
+                                                    c("Guatemala", "Quetzaltenango", "Huehuetenango", "Retalhuleu",    
+                                                      "Petén", "Quiché", "Chimaltenango",  "Sacatepéquez",  
+                                                      "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
+                                                      "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
+                                                      "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos"),
+                                            selected=c("Guatemala", "Quetzaltenango", "Huehuetenango", "Retalhuleu",    
+                                                       "Petén", "Quiché", "Chimaltenango",  "Sacatepéquez",  
+                                                       "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
+                                                       "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
+                                                       "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos")),
+                                
+                                selectizeInput("search",
+                                               label = "Search Name: ",
+                                               choices = plot$npo,
+                                               selected = NULL,
+                                               multiple = FALSE,
+                                               options = list(
+                                                       placeholder = 'Select a nonprofit by name',
+                                                       onInitialize = I('function() { this.setValue(""); }')))
                                  
-                                 column(5, style='padding:2px;',selectInput("colorvar","Color Variable:",
-                                                                            choices = c(
-                                                                                    "Nonprofit Size" = "size",
-                                                                                    "Partner Status" = "partner_status",
-                                                                                    "Same Color" ="constant"),
-                                                                            selected = "constant"))),
-                        
-                        #######################################Search bar
-                        fluidRow(column( 10,offset = 1, style='padding:2px;',selectizeInput(
-                                "search",
-                                label = "Search Name: ",
-                                choices = plot$npo,
-                                selected = NULL,
-                                multiple = FALSE,
-                                options = list(
-                                        placeholder = 'Select a nonprofit by name',
-                                        onInitialize = I('function() { this.setValue(""); }'))))),
-                        
-                        #######################################Demographic filter
-                        fluidRow(column( 10,offset = 1, style='padding:2px;',selectInput(
-                                "demographics",
-                                label = "Change Demography by Department",
-                                choices = unique(demographic_map$measure),
-                                selected = "poverty",
-                                multiple = FALSE))
-                        ),       
-                        
-                        ####################################### Histogram of Budget
-                        fluidRow(column(10, offset = 1, style='padding:0px;',plotOutput("histBudget", height = 200))))))
+                                 ),
+                         
+                         column(3,
+                                pickerInput("sizevar",label = "Size Variable:",
+                                            inline=FALSE,multiple = FALSE,
+                                            options = list(
+                                                    `actions-box` = TRUE, 
+                                                    size = 10),
+                                            choices = c(
+                                                    "Annual Budget" = "budget_adj",
+                                                    "Same Size" = "constant",
+                                                    "Years Active" = "npo_age"),
+                                            selected = "constant"),
+                                
+                                pickerInput("colorvar",label = "Color Variable:",
+                                            inline=FALSE,multiple = FALSE,
+                                            options = list(
+                                                    `actions-box` = TRUE, 
+                                                    size = 10),
+                                            choices = c(
+                                                    "Nonprofit Size" = "size",
+                                                    "Partner Status" = "partner_status",
+                                                    "Same Color" ="constant"),
+                                            selected = "constant"),
+                                
+                                pickerInput("demographics",label = "Change Demography",
+                                            inline=FALSE,multiple = FALSE,
+                                            options = list(
+                                                    `actions-box` = TRUE, 
+                                                    size = 10),
+                                            choices = unique(demographic_map$measure),
+                                            selected = "poverty")
+                                
+                                ),
+                         
+                         column(3,
+                                "Other Filters: ",
+                                prettyCheckbox("parnters", "Partners Only", TRUE),
+                                prettyCheckbox("faith", "Faith Based Only", FALSE),
+                                actionButton("help", "Tutorial",
+                                             icon = icon("book-open", class = "fa-pull-left"),
+                                             style="color: #555555;border-color: #bcbcbc; background: #fff",
+                                             width = "100%")
+                                
+
+                                ),
+                         
+                         column(3,
+                                plotOutput("histBudget", height = 200)
+                                )
+                                
+                         )
+        
+                
+                ))
 
 
 # ------------------------------- #
@@ -506,9 +495,9 @@ server <- shinyServer(function(input, output, session) {
                                 fillColor =  ~ pal(colorData)
                         ) %>%
                         clearControls() %>% 
-                        addLegend(data = data(), "bottomleft",pal = pal, values = colorData, title = varname) %>%
-                        addLegend(data = demographic(), "bottomleft", pal = pal2(), values = ~demographic()$value,
-                                  opacity = 0.7, title = ~ paste0(unique(units)))
+                        addLegend(data = demographic(), "bottomright", pal = pal2(), values = ~demographic()$value,
+                                  opacity = 0.7, title = ~ paste0(unique(units))) %>%
+                        addLegend(data = data(), "bottomright",pal = pal, values = colorData, title = varname)
         }
                 else{leafletProxy("map") %>% clearMarkers()} #clear the map if the data() is empty
                 
