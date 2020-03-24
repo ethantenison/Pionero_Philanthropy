@@ -193,7 +193,16 @@ ui <- shinyUI(
                 tags$head(tags$script(src = "www/js/wordwrap.js")),
                 tags$head(tags$style(".checkbox-inline {margin: 0 !important;}")),
                 tags$head(tags$style(HTML('.form-group, .selectize-control {margin-bottom: 0px;}.box-body {padding-bottom: 0px;}'))), #changes marginscheckboxes
-                tags$style(".pretty.p-default input:checked~.state label:after {background-color: #A7E0AC !important;}"), #change color widgets 
+                tags$style(".pretty.p-default input:checked~.state label:after {background-color: #A7E0AC !important;}"), #change color checkbox widgets 
+                tags$head(tags$style(type = "text/css", paste0(".selectize-dropdown {
+                                                                  top: -200px !important;
+                                                                }"))),
+                tags$head(tags$style(HTML('
+                            #search+ div>.selectize-dropdown{background: #555555;
+                            color: white !important;}
+                            #search+ div>.selectize-input{background: #555555;
+                            color: white !important; }
+                            '))),
                 
                 
                 leafletOutput("map", width = "100%", height = "80%"),
@@ -218,7 +227,7 @@ ui <- shinyUI(
                         ),
                 
                 fluidRow(
-                         column(3, 
+                         column(3, style='padding-left:40px;padding-right:40px;',
                                 pickerInput("category", label= "Category Filters",inline=FALSE,multiple = TRUE, 
                                             options = list(
                                                     `actions-box` = TRUE, 
@@ -254,19 +263,18 @@ ui <- shinyUI(
                                                        "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
                                                        "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
                                                        "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos")),
-                                
                                 selectizeInput("search",
                                                label = "Search Name: ",
                                                choices = plot$npo,
                                                selected = NULL,
                                                multiple = FALSE,
                                                options = list(
-                                                       placeholder = 'Select a nonprofit by name',
+                                                       placeholder = 'Select a nonprofit',
                                                        onInitialize = I('function() { this.setValue(""); }')))
                                  
                                  ),
                          
-                         column(3,
+                         column(3,style='padding-left:40px;padding-right:40px;',
                                 pickerInput("sizevar",label = "Size Variable:",
                                             inline=FALSE,multiple = FALSE,
                                             options = list(
@@ -300,13 +308,17 @@ ui <- shinyUI(
                                 ),
                          
                          column(3,
+                                br(),
+                                actionBttn("help", label = "Tutorial",
+                                             icon = icon("book-open", class = "fa-pull-left"),
+                                             style = "gradient",
+                                             color = "primary"
+                                             ),
+                                br(),
+                                br(),
                                 "Other Filters: ",
                                 prettyCheckbox("parnters", "Partners Only", TRUE),
-                                prettyCheckbox("faith", "Faith Based Only", FALSE),
-                                actionButton("help", "Tutorial",
-                                             icon = icon("book-open", class = "fa-pull-left"),
-                                             style="color: #555555;border-color: #bcbcbc; background: #fff",
-                                             width = "100%")
+                                prettyCheckbox("faith", "Faith Based Only", FALSE)
                                 
 
                                 ),
@@ -437,7 +449,7 @@ server <- shinyServer(function(input, output, session) {
                 hist(
                         his$budget,
                         breaks = BudgetBreaks,
-                        main = "Partner Budget Distribution",
+                        main = "Partner Budget's",
                         xlab = "Annual Budget",
                         xlim = range(his$budget),
                         ylab = "Number of Nonprofits",
