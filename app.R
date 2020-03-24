@@ -13,19 +13,19 @@
 
 list.of.packages <-
         c( "shiny",
-                "devtools",
-                "shinydashboard",
-                "V8",
-                "shinyjs",
-                "RColorBrewer",
-                "tidyverse",
-                "leaflet",
-                "leaflet.extras",
-                "sf",
-                "htmltools",
-                "shinyWidgets",
-                "rintrojs"
-           )
+           "devtools",
+           "shinydashboard",
+           "V8",
+           "shinyjs",
+           "RColorBrewer",
+           "tidyverse",
+           "leaflet",
+           "leaflet.extras",
+           "sf",
+           "htmltools",
+           "shinyWidgets",
+           "rintrojs"
+        )
 
 new.packages <-list.of.packages[!(list.of.packages %in% installed.packages()[, "Package"])]
 
@@ -75,100 +75,100 @@ demographic_map <- st_transform(demographic_map,"+proj=longlat +ellps=WGS84 +dat
 demographic_map <- mutate(demographic_map, units = "")
 
 for (i in 1:length(demographic_map$units)){
-    if(demographic_map$measure[i] == "population"){        
-        demographic_map$units[i] <- "Inhabitants"               
-    }
-    else if(demographic_map$measure[i] == "poverty"){        
-        demographic_map$units[i] <- "% Below Poverty Line"              
-    }
-    else if(demographic_map$measure[i] == "extreme_poverty"){        
-        demographic_map$units[i] <- "% Below Extreme Poverty Line"              
-    }
-    else if(demographic_map$measure[i] == "gross_birth_rate"){        
-        demographic_map$units[i] <- "Births per 1,000 inhabitants"              
-    }
-    else if(demographic_map$measure[i] == "infant_mortality_rate"){        
-        demographic_map$units[i] <- "Deaths per 1,000 births"  
-    }
-    else if(demographic_map$measure[i] == "low_birth_weight"){        
-        demographic_map$units[i] <- "% births less than 2.5 kg"              
-    }
-    else if(demographic_map$measure[i] == "medically_attended_births"){        
-        demographic_map$units[i] <- "% births attended by medics"              
-    }
-    else if(demographic_map$measure[i] == "public_center_births"){        
-        demographic_map$units[i] <- "% births in medical centers"              
-    }
-    else if(demographic_map$measure[i] == "gross_death_rate"){        
-        demographic_map$units[i] <- "Deaths per 1,000 inhabitants"              
-    }
-    else if(demographic_map$measure[i] == "death_external"){        
-        demographic_map$units[i] <- "unknown units"              
-    }
-    else if(demographic_map$measure[i] == "death_diabetes"){        
-        demographic_map$units[i] <- "Deaths from diabetes per 1,000 deaths"              
-    }
-    else if(demographic_map$measure[i] == "death_diarrhea"){        
-        demographic_map$units[i] <- "# of deaths from diarrhea per 1,000 deaths"              
-    }
-    else if(demographic_map$measure[i] == "death_circulatory"){        
-        demographic_map$units[i] <- "Deaths from ciruculatory illnesses per 1,000 deaths"              
-    }
-    else if(demographic_map$measure[i] == "death_respiratory"){        
-        demographic_map$units[i] <- "Deaths from respiratory illnesses per 1,000 deaths"              
-    }
-    else if(demographic_map$measure[i] == "death_tuber"){        
-        demographic_map$units[i] <- "Tuberculosis deaths per 1,000 deaths"              
-    }
-    else if(demographic_map$measure[i] == "death_hivaids"){        
-        demographic_map$units[i] <- "HIV/AIDS deaths per 1,000 deaths"              
-    }
-    else if(demographic_map$measure[i] == "intrafamily_violence_rate" ){        
-        demographic_map$units[i] <- "% who have experienced domestic violence"              
-    }
-    else if(demographic_map$measure[i] == "homicide_rate"){        
-        demographic_map$units[i] <- "Homicides per 100,000 inhabitants"              
-    }
-    else if(demographic_map$measure[i] == "delinquent_injury_rate"){        
-        demographic_map$units[i] <- "Delinquent Injuries per 100,000 inhabitants"              
-    }
-    else if(demographic_map$measure[i] == "robbery_rate"){        
-        demographic_map$units[i] <- "Robberies per 100,000 inhabitants"              
-    }
-    else if(demographic_map$measure[i] == "rape_rate"){        
-        demographic_map$units[i] <- "Rapes per 100,000 inhabitants"              
-    }
-    else if(demographic_map$measure[i] == "crimes_against_freedom_rate"){        
-        demographic_map$units[i] <- "Unknown per 100,000 inhabitants"              
-    }
-    else if(demographic_map$measure[i] == "judicial_offense_rate"){        
-        demographic_map$units[i] <- "Judicial Offenses per 100,000 inhabitants"              
-    }
-    else if(demographic_map$measure[i] == "literacy_rate15_24"){        
-        demographic_map$units[i] <- "% Literate ages 15-24"              
-    }
-    else if(demographic_map$measure[i] == "female_paid_employees"){        
-        demographic_map$units[i] <- "% Females paid employees"              
-    }
-    else if(demographic_map$measure[i] == "employment_rate"){        
-        demographic_map$units[i] <- "% Employed"              
-    }
-    else if(demographic_map$measure[i] == "potable_water_access"){        
-        demographic_map$units[i] <- "% access to portable water"              
-    }
-    else if(demographic_map$measure[i] == "improved_sanitation_access"){        
-        demographic_map$units[i] <- "% access to improved sanitation"              
-    }
-    else if(demographic_map$measure[i] == "forest_fires"){        
-        demographic_map$units[i] <- "# of Forest Fires"              
-    }
-    else if(demographic_map$measure[i] == "home_water_access"){        
-        demographic_map$units[i] <- "% with water access at home"              
-    }
-    else if(demographic_map$measure[i] == "homes_no_santitation"){        
-        demographic_map$units[i] <- "% with no sanitation at home"              
-    }
-    
+        if(demographic_map$measure[i] == "population"){        
+                demographic_map$units[i] <- "Inhabitants"               
+        }
+        else if(demographic_map$measure[i] == "poverty"){        
+                demographic_map$units[i] <- "% Below Poverty Line"              
+        }
+        else if(demographic_map$measure[i] == "extreme_poverty"){        
+                demographic_map$units[i] <- "% Below Extreme Poverty Line"              
+        }
+        else if(demographic_map$measure[i] == "gross_birth_rate"){        
+                demographic_map$units[i] <- "Births per 1,000 inhabitants"              
+        }
+        else if(demographic_map$measure[i] == "infant_mortality_rate"){        
+                demographic_map$units[i] <- "Deaths per 1,000 births"  
+        }
+        else if(demographic_map$measure[i] == "low_birth_weight"){        
+                demographic_map$units[i] <- "% births less than 2.5 kg"              
+        }
+        else if(demographic_map$measure[i] == "medically_attended_births"){        
+                demographic_map$units[i] <- "% births attended by medics"              
+        }
+        else if(demographic_map$measure[i] == "public_center_births"){        
+                demographic_map$units[i] <- "% births in medical centers"              
+        }
+        else if(demographic_map$measure[i] == "gross_death_rate"){        
+                demographic_map$units[i] <- "Deaths per 1,000 inhabitants"              
+        }
+        else if(demographic_map$measure[i] == "death_external"){        
+                demographic_map$units[i] <- "unknown units"              
+        }
+        else if(demographic_map$measure[i] == "death_diabetes"){        
+                demographic_map$units[i] <- "Deaths from diabetes per 1,000 deaths"              
+        }
+        else if(demographic_map$measure[i] == "death_diarrhea"){        
+                demographic_map$units[i] <- "# of deaths from diarrhea per 1,000 deaths"              
+        }
+        else if(demographic_map$measure[i] == "death_circulatory"){        
+                demographic_map$units[i] <- "Deaths from ciruculatory illnesses per 1,000 deaths"              
+        }
+        else if(demographic_map$measure[i] == "death_respiratory"){        
+                demographic_map$units[i] <- "Deaths from respiratory illnesses per 1,000 deaths"              
+        }
+        else if(demographic_map$measure[i] == "death_tuber"){        
+                demographic_map$units[i] <- "Tuberculosis deaths per 1,000 deaths"              
+        }
+        else if(demographic_map$measure[i] == "death_hivaids"){        
+                demographic_map$units[i] <- "HIV/AIDS deaths per 1,000 deaths"              
+        }
+        else if(demographic_map$measure[i] == "intrafamily_violence_rate" ){        
+                demographic_map$units[i] <- "% who have experienced domestic violence"              
+        }
+        else if(demographic_map$measure[i] == "homicide_rate"){        
+                demographic_map$units[i] <- "Homicides per 100,000 inhabitants"              
+        }
+        else if(demographic_map$measure[i] == "delinquent_injury_rate"){        
+                demographic_map$units[i] <- "Delinquent Injuries per 100,000 inhabitants"              
+        }
+        else if(demographic_map$measure[i] == "robbery_rate"){        
+                demographic_map$units[i] <- "Robberies per 100,000 inhabitants"              
+        }
+        else if(demographic_map$measure[i] == "rape_rate"){        
+                demographic_map$units[i] <- "Rapes per 100,000 inhabitants"              
+        }
+        else if(demographic_map$measure[i] == "crimes_against_freedom_rate"){        
+                demographic_map$units[i] <- "Unknown per 100,000 inhabitants"              
+        }
+        else if(demographic_map$measure[i] == "judicial_offense_rate"){        
+                demographic_map$units[i] <- "Judicial Offenses per 100,000 inhabitants"              
+        }
+        else if(demographic_map$measure[i] == "literacy_rate15_24"){        
+                demographic_map$units[i] <- "% Literate ages 15-24"              
+        }
+        else if(demographic_map$measure[i] == "female_paid_employees"){        
+                demographic_map$units[i] <- "% Females paid employees"              
+        }
+        else if(demographic_map$measure[i] == "employment_rate"){        
+                demographic_map$units[i] <- "% Employed"              
+        }
+        else if(demographic_map$measure[i] == "potable_water_access"){        
+                demographic_map$units[i] <- "% access to portable water"              
+        }
+        else if(demographic_map$measure[i] == "improved_sanitation_access"){        
+                demographic_map$units[i] <- "% access to improved sanitation"              
+        }
+        else if(demographic_map$measure[i] == "forest_fires"){        
+                demographic_map$units[i] <- "# of Forest Fires"              
+        }
+        else if(demographic_map$measure[i] == "home_water_access"){        
+                demographic_map$units[i] <- "% with water access at home"              
+        }
+        else if(demographic_map$measure[i] == "homes_no_santitation"){        
+                demographic_map$units[i] <- "% with no sanitation at home"              
+        }
+        
 }
 
 # ------------------------------- #
@@ -193,129 +193,144 @@ ui <- shinyUI(
                 tags$head(tags$script(src = "www/js/wordwrap.js")),
                 tags$head(tags$style(".checkbox-inline {margin: 0 !important;}")),
                 tags$head(tags$style(HTML('.form-group, .selectize-control {margin-bottom: 0px;}.box-body {padding-bottom: 0px;}'))), #changes marginscheckboxes
-                tags$style(".pretty.p-default input:checked~.state label:after {background-color: #A7E0AC !important;}"), #change color widgets 
-               
+                tags$style(".pretty.p-default input:checked~.state label:after {background-color: #A7E0AC !important;}"), #change color checkbox widgets 
+                tags$head(tags$style(type = "text/css", paste0(".selectize-dropdown {
+                                                                  top: -200px !important;
+                                                                }"))),
+                tags$head(tags$style('
+                            #search+ div>.selectize-dropdown{background: #555555;
+                            color: white !important;}
+                            #search+ div>.selectize-input{background: #555555;
+                            color: white !important; }
+                            ')),
                 
-                leafletOutput("map", width = "100%", height = "100%"),
+                
+                leafletOutput("map", width = "100%", height = "80%"),
                 
                 absolutePanel(
-                        id = "controls",
-                        class = "panel panel-default",
+                        id = "topbar",
                         fixed = TRUE,
                         draggable = FALSE,
-                        top = "2.5%",
-                        left = "auto",
-                        right = "2.5%",
-                        bottom = "20%",
-                        
-                        width = 275,
-                        height = "auto",
+                        top = "0%",
+                        left = "0%",
+                        right = "0%",
+                        bottom = "92.5%",
                         
                         
-                        ######################################Sidebar header and nummatching
-                         fluidRow(column(6, offset = 1, style='padding:0px;padding-bottom:0px;',
-                                 h3("Nonprofit Explorer v1.4"))),
-                         
-                         fluidRow(column( 8, offset = 1, style='padding:0px; top:0px;margin-top:-1.5em',h3("(",textOutput("num_matching", inline = TRUE),"selected)")
-                                      )),
-                        
-                        
-                        ######################################Tutorial Button 
-                        fluidRow(column(8, offset =1 , style= 'padding:2px;',actionButton(
-                                "help", "Tutorial", icon = icon("book-open", class = "fa-pull-left"),
-                                style="color: #555555;border-color: #bcbcbc; background: #fff",
-                                width = "100%"))),
-                        
-                    
-                        
-                        ##################check boxes for nonprofit categories
-                        h5("Filter Categories", a(id = "togglecategories", "show/hide")),
-                        shinyjs::hidden(div(id = "filtercategories",
                         fluidRow(
-                                column(6,offset = 1, style='padding:2px;color: #555555;',
-                                       prettyCheckboxGroup("category", label= h4("Category Filters"),inline=FALSE,
-                                                        c("Health","Education", "Community Development","Youth & Children", "Women & Girls",
-                                                          "Human Rights" ,"Environment & Conservation","Animal Welfare","Crime"),
-                                                        selected=c("Health",
-                                                                   "Education",
-                                                                   "Community Development",
-                                                                   "Youth & Children",
-                                                                   "Women & Girls",
-                                                                   "Human Rights" ,
-                                                                   "Environment & Conservation",
-                                                                   "Animal Welfare",
-                                                                   "Crime")))
-                                                           
-                        ))),
+                                column(5, offset = 1, 
+                                h1(strong("Nonprofit Explorer v2.1"),
+                                h3("(",textOutput("num_matching", inline = TRUE),"selected)"))
+                        )
                         
-                        #######################################Department Options
-                        h5("Filter Departments", a(id = "toggledepartment", "show/hide")),
-                        shinyjs::hidden(div(id = "filterdepartment",
-                        fluidRow(
-                            column(6,offset = 1, style='padding:2px;color: #555555;',
-                                   prettyCheckboxGroup("depart_filters", label= h4("Department Filters"),inline=FALSE,
-                                                     c("Guatemala", "Quetzaltenango", "Huehuetenango", "Retalhuleu",    
+                        
+                        )),
+                
+                fluidRow(
+                         column(3, style='padding-left:40px;padding-right:40px;',
+                                pickerInput("category", label= "Category Filters",inline=FALSE,multiple = TRUE, 
+                                            options = list(
+                                                    `actions-box` = TRUE, 
+                                                    size = 10,
+                                                    `selected-text-format` = "count > 3"
+                                            ),
+                                            c("Health","Education", "Community Development","Youth & Children", "Women & Girls",
+                                              "Human Rights" ,"Environment & Conservation","Animal Welfare","Crime"),
+                                            selected=c("Health",
+                                                       "Education",
+                                                       "Community Development",
+                                                       "Youth & Children",
+                                                       "Women & Girls",
+                                                       "Human Rights" ,
+                                                       "Environment & Conservation",
+                                                       "Animal Welfare",
+                                                       "Crime")),
+                                
+                                pickerInput("depart_filters", label= "Department Filters",inline=FALSE,
+                                            multiple = TRUE, 
+                                            options = list(
+                                                    `actions-box` = TRUE, 
+                                                    size = 10,
+                                                    `selected-text-format` = "count > 3"
+                                            ),choices =
+                                                    c("Guatemala", "Quetzaltenango", "Huehuetenango", "Retalhuleu",    
+                                                      "Petén", "Quiché", "Chimaltenango",  "Sacatepéquez",  
+                                                      "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
+                                                      "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
+                                                      "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos"),
+                                            selected=c("Guatemala", "Quetzaltenango", "Huehuetenango", "Retalhuleu",    
                                                        "Petén", "Quiché", "Chimaltenango",  "Sacatepéquez",  
                                                        "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
                                                        "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
-                                                       "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos"),
-                                                     selected=c("Guatemala", "Quetzaltenango", "Huehuetenango", "Retalhuleu",    
-                                                                "Petén", "Quiché", "Chimaltenango",  "Sacatepéquez",  
-                                                                "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
-                                                                "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
-                                                                "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos")))
-                                            
-                                            
-                        ))),
-                        
-                        #######################################Other Options
-                        h5("Other Filters", a(id = "toggleother", "show/hide")),
-                        shinyjs::hidden(div(id = "filterother",
-                                fluidRow(column(6, offset = 1, style='padding:2px;', h4("Other Filters"))),
-                                
-                                fluidRow(
-                                        column(4, offset = 1, style='padding:2px; color: #555555;',#prettyCheckbox("na_select", "Include NAs", TRUE),
-                                               prettyCheckbox("faith", "Faith Based Only", FALSE), prettyCheckbox("parnters", "Partners Only", TRUE))
-                        ))),
-        
-                        #######################################graph controls
-                        tags$hr(),
-                        fluidRow(column(5, offset = 1,style='padding:2px;',selectInput("sizevar","Size Variable:",
-                                        choices = c(
-                                                "Annual Budget" = "budget_adj",
-                                                "Same Size" = "constant",
-                                                "Years Active" = "npo_age"),
-                                        selected = "constant")),
+                                                       "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos")),
+                                selectizeInput("search",
+                                               label = "Search Name: ",
+                                               choices = plot$npo,
+                                               selected = NULL,
+                                               multiple = FALSE,
+                                               options = list(
+                                                       placeholder = 'Select a nonprofit',
+                                                       onInitialize = I('function() { this.setValue(""); }')))
                                  
-                                column(5, style='padding:2px;',selectInput("colorvar","Color Variable:",
-                                                choices = c(
-                                                        "Nonprofit Size" = "size",
-                                                        "Partner Status" = "partner_status",
-                                                        "Same Color" ="constant"),
-                                                selected = "constant"))),
-                        
-                        #######################################Search bar
-                        fluidRow(column( 10,offset = 1, style='padding:2px;',selectizeInput(
-                                        "search",
-                                        label = "Search Name: ",
-                                        choices = plot$npo,
-                                        selected = NULL,
-                                        multiple = FALSE,
-                                        options = list(
-                                                placeholder = 'Select a nonprofit by name',
-                                                onInitialize = I('function() { this.setValue(""); }'))))),
-                        
-                        #######################################Demographic filter
-                        fluidRow(column( 10,offset = 1, style='padding:2px;',selectInput(
-                                        "demographics",
-                                        label = "Change Demography by Department",
-                                        choices = unique(demographic_map$measure),
-                                        selected = "poverty",
-                                        multiple = FALSE))
-                                 ),       
-                        
-                        ####################################### Histogram of Budget
-                        fluidRow(column(10, offset = 1, style='padding:0px;',plotOutput("histBudget", height = 200))))))
+                                 ),
+                         
+                         column(3,style='padding-left:40px;padding-right:40px;',
+                                pickerInput("sizevar",label = "Size Variable:",
+                                            inline=FALSE,multiple = FALSE,
+                                            options = list(
+                                                    `actions-box` = TRUE, 
+                                                    size = 10),
+                                            choices = c(
+                                                    "Annual Budget" = "budget_adj",
+                                                    "Same Size" = "constant",
+                                                    "Years Active" = "npo_age"),
+                                            selected = "constant"),
+                                
+                                pickerInput("colorvar",label = "Color Variable:",
+                                            inline=FALSE,multiple = FALSE,
+                                            options = list(
+                                                    `actions-box` = TRUE, 
+                                                    size = 10),
+                                            choices = c(
+                                                    "Nonprofit Size" = "size",
+                                                    "Partner Status" = "partner_status",
+                                                    "Same Color" ="constant"),
+                                            selected = "constant"),
+                                
+                                pickerInput("demographics",label = "Change Demography",
+                                            inline=FALSE,multiple = FALSE,
+                                            options = list(
+                                                    `actions-box` = TRUE, 
+                                                    size = 10),
+                                            choices = unique(demographic_map$measure),
+                                            selected = "same")
+                                
+                                ),
+                         
+                         column(3,
+                                br(),
+                                actionBttn("help", label = "Tutorial",
+                                             icon = icon("book-open", class = "fa-pull-left"),
+                                             style = "gradient",
+                                             color = "primary"
+                                             ),
+                                br(),
+                                br(),
+                                "Other Filters: ",
+                                prettyCheckbox("parnters", "Partners Only", TRUE),
+                                prettyCheckbox("faith", "Faith Based Only", FALSE)
+                                
+
+                                ),
+                         
+                         column(3,
+                                plotOutput("histBudget", height = 200)
+                                )
+                                
+                         )
+        
+                
+                ))
 
 
 # ------------------------------- #
@@ -333,95 +348,95 @@ server <- shinyServer(function(input, output, session) {
         
         # start introjs when button is pressed with custom options and events
         observeEvent(input$help,
-        introjs(session, options = list(
-                steps = data.frame(element = c("#category + .selectize-control",
-                                               "#select_na",
-                                               "#sizevar + .selectize-control",
-                                               "#colorvar + .selectize-control",
-                                               "#search + .form-control",
-                                               "#histBudget "
-                                               
-                               
-                ),
-                intro = c(includeMarkdown("tooltips/categories.md"), #This section is used in the tutorial section 
-                          includeMarkdown("tooltips/select_na.md"),
-                          includeMarkdown("tooltips/sizevar.md"),
-                          includeMarkdown("tooltips/colorvar.md"),
-                          includeMarkdown("tooltips/search.md"),
-                          includeMarkdown("tooltips/hist.md")
-                ),
-                position = c("auto",
-                             "auto",
-                             "auto",
-                             "auto",
-                             "auto",
-                             "auto"
-                )
-                ),
-                "nextLabel"="Next",
-                "prevLabel"="Previous",
-                "skipLabel"="Exit"),
+                     introjs(session, options = list(
+                             steps = data.frame(element = c("#category + .selectize-control",
+                                                            "#select_na",
+                                                            "#sizevar + .selectize-control",
+                                                            "#colorvar + .selectize-control",
+                                                            "#search + .form-control",
+                                                            "#histBudget "
+                                                            
+                                                            
+                             ),
+                             intro = c(includeMarkdown("tooltips/categories.md"), #This section is used in the tutorial section 
+                                       includeMarkdown("tooltips/select_na.md"),
+                                       includeMarkdown("tooltips/sizevar.md"),
+                                       includeMarkdown("tooltips/colorvar.md"),
+                                       includeMarkdown("tooltips/search.md"),
+                                       includeMarkdown("tooltips/hist.md")
+                             ),
+                             position = c("auto",
+                                          "auto",
+                                          "auto",
+                                          "auto",
+                                          "auto",
+                                          "auto"
+                             )
+                             ),
+                             "nextLabel"="Next",
+                             "prevLabel"="Previous",
+                             "skipLabel"="Exit"),
+                     )
         )
-        )
-
+        
         #######################################Data for Circle markers 
         data <- reactive({
                 
                 if (input$search == "") {
                         plot %>% 
                                 filter(category %in% input$category) %>% filter(.,
-                                 
-                                        # if(input$na_select) { 
-                                        #         is.na(budget) | budget
-                                        # } else { 
-                                        #          !is.na(budget)
-                                        # },
-                                        # 
-                                        # if(input$na_select) { 
-                                        #         is.na(year_founded) | year_founded
-                                        # } else { 
-                                        #         !is.na(year_founded)
-                                        # },
-                                        
-                                        if(input$faith) {
-                                                faith_based == "Faith Based"
-                                        } else { 
-                                                faith_based == "Faith Based" | is.na(faith_based) 
-                                        },
-                                        
-                                        if(input$parnters) {
-                                                partner_status == "Partnered"
-                                        } else { 
-                                                partner_status == "Partnered" | partner_status == "Eligible" | 
-                                                               partner_status == "Discontinued Partnership" | partner_status == "Not Eligible" |
-                                                               is.na(partner_status)
-                                        }
+                                                                                
+                                                                                # if(input$na_select) { 
+                                                                                #         is.na(budget) | budget
+                                                                                # } else { 
+                                                                                #          !is.na(budget)
+                                                                                # },
+                                                                                # 
+                                                                                # if(input$na_select) { 
+                                                                                #         is.na(year_founded) | year_founded
+                                                                                # } else { 
+                                                                                #         !is.na(year_founded)
+                                                                                # },
+                                                                                
+                                                                                if(input$faith) {
+                                                                                        faith_based == "Faith Based"
+                                                                                } else { 
+                                                                                        faith_based == "Faith Based" | is.na(faith_based) 
+                                                                                },
+                                                                                
+                                                                                if(input$parnters) {
+                                                                                        partner_status == "Partnered"
+                                                                                } else { 
+                                                                                        partner_status == "Partnered" | partner_status == "Eligible" | 
+                                                                                                partner_status == "Discontinued Partnership" | partner_status == "Not Eligible" |
+                                                                                                is.na(partner_status)
+                                                                                }
                                 ) %>% filter(department %in% input$depart_filters)
-                                
+                        
                 }
                 else {
                         filter(plot, npo %in% input$search)
                 }
         })
-
+        
         #######################################Data for Departments 
         
-         demographic <- reactive({
-                 demographic_map %>% dplyr::filter(measure == input$demographics)     
-         })        
+        demographic <- reactive({
+                demographic_map %>% dplyr::filter(measure == input$demographics)     
+        })        
         
         
-         pal2 <- reactive({ colorNumeric(
-                         palette = "PuBu",
-                         domain = demographic()$value)
-         }) 
-    
+        pal2 <- reactive({ colorNumeric(
+                palette = "PuBu",
+                domain = demographic()$value)
+        }) 
         
-         output$map <- renderLeaflet({
-                 leaflet(data = demographic()) %>%
-                         addTiles() %>%
-                         fitBounds( -90.74078, 13.52793, -88.0067, 17.78793) 
-                         })
+        
+        output$map <- renderLeaflet({
+                leaflet(data = demographic()) %>%
+                        addTiles() %>%
+                        fitBounds( -90.74078, 13.52793, -88.0067, 17.78793) 
+        })
         
         
         #######################################Histogram settings
@@ -434,75 +449,75 @@ server <- shinyServer(function(input, output, session) {
                 hist(
                         his$budget,
                         breaks = BudgetBreaks,
-                        main = "Partner Budget Distribution",
+                        main = "Partner Budget's",
                         xlab = "Annual Budget",
                         xlim = range(his$budget),
                         ylab = "Number of Nonprofits",
                         col = '#A7E0AC',
                         border = 'white'
-                    )
-                 })
+                )
+        })
         
         #######################################Observer Function for Circle Markers 
         observe({if (nrow(data()) != 0) {
-                        colorBy <- input$colorvar
-                        sizeBy <- input$sizevar
-                        colorData <- data()[[colorBy]]
-                        pal <- colorFactor("viridis", colorData)
-                        
-                        varname <- switch(
-                                input$colorvar,
-                                "constant" = "All Nonprofits",
-                                "size" = "Nonprofit Size",
-                                "partner_status" = "Pionero Partner Status")
-                        
-                        
-                        x <-data()[[sizeBy]] 
-                        size <-sqrt(x / quantile(x, 0.95, na.rm = TRUE) * 100)
-                        
-                        
-                        leafletProxy("map") %>% 
-                                addPolygons(    data = demographic(),
-                                                stroke = TRUE,
-                                                smoothFactor = 1,
-                                                fillColor = ~ pal2()(demographic()$value),
-                                                fillOpacity = .4,
-                                                weight = 3, 
-                                                color = "black",
-                                                highlight = highlightOptions(
-                                                    weight = 5,
-                                                    fillOpacity = 0.7,
-                                                    bringToFront = FALSE),
-                                                popup =  ~ paste0(
-                                                    "<h4/><b>",department,"</b><h5/>","Measure: ",sep = " ",input$demographics,
-                                                    "<h5/>","Value: ",sep = " ",demographic()$value)) %>%
-                                clearMarkers() %>% #you have to clear previously drawn markers
-                                addCircleMarkers(data = data(), lng =  ~ longitude,lat =  ~ latitude,stroke = FALSE,popup =  ~ paste0(
-                                                "<h4/><b>",npo,"</b><h5/>","Parnter Status: ",sep = " ",partner_status,
-                                                "<h5/>","Nonprofit Size: ",sep = " ",size,
-                                                "<h5/>","Year Founded: ",sep = " ",year_founded,
-                                                "<h5/>","Annual Budget: $",sep = " ",budget,
-                                                "<h5/>","Website: ",sep = " ",website,
-                                                "<h5/>","All Categories: ",sep = " ",list_categories),
-                                                
-                                                label = ~ paste0("Nonprofit: ", sep = " ", npo),
-                                                radius = size,
-                                                fillOpacity = 0.5,
-                                                color = "black",
-                                                fillColor =  ~ pal(colorData)
-                                ) %>%
-                                clearControls() %>% 
-                                addLegend(data = data(), "bottomleft",pal = pal, values = colorData, title = varname) %>%
-                                addLegend(data = demographic(), "bottomleft", pal = pal2(), values = ~demographic()$value,
-                                          opacity = 0.7, title = ~ paste0(unique(units)))
-                }
+                colorBy <- input$colorvar
+                sizeBy <- input$sizevar
+                colorData <- data()[[colorBy]]
+                pal <- colorFactor("viridis", colorData)
+                
+                varname <- switch(
+                        input$colorvar,
+                        "constant" = "All Nonprofits",
+                        "size" = "Nonprofit Size",
+                        "partner_status" = "Pionero Partner Status")
+                
+                
+                x <-data()[[sizeBy]] 
+                size <-sqrt(x / quantile(x, 0.95, na.rm = TRUE) * 100)
+                
+                
+                leafletProxy("map") %>% 
+                        addPolygons(    data = demographic(),
+                                        stroke = TRUE,
+                                        smoothFactor = 1,
+                                        fillColor = ~ pal2()(demographic()$value),
+                                        fillOpacity = .4,
+                                        weight = 3, 
+                                        color = "black",
+                                        highlight = highlightOptions(
+                                                weight = 5,
+                                                fillOpacity = 0.7,
+                                                bringToFront = FALSE),
+                                        popup =  ~ paste0(
+                                                "<h4/><b>",department,"</b><h5/>","Measure: ",sep = " ",input$demographics,
+                                                "<h5/>","Value: ",sep = " ",demographic()$value)) %>%
+                        clearMarkers() %>% #you have to clear previously drawn markers
+                        addCircleMarkers(data = data(), lng =  ~ longitude,lat =  ~ latitude,stroke = FALSE,popup =  ~ paste0(
+                                "<h4/><b>",npo,"</b><h5/>","Parnter Status: ",sep = " ",partner_status,
+                                "<h5/>","Nonprofit Size: ",sep = " ",size,
+                                "<h5/>","Year Founded: ",sep = " ",year_founded,
+                                "<h5/>","Annual Budget: $",sep = " ",budget,
+                                "<h5/>","Website: ",sep = " ",website,
+                                "<h5/>","All Categories: ",sep = " ",list_categories),
+                                
+                                label = ~ paste0("Nonprofit: ", sep = " ", npo),
+                                radius = size,
+                                fillOpacity = 0.5,
+                                color = "black",
+                                fillColor =  ~ pal(colorData)
+                        ) %>%
+                        clearControls() %>% 
+                        addLegend(data = demographic(), "bottomright", pal = pal2(), values = ~demographic()$value,
+                                  opacity = 0.7, title = ~ paste0(unique(units))) %>%
+                        addLegend(data = data(), "bottomright",pal = pal, values = colorData, title = varname)
+        }
                 else{leafletProxy("map") %>% clearMarkers()} #clear the map if the data() is empty
-            
-            
-            
-            
-            
-            
+                
+                
+                
+                
+                
+                
         })
         
         output$num_matching <-renderText({format(nrow(data()), big.mark = ",")})
@@ -518,7 +533,7 @@ server <- shinyServer(function(input, output, session) {
         shinyjs::onclick("toggledepartment",
                          shinyjs::toggle(id = "filterdepartment", anim = TRUE))
         
-            
+        
 })
 # ------------------------------- #
 # ------------------------------- #

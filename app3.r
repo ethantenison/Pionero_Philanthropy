@@ -197,15 +197,15 @@ ui <- shinyUI(
                 tags$head(tags$style(type = "text/css", paste0(".selectize-dropdown {
                                                                   top: -200px !important;
                                                                 }"))),
-                tags$head(tags$style(HTML('
+                tags$head(tags$style('
                             #search+ div>.selectize-dropdown{background: #555555;
                             color: white !important;}
                             #search+ div>.selectize-input{background: #555555;
                             color: white !important; }
-                            '))),
+                            ')),
                 
                 
-                leafletOutput("map", width = "100%", height = "80%"),
+                leafletOutput("map", width = "100%", height = "85%"),
                 
                 absolutePanel(
                         id = "topbar",
@@ -219,7 +219,7 @@ ui <- shinyUI(
                         
                         fluidRow(
                                 column(5, offset = 1, 
-                                h1("Nonprofit Explorer v2.1"),
+                                h1(strong("Nonprofit Explorer v2.1")),
                                 h3("(",textOutput("num_matching", inline = TRUE),"selected)"))
                         )
                         
@@ -262,15 +262,8 @@ ui <- shinyUI(
                                                        "Petén", "Quiché", "Chimaltenango",  "Sacatepéquez",  
                                                        "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
                                                        "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
-                                                       "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos")),
-                                selectizeInput("search",
-                                               label = "Search Name: ",
-                                               choices = plot$npo,
-                                               selected = NULL,
-                                               multiple = FALSE,
-                                               options = list(
-                                                       placeholder = 'Select a nonprofit',
-                                                       onInitialize = I('function() { this.setValue(""); }')))
+                                                       "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos"))
+
                                  
                                  ),
                          
@@ -295,15 +288,27 @@ ui <- shinyUI(
                                                     "Nonprofit Size" = "size",
                                                     "Partner Status" = "partner_status",
                                                     "Same Color" ="constant"),
-                                            selected = "constant"),
+                                            selected = "constant")
                                 
+                                ),
+                         
+                         column(3,style='padding-left:40px;padding-right:40px;',
                                 pickerInput("demographics",label = "Change Demography",
                                             inline=FALSE,multiple = FALSE,
                                             options = list(
                                                     `actions-box` = TRUE, 
                                                     size = 10),
                                             choices = unique(demographic_map$measure),
-                                            selected = "poverty")
+                                            selected = "poverty"),
+                                
+                                selectizeInput("search",
+                                               label = "Search Name: ",
+                                               choices = plot$npo,
+                                               selected = NULL,
+                                               multiple = FALSE,
+                                               options = list(
+                                                       placeholder = 'Select a nonprofit',
+                                                       onInitialize = I('function() { this.setValue(""); }')))
                                 
                                 ),
                          
@@ -321,11 +326,11 @@ ui <- shinyUI(
                                 prettyCheckbox("faith", "Faith Based Only", FALSE)
                                 
 
-                                ),
-                         
-                         column(3,
-                                plotOutput("histBudget", height = 200)
                                 )
+                         
+                         # column(3,
+                         #        plotOutput("histBudget", height = 200)
+                         #        )
                                 
                          )
         
