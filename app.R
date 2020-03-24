@@ -282,7 +282,7 @@ ui <- shinyUI(
                                                     size = 10),
                                             choices = c(
                                                     "Annual Budget" = "budget_adj",
-                                                    "Same Size" = "constant",
+                                                    "Same" = "constant",
                                                     "Years Active" = "npo_age"),
                                             selected = "constant"),
                                 
@@ -294,7 +294,7 @@ ui <- shinyUI(
                                             choices = c(
                                                     "Nonprofit Size" = "size",
                                                     "Partner Status" = "partner_status",
-                                                    "Same Color" ="constant"),
+                                                    "Same" ="constant"),
                                             selected = "constant"),
                                 
                                 pickerInput("demographics",label = "Change Demography",
@@ -302,7 +302,7 @@ ui <- shinyUI(
                                             options = list(
                                                     `actions-box` = TRUE, 
                                                     size = 10),
-                                            choices = unique(demographic_map$measure),
+                                            choices = c(unique(demographic_map$measure), "None" = "same"),
                                             selected = "same")
                                 
                                 ),
