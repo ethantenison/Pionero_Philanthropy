@@ -72,104 +72,8 @@ demographic_map <- as.data.frame(demographic_map)
 demographic_map <- st_as_sf(demographic_map)
 demographic_map <- st_transform(demographic_map,"+proj=longlat +ellps=WGS84 +datum=WGS84")
 
-demographic_map <- mutate(demographic_map, units = "")
 
-for (i in 1:length(demographic_map$units)){
-        if(demographic_map$measure[i] == "population"){        
-                demographic_map$units[i] <- "Inhabitants"               
-        }
-        else if(demographic_map$measure[i] == "poverty"){        
-                demographic_map$units[i] <- "% Below Poverty Line"              
-        }
-        else if(demographic_map$measure[i] == "extreme_poverty"){        
-                demographic_map$units[i] <- "% Below Extreme Poverty Line"              
-        }
-        else if(demographic_map$measure[i] == "gross_birth_rate"){        
-                demographic_map$units[i] <- "Births per 1,000 inhabitants"              
-        }
-        else if(demographic_map$measure[i] == "infant_mortality_rate"){        
-                demographic_map$units[i] <- "Deaths per 1,000 births"  
-        }
-        else if(demographic_map$measure[i] == "low_birth_weight"){        
-                demographic_map$units[i] <- "% births less than 2.5 kg"              
-        }
-        else if(demographic_map$measure[i] == "medically_attended_births"){        
-                demographic_map$units[i] <- "% births attended by medics"              
-        }
-        else if(demographic_map$measure[i] == "public_center_births"){        
-                demographic_map$units[i] <- "% births in medical centers"              
-        }
-        else if(demographic_map$measure[i] == "gross_death_rate"){        
-                demographic_map$units[i] <- "Deaths per 1,000 inhabitants"              
-        }
-        else if(demographic_map$measure[i] == "death_external"){        
-                demographic_map$units[i] <- "unknown units"              
-        }
-        else if(demographic_map$measure[i] == "death_diabetes"){        
-                demographic_map$units[i] <- "Deaths from diabetes per 1,000 deaths"              
-        }
-        else if(demographic_map$measure[i] == "death_diarrhea"){        
-                demographic_map$units[i] <- "# of deaths from diarrhea per 1,000 deaths"              
-        }
-        else if(demographic_map$measure[i] == "death_circulatory"){        
-                demographic_map$units[i] <- "Deaths from ciruculatory illnesses per 1,000 deaths"              
-        }
-        else if(demographic_map$measure[i] == "death_respiratory"){        
-                demographic_map$units[i] <- "Deaths from respiratory illnesses per 1,000 deaths"              
-        }
-        else if(demographic_map$measure[i] == "death_tuber"){        
-                demographic_map$units[i] <- "Tuberculosis deaths per 1,000 deaths"              
-        }
-        else if(demographic_map$measure[i] == "death_hivaids"){        
-                demographic_map$units[i] <- "HIV/AIDS deaths per 1,000 deaths"              
-        }
-        else if(demographic_map$measure[i] == "intrafamily_violence_rate" ){        
-                demographic_map$units[i] <- "% who have experienced domestic violence"              
-        }
-        else if(demographic_map$measure[i] == "homicide_rate"){        
-                demographic_map$units[i] <- "Homicides per 100,000 inhabitants"              
-        }
-        else if(demographic_map$measure[i] == "delinquent_injury_rate"){        
-                demographic_map$units[i] <- "Delinquent Injuries per 100,000 inhabitants"              
-        }
-        else if(demographic_map$measure[i] == "robbery_rate"){        
-                demographic_map$units[i] <- "Robberies per 100,000 inhabitants"              
-        }
-        else if(demographic_map$measure[i] == "rape_rate"){        
-                demographic_map$units[i] <- "Rapes per 100,000 inhabitants"              
-        }
-        else if(demographic_map$measure[i] == "crimes_against_freedom_rate"){        
-                demographic_map$units[i] <- "Unknown per 100,000 inhabitants"              
-        }
-        else if(demographic_map$measure[i] == "judicial_offense_rate"){        
-                demographic_map$units[i] <- "Judicial Offenses per 100,000 inhabitants"              
-        }
-        else if(demographic_map$measure[i] == "literacy_rate15_24"){        
-                demographic_map$units[i] <- "% Literate ages 15-24"              
-        }
-        else if(demographic_map$measure[i] == "female_paid_employees"){        
-                demographic_map$units[i] <- "% Females paid employees"              
-        }
-        else if(demographic_map$measure[i] == "employment_rate"){        
-                demographic_map$units[i] <- "% Employed"              
-        }
-        else if(demographic_map$measure[i] == "potable_water_access"){        
-                demographic_map$units[i] <- "% access to portable water"              
-        }
-        else if(demographic_map$measure[i] == "improved_sanitation_access"){        
-                demographic_map$units[i] <- "% access to improved sanitation"              
-        }
-        else if(demographic_map$measure[i] == "forest_fires"){        
-                demographic_map$units[i] <- "# of Forest Fires"              
-        }
-        else if(demographic_map$measure[i] == "home_water_access"){        
-                demographic_map$units[i] <- "% with water access at home"              
-        }
-        else if(demographic_map$measure[i] == "homes_no_santitation"){        
-                demographic_map$units[i] <- "% with no sanitation at home"              
-        }
-        
-}
+
 
 # ------------------------------- #
 # ------------------------------- #
@@ -183,6 +87,7 @@ for (i in 1:length(demographic_map$units)){
 
 ui <- shinyUI(
         bootstrapPage(
+            HTML('<meta name="viewport" content="width=1024">'),
                 shinyjs::useShinyjs(),
                 introjsUI(),
                 tags$head(includeCSS("www/css/bootstrap.css")),
@@ -294,6 +199,7 @@ ui <- shinyUI(
                                             choices = c(
                                                     "Nonprofit Size" = "size",
                                                     "Partner Status" = "partner_status",
+                                                    "Faith Based" = "faith_based",
                                                     "Same" ="constant"),
                                             selected = "constant"),
                                 
@@ -317,8 +223,7 @@ ui <- shinyUI(
                                 br(),
                                 br(),
                                 "Other Filters: ",
-                                prettyCheckbox("parnters", "Partners Only", TRUE),
-                                prettyCheckbox("faith", "Faith Based Only", FALSE)
+                                prettyCheckbox("parnters", "Partners Only", TRUE)
                                 
 
                                 ),
@@ -386,30 +291,13 @@ server <- shinyServer(function(input, output, session) {
                         plot %>% 
                                 filter(category %in% input$category) %>% filter(.,
                                                                                 
-                                                                                # if(input$na_select) { 
-                                                                                #         is.na(budget) | budget
-                                                                                # } else { 
-                                                                                #          !is.na(budget)
-                                                                                # },
-                                                                                # 
-                                                                                # if(input$na_select) { 
-                                                                                #         is.na(year_founded) | year_founded
-                                                                                # } else { 
-                                                                                #         !is.na(year_founded)
-                                                                                # },
-                                                                                
-                                                                                if(input$faith) {
-                                                                                        faith_based == "Faith Based"
-                                                                                } else { 
-                                                                                        faith_based == "Faith Based" | is.na(faith_based) 
-                                                                                },
                                                                                 
                                                                                 if(input$parnters) {
                                                                                         partner_status == "Partnered"
                                                                                 } else { 
                                                                                         partner_status == "Partnered" | partner_status == "Eligible" | 
                                                                                                 partner_status == "Discontinued Partnership" | partner_status == "Not Eligible" |
-                                                                                                is.na(partner_status)
+                                                                                        partner_status == "No Information"
                                                                                 }
                                 ) %>% filter(department %in% input$depart_filters)
                         
@@ -469,7 +357,8 @@ server <- shinyServer(function(input, output, session) {
                         input$colorvar,
                         "constant" = "All Nonprofits",
                         "size" = "Nonprofit Size",
-                        "partner_status" = "Pionero Partner Status")
+                        "partner_status" = "Pionero Partner Status",
+                        "faith_based"= "Faith Based")
                 
                 
                 x <-data()[[sizeBy]] 
