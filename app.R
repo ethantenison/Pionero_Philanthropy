@@ -123,13 +123,31 @@ ui <- shinyUI(
                         
                         
                         fluidRow(
-                                column(5, offset = 1, 
-                                h1(strong("Nonprofit Explorer v2.1"),
+                                column(8, offset = 1, 
+                                h1(strong("Nonprofit Explorer v2.5"),
                                 h3("(",textOutput("num_matching", inline = TRUE),"selected)"))
                         )
                         
                         
                         )),
+            
+                 absolutePanel(
+                         id = "layercontrols",
+                         class = "panel panel-default",
+                         fixed = TRUE,
+                         draggable = FALSE,
+                         top = "2.5%",
+                         left = "85%",
+                         right = "2.5%",
+                         bottom = "85%",
+                         
+                         fluidRow(
+                                 column(3, style='padding-left:20px;',
+                                        checkboxInput("non", "Nonprofit Data", value = TRUE),
+                                        checkboxInput("dem", "Demographic Data"))
+                         )
+                         
+                 ),
                 
                 fluidRow(
                          column(2, style='padding-left:20px;padding-right:0px;',
@@ -239,7 +257,7 @@ ui <- shinyUI(
                                 
                          ),
                          
-                         column(3,style='padding-left:10px;padding-right:0px;padding-top:10px;padding-bottom:0px;',
+                         column(3,style='padding-left:10px;padding-right:0px;padding-top:0px;padding-bottom:0px;',
                                 plotOutput("histBudget", height = 175)
                                 )
                                 
@@ -328,7 +346,8 @@ server <- shinyServer(function(input, output, session) {
                         options = leafletOptions(
                             attributionControl=FALSE)) %>%
                         addProviderTiles("Esri.OceanBasemap") %>%
-                        setView(-90.352651, 15.8, zoom = 8) 
+                setView(-90.352651, 15.8, zoom = 8)
+             
              
         })
         
@@ -352,7 +371,26 @@ server <- shinyServer(function(input, output, session) {
                 )
         })
         
-        #######################################Observer Function for Circle Markers 
+        #######################################Observer Function to have layers shown based on checkboxes 
+         observe({
+         if (input$non == TRUE) {
+             leafletProxy("map") %>% showGroup("Nonprofit Data")
+         } else {
+             leafletProxy("map") %>% hideGroup("Nonprofit Data")
+         }
+         })
+         
+         observe({
+         if (input$dem == TRUE) {
+             leafletProxy("map") %>% showGroup("Demographic Data")
+         } else {
+             leafletProxy("map") %>% hideGroup("Demographic Data")
+         }
+         })
+        
+        
+        
+        #######################################Observer Function for Circle Markers & Polygons
         observe({if (nrow(data()) != 0) {
                 colorBy <- input$colorvar
                 sizeBy <- input$sizevar
@@ -373,7 +411,8 @@ server <- shinyServer(function(input, output, session) {
                 
                 leafletProxy("map") %>% 
                         clearShapes() %>%
-                            addPolygons(data = Guatemala,
+                        clearControls() %>%
+                        addPolygons(data = Guatemala,
                                         stroke = TRUE,
                                         smoothFactor = 1,
                                         weight = 2, 
@@ -409,21 +448,33 @@ server <- shinyServer(function(input, output, session) {
                                 color = "black",
                                 fillColor =  ~ pal(colorData),
                                 group = "Nonprofit Data"
-                        ) %>%
-                        clearControls() %>% 
-                        addLegend(data = demographic(), "bottomright", pal = pal2(), values = ~demographic()$value,
-                                  opacity = 0.7, title = ~ paste0(unique(units)), group = "Demographic Data") %>%
-                        addLegend(data = data(), "bottomright",pal = pal, values = colorData, title = varname,
-                                  group = "Nonprofit Data") %>% 
-                    addLayersControl(
-                        overlayGroups = c("Nonprofit Data", "Demographic Data"),
-                        options = layersControlOptions(collapsed = FALSE)
-                    )
+                        )
+                
+                #######################################Legends based on which layer checkboxes are ticked
+                    if (input$non == TRUE & input$dem == TRUE) {
+                        leafletProxy("map") %>% 
+                            addLegend(data = demographic(), "bottomright", pal = pal2(), values = ~demographic()$value,
+                                      opacity = 0.7, title = ~ paste0(unique(units)), group = "Demographic Data", layerId = "demleg") %>% 
+                            addLegend(data = data(), "bottomright",pal = pal, values = colorData, title = varname,
+                                      group = "Nonprofit Data", layerId = "nonleg")
+                    }
+                    else if(input$dem == TRUE){
+                        leafletProxy("map") %>% 
+                            addLegend(data = demographic(), "bottomright", pal = pal2(), values = ~demographic()$value,
+                                      opacity = 0.7, title = ~ paste0(unique(units)), group = "Demographic Data", layerId = "demleg")
+                    }
+                
+                    else if (input$non == TRUE) {
+                        leafletProxy("map") %>%
+                            addLegend(data = data(), "bottomright",pal = pal, values = colorData, title = varname,
+                                      group = "Nonprofit Data", layerId = "nonleg")
+                    }
+                    
         }
                 else{leafletProxy("map") %>% clearMarkers()} #clear the map if the data() is empty
                 
                 
-                
+              
                 
                 
                 
