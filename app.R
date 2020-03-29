@@ -383,7 +383,8 @@ server <- shinyServer(function(input, output, session) {
                                                 bringToFront = FALSE),
                                         popup =  ~ paste0(
                                                 "<h4/><b>",department,"</b><h5/>","Measure: ",sep = " ",input$demographics,
-                                                "<h5/>","Value: ",sep = " ",demographic()$value)) %>%
+                                                "<h5/>","Value: ",sep = " ",demographic()$value),
+                                        group = "Demographic Data") %>%
                         clearMarkers() %>% #you have to clear previously drawn markers
                         addCircleMarkers(data = data(), lng =  ~ longitude,lat =  ~ latitude,stroke = FALSE,popup =  ~ paste0(
                                 "<h4/><b>",npo,"</b><h5/>","Parnter Status: ",sep = " ",partner_status,
@@ -397,12 +398,19 @@ server <- shinyServer(function(input, output, session) {
                                 radius = size,
                                 fillOpacity = 0.5,
                                 color = "black",
-                                fillColor =  ~ pal(colorData)
+                                fillColor =  ~ pal(colorData),
+                                group = "Nonprofit Data"
                         ) %>%
                         clearControls() %>% 
                         addLegend(data = demographic(), "bottomright", pal = pal2(), values = ~demographic()$value,
-                                  opacity = 0.7, title = ~ paste0(unique(units))) %>%
-                        addLegend(data = data(), "bottomright",pal = pal, values = colorData, title = varname)
+                                  opacity = 0.7, title = ~ paste0(unique(units)), group = "Demographic Data") %>%
+                        addLegend(data = data(), "bottomright",pal = pal, values = colorData, title = varname,
+                                  group = "Nonprofit Data") %>% 
+                    addLayersControl(
+                        overlayGroups = c("Nonprofit Data", "Demographic Data"),
+                        options = layersControlOptions(collapsed = FALSE)
+                    )%>%
+                    hideGroup("Demographic Data")
         }
                 else{leafletProxy("map") %>% clearMarkers()} #clear the map if the data() is empty
                 
