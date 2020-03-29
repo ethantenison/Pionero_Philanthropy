@@ -133,18 +133,18 @@ ui <- shinyUI(
             
                  absolutePanel(
                          id = "layercontrols",
-                         class = "panel panel-default",
+                         #class = "panel panel-default",
                          fixed = TRUE,
                          draggable = FALSE,
                          top = "2.5%",
-                         left = "85%",
+                         left = "90%",
                          right = "2.5%",
                          bottom = "85%",
                          
                          fluidRow(
                                  column(3, style='padding-left:20px;',
-                                        checkboxInput("non", "Nonprofit Data", value = TRUE),
-                                        checkboxInput("dem", "Demographic Data"))
+                                        materialSwitch("non", label= "Nonprofit Data", status= "default",value = TRUE),
+                                        materialSwitch("dem", label = "Demographic Data", status = "default" ))
                          )
                          
                  ),
@@ -152,10 +152,11 @@ ui <- shinyUI(
                 fluidRow(
                          column(2, style='padding-left:20px;padding-right:0px;',
                                 br(),
-                                actionBttn("help", label = "Tutorial",
+                                    actionBttn("help", label = "Tutorial",
                                            icon = icon("book-open", class = "fa-pull-left"),
                                            style = "gradient",
-                                           color = "primary"
+                                           color = "primary",
+                                           size = "md"
                                 ),
                                 pickerInput("partner", label= "Partner Filters",inline=FALSE,multiple = TRUE, 
                                             options = list(
@@ -258,7 +259,7 @@ ui <- shinyUI(
                          ),
                          
                          column(3,style='padding-left:10px;padding-right:0px;padding-top:0px;padding-bottom:0px;',
-                                plotOutput("histBudget", height = 175)
+                                plotOutput("histBudget", height = 175, width = "80%")
                                 )
                                 
                          )
@@ -356,19 +357,31 @@ server <- shinyServer(function(input, output, session) {
         his <- plot[!is.na(plot$budget), ]
         BudgetBreaks <-hist(plot = FALSE, his$budget, breaks = 5)$breaks
         output$histBudget <- renderPlot({
-                # If no zipcodes are in view, don't plot
-                if (nrow(data()) == 0)
-                        return(NULL)
-                hist(
-                        his$budget,
-                        breaks = BudgetBreaks,
-                        main = "Partner Budget's",
-                        xlab = "Annual Budget",
-                        xlim = range(his$budget),
-                        ylab = "Number of Nonprofits",
-                        col = '#A7E0AC',
-                        border = 'white'
-                )
+                
+            theme_set(theme_bw())
+            ggplot(his, aes(x=budget)) +
+                geom_histogram(color = "white", fill = "#A7E0AC")+
+                theme( panel.grid.minor = element_blank(),
+                      panel.background = element_blank(), axis.line = element_line(colour = "black"),
+                      text=element_text(family="Times", face = "bold", size=12),
+                      plot.title = element_text(hjust = 0.5)) +
+                xlab("Annual Budget") +
+                ylab("Number of Nonprofits") +
+                labs(title="Partner Budget's") +
+                scale_x_continuous(labels = scales::dollar) 
+            
+                # hist(
+                #         his$budget,
+                #         breaks = BudgetBreaks,
+                #         main = "Partner Budget's",
+                #         xlab = "Annual Budget",
+                #         xlim = range(his$budget),
+                #         ylab = "Number of Nonprofits",
+                #         col = '#A7E0AC',
+                #         border = 'white'
+                # )
+                # 
+            
         })
         
         #######################################Observer Function to have layers shown based on checkboxes 
