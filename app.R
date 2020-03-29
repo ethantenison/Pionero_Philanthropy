@@ -239,8 +239,8 @@ ui <- shinyUI(
                                 
                          ),
                          
-                         column(3,style='padding-left:10px;padding-right:0px;',
-                                plotOutput("histBudget", height = 200)
+                         column(3,style='padding-left:10px;padding-right:0px;padding-top:10px;padding-bottom:0px;',
+                                plotOutput("histBudget", height = 175)
                                 )
                                 
                          )
@@ -324,8 +324,10 @@ server <- shinyServer(function(input, output, session) {
         
         
         output$map <- renderLeaflet({
-                leaflet(data = demographic()) %>%
-                        addTiles() %>%
+                leaflet(data = demographic(), 
+                        options = leafletOptions(
+                            attributionControl=FALSE)) %>%
+                        addProviderTiles("Esri.OceanBasemap") %>%
                         setView(-90.352651, 15.8, zoom = 8) 
              
         })
@@ -370,11 +372,18 @@ server <- shinyServer(function(input, output, session) {
                 
                 
                 leafletProxy("map") %>% 
+                        clearShapes() %>%
+                            addPolygons(data = Guatemala,
+                                        stroke = TRUE,
+                                        smoothFactor = 1,
+                                        weight = 2, 
+                                        color = "Black",
+                                        fillOpacity = 0) %>% 
                         addPolygons(    data = demographic(),
                                         stroke = TRUE,
                                         smoothFactor = 1,
                                         fillColor = ~ pal2()(demographic()$value),
-                                        fillOpacity = .4,
+                                        fillOpacity = .25,
                                         weight = 3, 
                                         color = "black",
                                         highlight = highlightOptions(
