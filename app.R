@@ -318,7 +318,7 @@ server <- shinyServer(function(input, output, session) {
         
         
         pal2 <- reactive({ colorNumeric(
-                palette = "PuBu",
+                palette = "viridis",
                 domain = demographic()$value)
         }) 
         
@@ -326,7 +326,7 @@ server <- shinyServer(function(input, output, session) {
         output$map <- renderLeaflet({
                 leaflet(data = demographic()) %>%
                         addTiles() %>%
-                        setView(-90.352651, 15.714646, zoom = 8) 
+                        setView(-90.352651, 15.8, zoom = 8) 
              
         })
         
@@ -409,8 +409,7 @@ server <- shinyServer(function(input, output, session) {
                     addLayersControl(
                         overlayGroups = c("Nonprofit Data", "Demographic Data"),
                         options = layersControlOptions(collapsed = FALSE)
-                    )%>%
-                    hideGroup("Demographic Data")
+                    )
         }
                 else{leafletProxy("map") %>% clearMarkers()} #clear the map if the data() is empty
                 
