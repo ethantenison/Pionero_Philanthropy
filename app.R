@@ -93,25 +93,22 @@ ui <- shinyUI(
             HTML('<meta name="viewport" content="width=1024">'),
                 shinyjs::useShinyjs(),
                 introjsUI(),
-                tags$head(includeCSS("www/css/bootstrap.css")),
+                tags$head(includeCSS("www/css/bootstrap.css"),
+                          includeScript("www/js/google_analytics.js"),
+                          tags$link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.1.0/css/all.css",
+                                    integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt", crossorigin="anonymous"),
+                          tags$script(src = "www/js/wordwrap.js"),
+                          tags$style(".checkbox-inline {margin: 0 !important;}"),
+                          tags$style(".selectize-dropdown {top: -200px !important;}"),
+                          tags$style(".selectize-input {background: #555555;color: #fff;}")
+                          ),
                 tags$style(type = "text/css", "html, body {width:100%;height:100%}"),
-                tags$head(includeScript("www/js/google_analytics.js")),
-                tags$head(tags$link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.1.0/css/all.css",
-                                    integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt", crossorigin="anonymous")),
-                tags$head(tags$script(src = "www/js/wordwrap.js")),
-                tags$head(tags$style(".checkbox-inline {margin: 0 !important;}")),
-                tags$head(tags$style(HTML('.form-group, .selectize-control {margin-bottom: 0px;}.box-body {padding-bottom: 0px;}'))), #changes marginscheckboxes
-                tags$style(".pretty.p-default input:checked~.state label:after {background-color: #A7E0AC !important;}"), #change color checkbox widgets 
-                tags$head(tags$style(type = "text/css", paste0(".selectize-dropdown {
-                                                                  top: -200px !important;
-                                                                }"))),
-                tags$head(tags$style('
-                            #search+ div>.selectize-dropdown{background: #555555;
-                            color: white !important;}
-                            #search+ div>.selectize-input{background: #555555;
-                            color: white !important; }
-                            ')),
-                
+
+                tags$style(".pretty.p-default input:dropdown~.state label:after {background-color: #A7E0AC !important;}"), #change color checkbox widgets 
+            
+        
+            
+
                 
                 leafletOutput("map", width = "100%", height = "85%"),
                 
@@ -148,8 +145,8 @@ ui <- shinyUI(
                          div(id = "layers",
                          fluidRow(
                                  column(3, style='padding-left:20px;',
-                                        materialSwitch("non", label= "Nonprofit Data", status= "default",value = TRUE),
-                                        materialSwitch("dem", label = "Demographic Data", status = "default" ))
+                                        materialSwitch("non", label= strong("Nonprofit Data"), status= "default",value = TRUE),
+                                        materialSwitch("dem", label = strong("Demographic Data"), status = "default" ))
                          ))
                          
                  ),
@@ -255,6 +252,7 @@ ui <- shinyUI(
                                             choices = c(unique(demographic_map$measure), "None" = "same"),
                                             selected = "poverty")),
                                 
+                               
                                 selectizeInput("search",
                                                label = "Search Name: ",
                                                choices = plot$npo,
