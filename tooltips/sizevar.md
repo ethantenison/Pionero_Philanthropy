@@ -1,4 +1,4 @@
-### 3. Select the Size Variable 
+### 4. Select the Size Variable 
 
 Using the drop down menu, select what variable you would like to use to change the size of the circle markers.
 

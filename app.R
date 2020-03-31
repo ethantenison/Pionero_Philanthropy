@@ -24,7 +24,8 @@ list.of.packages <-
            "sf",
            "htmltools",
            "shinyWidgets",
-           "rintrojs"
+           "rintrojs", 
+           "ggplot2"
         )
 
 new.packages <-list.of.packages[!(list.of.packages %in% installed.packages()[, "Package"])]
@@ -45,6 +46,8 @@ library(leaflet.extras)
 library(sf)
 library(htmltools)
 library(shinyWidgets)
+library(ggplot2)
+
 
 
 # ------------------------------- #
@@ -131,7 +134,8 @@ ui <- shinyUI(
                         
                         )),
             
-                 absolutePanel(
+                 
+                     absolutePanel(
                          id = "layercontrols",
                          #class = "panel panel-default",
                          fixed = TRUE,
@@ -141,11 +145,12 @@ ui <- shinyUI(
                          right = "2.5%",
                          bottom = "85%",
                          
+                         div(id = "layers",
                          fluidRow(
                                  column(3, style='padding-left:20px;',
                                         materialSwitch("non", label= "Nonprofit Data", status= "default",value = TRUE),
                                         materialSwitch("dem", label = "Demographic Data", status = "default" ))
-                         )
+                         ))
                          
                  ),
                 
@@ -158,17 +163,19 @@ ui <- shinyUI(
                                            color = "primary",
                                            size = "md"
                                 ),
-                                pickerInput("partner", label= "Partner Filters",inline=FALSE,multiple = TRUE, 
+                                div(id = "partner_help",
+                                    pickerInput("partner", label= "Partner Filters",inline=FALSE,multiple = TRUE, 
                                             options = list(
                                                 `actions-box` = TRUE, 
                                                 size = 10,
                                                 `selected-text-format` = "count > 3"
                                             ),
                                             c("Partnered","Eligible","Not Eligible", "Discontinued Partnership", "No Information"),
-                                            selected=c("Partnered"))
+                                            selected=c("Partnered")))
                                  ),
                          
                          column(2,style='padding-left:20px;padding-right:0px;',
+                                div(id = "category_help",
                                 pickerInput("category", label= "Category Filters",inline=FALSE,multiple = TRUE, 
                                             options = list(
                                                 `actions-box` = TRUE, 
@@ -185,8 +192,8 @@ ui <- shinyUI(
                                                        "Human Rights" ,
                                                        "Environment & Conservation",
                                                        "Animal Welfare",
-                                                       "Crime")),
-                                
+                                                       "Crime"))),
+                                div(id = "department_help",
                                 pickerInput("depart_filters", label= "Department Filters",inline=FALSE,
                                             multiple = TRUE, 
                                             options = list(
@@ -203,7 +210,7 @@ ui <- shinyUI(
                                                        "Petén", "Quiché", "Chimaltenango",  "Sacatepéquez",  
                                                        "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
                                                        "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
-                                                       "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos"))
+                                                       "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos")))
                                 
                                 
                                 
@@ -211,6 +218,7 @@ ui <- shinyUI(
                                 ),
                          
                          column(2,style='padding-left:20px;padding-right:0px;',
+                                div(id = "size_help",
                                 pickerInput("sizevar",label = "Size Variable:",
                                             inline=FALSE,multiple = FALSE,
                                             options = list(
@@ -220,8 +228,9 @@ ui <- shinyUI(
                                                 "Annual Budget" = "budget_adj",
                                                 "Same" = "constant",
                                                 "Years Active" = "npo_age"),
-                                            selected = "constant"),
+                                            selected = "constant")),
                                 
+                                div(id = "color_help",
                                 pickerInput("colorvar",label = "Color Variable:",
                                             inline=FALSE,multiple = FALSE,
                                             options = list(
@@ -232,18 +241,19 @@ ui <- shinyUI(
                                                 "Partner Status" = "partner_status",
                                                 "Faith Based" = "faith_based",
                                                 "Same" ="constant"),
-                                            selected = "constant")
+                                            selected = "constant"))
                                 
 
                                 ),
                          column(2,style='padding-left:20px;padding-right:0px;',
+                                div(id = "demographic_help",
                                 pickerInput("demographics",label = "Change Demography",
                                             inline=FALSE,multiple = FALSE,
                                             options = list(
                                                 `actions-box` = TRUE, 
                                                 size = 10),
                                             choices = c(unique(demographic_map$measure), "None" = "same"),
-                                            selected = "same"),
+                                            selected = "poverty")),
                                 
                                 selectizeInput("search",
                                                label = "Search Name: ",
@@ -281,26 +291,36 @@ ui <- shinyUI(
 # create dataframe 'data' to be plotted starts with dataframe 'plot', filtering depends on inputs from the UI
 server <- shinyServer(function(input, output, session) {
         
+         
         # start introjs when button is pressed with custom options and events
         observeEvent(input$help,
                      introjs(session, options = list(
-                             steps = data.frame(element = c("#category + .selectize-control",
-                                                            "#select_na",
-                                                            "#sizevar + .selectize-control",
-                                                            "#colorvar + .selectize-control",
+                             steps = data.frame(element = c("#partner_help ",
+                                                            "#category_help ",
+                                                            "#department_help ",
+                                                            "#size_help ",
+                                                            "#color_help ",
+                                                            "#demographic_help",
+                                                            "#layers",
                                                             "#search + .form-control",
                                                             "#histBudget "
                                                             
                                                             
-                             ),
-                             intro = c(includeMarkdown("tooltips/categories.md"), #This section is used in the tutorial section 
-                                       includeMarkdown("tooltips/select_na.md"),
+                             ),#This section is used in the tutorial section
+                             intro = c(includeMarkdown("tooltips/partner.md"),
+                                       includeMarkdown("tooltips/categories.md"),
+                                       includeMarkdown("tooltips/departments.md"),
                                        includeMarkdown("tooltips/sizevar.md"),
                                        includeMarkdown("tooltips/colorvar.md"),
+                                       includeMarkdown("tooltips/demographic.md"),
+                                       includeMarkdown("tooltips/layers.md"),
                                        includeMarkdown("tooltips/search.md"),
                                        includeMarkdown("tooltips/hist.md")
                              ),
                              position = c("auto",
+                                          "auto",
+                                          "auto",
+                                          "auto",
                                           "auto",
                                           "auto",
                                           "auto",
@@ -360,10 +380,10 @@ server <- shinyServer(function(input, output, session) {
                 
             theme_set(theme_bw())
             ggplot(his, aes(x=budget)) +
-                geom_histogram(color = "white", fill = "#A7E0AC")+
+                geom_histogram(color = "white", fill = "#A7E0AC", bins = 5)+
                 theme( panel.grid.minor = element_blank(),
                       panel.background = element_blank(), axis.line = element_line(colour = "black"),
-                      text=element_text(family="Times", face = "bold", size=12),
+                      text=element_text(face = "bold", size=10),
                       plot.title = element_text(hjust = 0.5)) +
                 xlab("Annual Budget") +
                 ylab("Number of Nonprofits") +
