@@ -1233,7 +1233,7 @@ body {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 13px;
   line-height: 1.42857143;
-  color: #777777;
+  color: #000000; /* This controls regular text */
   background-color: #fcfcfc;
 }
 input,
@@ -1334,7 +1334,7 @@ h6,
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 300;
   line-height: 1.1;
-  color: #444444;
+  color: #000000; /* This controls color of all headers */
 }
 h1 small,
 h2 small,
@@ -1639,7 +1639,7 @@ blockquote .small {
   display: block;
   font-size: 80%;
   line-height: 1.42857143;
-  color: #808080;
+  color: #ffffff;
 }
 blockquote footer:before,
 blockquote small:before,
@@ -2692,7 +2692,7 @@ output {
   padding-top: 9px;
   font-size: 13px;
   line-height: 1.42857143;
-  color: #777777;
+  color: #777777; /* this changes the color for search items that are not selected */
 }
 .form-control {
   display: block;
@@ -2701,7 +2701,7 @@ output {
   padding: 8px 12px;
   font-size: 13px;
   line-height: 1.42857143;
-  color: #777777;
+  color: #777777; /* this changes the color for search items that are not selected */
   background-color: #ffffff;
   background-image: none;
   border: 1px solid #dddddd;
@@ -3703,14 +3703,14 @@ tbody.collapse.in {
   clear: both;
   font-weight: normal;
   line-height: 1.42857143;
-  color: #444444;
+  color: #444444; /* picker input color when nothing selected*/
   white-space: nowrap;
 }
 .dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus {
   text-decoration: none;
   color: #ffffff;
-  background-color: #d9230f;
+  background-color: #A7E0AC; /* picker input*/
 }
 .dropdown-menu > .active > a,
 .dropdown-menu > .active > a:hover,
@@ -3718,7 +3718,7 @@ tbody.collapse.in {
   color: #ffffff;
   text-decoration: none;
   outline: 0;
-  background-color: #d9230f;
+  background-color: #A7E0AC; /* picker input when multiple is false*/
 }
 .dropdown-menu > .disabled > a,
 .dropdown-menu > .disabled > a:hover,
@@ -3752,7 +3752,7 @@ tbody.collapse.in {
   padding: 3px 20px;
   font-size: 12px;
   line-height: 1.42857143;
-  color: #808080;
+  color: #000000;
   white-space: nowrap;
 }
 .dropdown-backdrop {

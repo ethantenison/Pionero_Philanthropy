@@ -100,7 +100,7 @@ ui <- shinyUI(
                           tags$script(src = "www/js/wordwrap.js"),
                           tags$style(".checkbox-inline {margin: 0 !important;}"),
                           tags$style(".selectize-dropdown {top: -200px !important;}"),
-                          tags$style(".selectize-input {background: #555555;color: #fff;}")
+                          tags$style(".selectize-input {background: #474949; border-color: #474949; color: white;}")
                           ),
                 tags$style(type = "text/css", "html, body {width:100%;height:100%}"),
 
