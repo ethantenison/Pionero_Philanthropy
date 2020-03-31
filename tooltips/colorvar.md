@@ -14,7 +14,7 @@ Improving upon pre-established definitions of nonprofit size by the United State
 <br />
 
 
-**Parnter Status**<br />
+**Partner Status**<br />
 This information is the same as the partner drop-down menu. 
 <br />
 

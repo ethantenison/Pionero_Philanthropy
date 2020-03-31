@@ -139,8 +139,8 @@ ui <- shinyUI(
                         
                         fluidRow(
                                 column(8, offset = 1, 
-                                h1(strong("Nonprofit Explorer v2.5"),
-                                h3("(",textOutput("num_matching", inline = TRUE),"selected)"))
+                                h1(strong("Guatemala Nonprofit Environment Explorer"),
+                                h3("(",textOutput("num_matching", inline = TRUE),"results)"))
                         )
                         
                         
@@ -400,7 +400,7 @@ server <- shinyServer(function(input, output, session) {
                       plot.title = element_text(hjust = 0.5)) +
                 xlab("Annual Budget") +
                 ylab("Number of Nonprofits") +
-                labs(title="Partner Budget's") +
+                labs(title="Partner Budgets") +
                 scale_x_continuous(labels = scales::dollar) 
             
                 # hist(
@@ -481,7 +481,7 @@ server <- shinyServer(function(input, output, session) {
                                         group = "Demographic Data") %>%
                         clearMarkers() %>% #you have to clear previously drawn markers
                         addCircleMarkers(data = data(), lng =  ~ longitude,lat =  ~ latitude,stroke = FALSE,popup =  ~ paste0(
-                                "<h4/><b>",npo,"</b><h5/>","Parnter Status: ",sep = " ",partner_status,
+                                "<h4/><b>",npo,"</b><h5/>","Partner Status: ",sep = " ",partner_status,
                                 "<h5/>","Nonprofit Size: ",sep = " ",size,
                                 "<h5/>","Year Founded: ",sep = " ",year_founded,
                                 "<h5/>","Annual Budget: $",sep = " ",budget,
