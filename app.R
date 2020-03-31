@@ -77,7 +77,6 @@ demographic_map <- st_transform(demographic_map,"+proj=longlat +ellps=WGS84 +dat
 
 
 
-
 # ------------------------------- #
 # ------------------------------- #
 # ------------SECTION:----------- #
@@ -100,7 +99,23 @@ ui <- shinyUI(
                           tags$script(src = "www/js/wordwrap.js"),
                           tags$style(".checkbox-inline {margin: 0 !important;}"),
                           tags$style(".selectize-dropdown {top: -200px !important;}"),
-                          tags$style(".selectize-input {background: #474949; border-color: #474949; color: white;}")
+                          tags$style(".selectize-input {background: #474949; border-color: #474949; color: white;}"),
+                          tags$style(HTML(".selectize-dropdown-content .option {
+                              color: black;
+                          }
+                          
+                          ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+                                  color: white;
+                          }
+                          ::-moz-placeholder { /* Firefox 19+ */
+                                  color: white;
+                          }
+                          :-ms-input-placeholder { /* IE 10+ */
+                                  color: white;
+                          }
+                          :-moz-placeholder { /* Firefox 18- */
+                                  color: white;
+                          }"))
                           ),
                 tags$style(type = "text/css", "html, body {width:100%;height:100%}"),
 
