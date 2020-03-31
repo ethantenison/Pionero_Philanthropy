@@ -174,7 +174,7 @@ ui <- shinyUI(
                                            style = "gradient",
                                            color = "primary",
                                            size = "md"
-                                ),
+                                ),br(),br(),
                                 div(id = "partner_help",
                                     pickerInput("partner", label= "Partner Filters",inline=FALSE,multiple = TRUE, 
                                             options = list(
