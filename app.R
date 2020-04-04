@@ -74,6 +74,7 @@ demographic_map <- readRDS("./data/demographic_map.rds")
 demographic_map <- as.data.frame(demographic_map)
 demographic_map <- st_as_sf(demographic_map)
 demographic_map <- st_transform(demographic_map,"+proj=longlat +ellps=WGS84 +datum=WGS84")
+demographic_map <- mutate(demographic_map, formatted = as.character(format(value,  big.mark=",", digits=0)))
 
 
 
@@ -238,7 +239,7 @@ ui <- shinyUI(
                                                 size = 10),
                                             choices = c(
                                                 "Annual Budget" = "budget_adj",
-                                                "Same" = "constant",
+                                                "Nothing Selected" = "constant",
                                                 "Years Active" = "npo_age"),
                                             selected = "constant")),
                                 
@@ -250,9 +251,8 @@ ui <- shinyUI(
                                                 size = 10),
                                             choices = c(
                                                 "Nonprofit Size" = "size",
-                                                "Partner Status" = "partner_status",
-                                                "Faith Based" = "faith_based",
-                                                "Same" ="constant"),
+                                                "Religious Affiliation" = "religious_aff",
+                                                "Nothing Selected" ="constant"),
                                             selected = "constant"))
                                 
 
@@ -264,8 +264,8 @@ ui <- shinyUI(
                                             options = list(
                                                 `actions-box` = TRUE, 
                                                 size = 10),
-                                            choices = c(unique(demographic_map$measure), "None" = "same"),
-                                            selected = "poverty")),
+                                            choices = c(unique(demographic_map$measure), "Nothing Selected" = "same"),
+                                            selected = "same")),
                                 
                                
                                 selectizeInput("search",
@@ -279,11 +279,7 @@ ui <- shinyUI(
                                 
                                 
                                 
-                         ),
-                         
-                         column(3,style='padding-left:10px;padding-right:0px;padding-top:0px;padding-bottom:0px;',
-                                plotOutput("histBudget", height = 175, width = "80%")
-                                )
+                         )
                                 
                          )
         
@@ -379,65 +375,35 @@ server <- shinyServer(function(input, output, session) {
                 leaflet(data = demographic(), 
                         options = leafletOptions(
                             attributionControl=FALSE)) %>%
-                        addProviderTiles("Esri.OceanBasemap") %>%
+                addTiles(
+                    urlTemplate = "https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=aae485d383324e008257aab3f9467916",
+                    attribution = 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> | Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', 
+                    options = tileOptions(minZoom = 0, maxZoom = 18)
+                ) %>%
                 setView(-90.352651, 15.8, zoom = 8)
              
              
         })
         
-        
-        #######################################Histogram settings
-        his <- plot[!is.na(plot$budget), ]
-        BudgetBreaks <-hist(plot = FALSE, his$budget, breaks = 5)$breaks
-        output$histBudget <- renderPlot({
-                
-            theme_set(theme_bw())
-            ggplot(his, aes(x=budget)) +
-                geom_histogram(color = "white", fill = "#A7E0AC", bins = 5)+
-                theme( panel.grid.minor = element_blank(),
-                      panel.background = element_blank(), axis.line = element_line(colour = "black"),
-                      text=element_text(face = "bold", size=10),
-                      plot.title = element_text(hjust = 0.5)) +
-                xlab("Annual Budget") +
-                ylab("Number of Nonprofits") +
-                labs(title="Partner Budgets") +
-                scale_x_continuous(labels = scales::dollar) 
-            
-                # hist(
-                #         his$budget,
-                #         breaks = BudgetBreaks,
-                #         main = "Partner Budget's",
-                #         xlab = "Annual Budget",
-                #         xlim = range(his$budget),
-                #         ylab = "Number of Nonprofits",
-                #         col = '#A7E0AC',
-                #         border = 'white'
-                # )
-                # 
-            
-        })
-        
-        #######################################Observer Function to have layers shown based on checkboxes 
-         observe({
-         if (input$non == TRUE) {
-             leafletProxy("map") %>% showGroup("Nonprofit Data")
-         } else {
-             leafletProxy("map") %>% hideGroup("Nonprofit Data")
-         }
-         })
-         
-         observe({
-         if (input$dem == TRUE) {
-             leafletProxy("map") %>% showGroup("Demographic Data")
-         } else {
-             leafletProxy("map") %>% hideGroup("Demographic Data")
-         }
-         })
-        
+       
         
         
         #######################################Observer Function for Circle Markers & Polygons
         observe({if (nrow(data()) != 0) {
+            
+            
+                if (input$non == TRUE) {
+                    leafletProxy("map") %>% showGroup("Nonprofit Data")
+                } else {
+                    leafletProxy("map") %>% hideGroup("Nonprofit Data")
+                }
+            
+                if (input$dem == TRUE) {
+                    leafletProxy("map") %>% showGroup("Demographic Data")
+                } else {
+                    leafletProxy("map") %>% hideGroup("Demographic Data")
+                }
+            
                 colorBy <- input$colorvar
                 sizeBy <- input$sizevar
                 colorData <- data()[[colorBy]]
@@ -447,12 +413,11 @@ server <- shinyServer(function(input, output, session) {
                         input$colorvar,
                         "constant" = "All Nonprofits",
                         "size" = "Nonprofit Size",
-                        "partner_status" = "Pionero Partner Status",
                         "faith_based"= "Faith Based")
                 
                 
                 x <-data()[[sizeBy]] 
-                size <-sqrt(x / quantile(x, 0.95, na.rm = TRUE) * 100)
+                size <-sqrt(x / quantile(x, 0.95, na.rm = TRUE) * 80)
                 
                 
                 leafletProxy("map") %>% 
@@ -461,7 +426,7 @@ server <- shinyServer(function(input, output, session) {
                         addPolygons(data = Guatemala,
                                         stroke = TRUE,
                                         smoothFactor = 1,
-                                        weight = 2, 
+                                        weight = 3, 
                                         color = "Black",
                                         fillOpacity = 0) %>% 
                         addPolygons(    data = demographic(),
@@ -477,14 +442,14 @@ server <- shinyServer(function(input, output, session) {
                                                 bringToFront = FALSE),
                                         popup =  ~ paste0(
                                                 "<h4/><b>",department,"</b><h5/>","Measure: ",sep = " ",input$demographics,
-                                                "<h5/>","Value: ",sep = " ",demographic()$value),
+                                                "<h5/>","Value: ",sep = " ",demographic()$formatted),
                                         group = "Demographic Data") %>%
                         clearMarkers() %>% #you have to clear previously drawn markers
                         addCircleMarkers(data = data(), lng =  ~ longitude,lat =  ~ latitude,stroke = FALSE,popup =  ~ paste0(
                                 "<h4/><b>",npo,"</b><h5/>","Partner Status: ",sep = " ",partner_status,
                                 "<h5/>","Nonprofit Size: ",sep = " ",size,
                                 "<h5/>","Year Founded: ",sep = " ",year_founded,
-                                "<h5/>","Annual Budget: $",sep = " ",budget,
+                                "<h5/>","Annual Budget: $",format(budget, big.mark=","),
                                 "<h5/>","Website: ",sep = " ",website,
                                 "<h5/>","All Categories: ",sep = " ",list_categories),
                                 
