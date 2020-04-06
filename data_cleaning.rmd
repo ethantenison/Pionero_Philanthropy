@@ -212,7 +212,7 @@ data <- rename(data, category = value)
         today <- as.Date(Sys.Date(), format='%Y')
         data <- mutate(data, npo_age = lubridate::time_length(difftime(today, data$yrs_old), "years"))
         
-        data <- mutate(data, constant = .5)
+        data <- mutate(data, constant = 1)
         
                 
                 
@@ -252,22 +252,19 @@ demo <- read_sheet(ss= "https://docs.google.com/spreadsheets/d/1KKSd_gHdtlYTdN0j
 demo <- clean_names(demo)
 write.csv(demo, file="data/demographics.csv", fileEncoding = "UTF-8" ) #Accents weren't working until I forced UTF encoding
 demographics <- read.csv("data/demographics.csv", fileEncoding = "UTF-8", encoding = "UTF-8", stringsAsFactors = FALSE)
+demographics <- demographics %>% mutate(same=1) %>%  dplyr::select(-c(X))
+demographics <- gather(demographics, measure, value, population:same)
+
 
 guatemala.dep_orig <- st_read("data/GTM_adm1.shp", stringsAsFactors=FALSE)
 guatemala_departments <- st_transform(guatemala.dep_orig, "+proj=longlat +ellps=WGS84 +datum=WGS84")
-guatemala_departments <- guatemala_departments %>% dplyr::mutate(same = 1) %>% dplyr::select(same, everything())
+guatemala_departments <- guatemala_departments %>% dplyr::select(NAME_1,geometry)
 
 demographic_map <- left_join(demographics, guatemala_departments, by = c("department" = "NAME_1"))
-
-
-demographic_map <- dplyr::select(demographic_map, -c(X))
-demographic_map$population <- as.numeric(demographic_map$population)
-
-
-columns <- colnames(demographic_map[2:33])
-demographic_map <-pivot_longer(demographic_map, cols = columns, names_to = "measure")
 demographic_map <- dplyr::select(demographic_map, department, measure, value, geometry)
-
+library(stringr)
+demographic_map$measure <- str_replace_all(demographic_map$measure, "_", " ")
+demographic_map$measure <- str_to_title(demographic_map$measure)
 
 saveRDS(demographic_map, file="./data/demographic_map.rds")
 
