@@ -433,7 +433,7 @@ server <- shinyServer(function(input, output, session) {
                                         fillOpacity = .25,
                                         weight = 3, 
                                         color = "black",
-                                        highlight = highlightOptions(
+                                        high?light = highlightOptions(
                                                 weight = 5,
                                                 fillOpacity = 0.7,
                                                 bringToFront = FALSE),
