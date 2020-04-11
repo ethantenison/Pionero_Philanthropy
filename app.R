@@ -126,7 +126,7 @@ ui <- shinyUI(
             
 
                 
-                leafletOutput("map", width = "100%", height = "85%"),
+                leafletOutput("map", width = "100%", height = "95%"),
                 
                 absolutePanel(
                         id = "topbar",
@@ -135,7 +135,7 @@ ui <- shinyUI(
                         top = "0%",
                         left = "0%",
                         right = "0%",
-                        bottom = "92.5%",
+                        bottom = "95%",
                         
                         
                         fluidRow(
@@ -160,36 +160,36 @@ ui <- shinyUI(
                          
                          div(id = "layers",
                          fluidRow(
-                                 column(3, style='padding-left:20px;',
+                                 column(3, style='padding-left:5px;padding-right:5px;',
                                         materialSwitch("non", label= strong("Nonprofit Data"), status= "default",value = TRUE),
-                                        materialSwitch("dem", label = strong("Demographic Data"), status = "default" ))
+                                        materialSwitch("dem", label = strong("Demographic Data"), status = "default" ),
+                                        br(),
+                                        actionButton("help", label = "Tutorial  ", width = '100px',
+                                                     icon = icon("book-open")),
+                                        br(), br(),
+                                        actionButton("def", label = "Definitions", width = '100px',
+                                                   icon = icon("book-open"))
+                                        )
                          ))
                          
                  ),
                 
                 fluidRow(
-                         column(2, style='padding-left:20px;padding-right:0px;',
-                                br(),
-                                    actionBttn("help", label = "Tutorial",
-                                           icon = icon("book-open", class = "fa-pull-left"),
-                                           style = "gradient",
-                                           color = "primary",
-                                           size = "md"
-                                ),br(),br(),
+                            column(1, style='width:5px;'),
+                            column(1,style='padding-left:0px;padding-right:0px;width:155px;',
                                 div(id = "partner_help",
-                                    pickerInput("partner", label= "Partner Filters",inline=FALSE,multiple = TRUE, 
+                                    pickerInput("partner", label= "Affiliation",inline=FALSE,multiple = TRUE, width= '150px',
                                             options = list(
                                                 `actions-box` = TRUE, 
                                                 size = 10,
-                                                `selected-text-format` = "count > 3"
+                                                `selected-text-format` = "count >= 1"
                                             ),
                                             c("Partnered","Eligible","Not Eligible", "Discontinued Partnership", "No Information"),
-                                            selected=c("Partnered")))
-                                 ),
-                         
-                         column(2,style='padding-left:20px;padding-right:0px;',
+                                            selected=c("Partnered")))),
+                                 
+                            column(1,style='padding:0px;padding-right:0px;width:155px;',
                                 div(id = "category_help",
-                                pickerInput("category", label= "Category Filters",inline=FALSE,multiple = TRUE, 
+                                pickerInput("category", label= "Categories",inline=FALSE,multiple = TRUE,  width= '150px',
                                             options = list(
                                                 `actions-box` = TRUE, 
                                                 size = 10,
@@ -205,9 +205,10 @@ ui <- shinyUI(
                                                        "Human Rights" ,
                                                        "Environment & Conservation",
                                                        "Animal Welfare",
-                                                       "Crime"))),
+                                                       "Crime")))),
+                            column(1,style='padding-left:5px;padding-right:0px;width:155px;',
                                 div(id = "department_help",
-                                pickerInput("depart_filters", label= "Department Filters",inline=FALSE,
+                                pickerInput("depart_filters", label= "Departments",inline=FALSE, width= '150px',
                                             multiple = TRUE, 
                                             options = list(
                                                 `actions-box` = TRUE, 
@@ -223,16 +224,10 @@ ui <- shinyUI(
                                                        "Petén", "Quiché", "Chimaltenango",  "Sacatepéquez",  
                                                        "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
                                                        "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
-                                                       "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos")))
-                                
-                                
-                                
-                                
-                                ),
-                         
-                         column(2,style='padding-left:20px;padding-right:0px;',
+                                                       "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos")))),
+                            column(1,style='padding-left:5px;padding-right:0px;width:155px;',
                                 div(id = "size_help",
-                                pickerInput("sizevar",label = "Size Variable:",
+                                pickerInput("sizevar",label = "Size", width= '150px',
                                             inline=FALSE,multiple = FALSE,
                                             options = list(
                                                 `actions-box` = TRUE, 
@@ -241,10 +236,10 @@ ui <- shinyUI(
                                                 "Annual Budget" = "budget_adj",
                                                 "Nothing Selected" = "constant",
                                                 "Years Active" = "npo_age"),
-                                            selected = "constant")),
-                                
+                                            selected = "constant"))),
+                            column(1,style='padding-left:5px;padding-right:0px;width:155px;',
                                 div(id = "color_help",
-                                pickerInput("colorvar",label = "Color Variable:",
+                                pickerInput("colorvar",label = "Color", width= '150px',
                                             inline=FALSE,multiple = FALSE,
                                             options = list(
                                                 `actions-box` = TRUE, 
@@ -254,21 +249,21 @@ ui <- shinyUI(
                                                 "Partner Status" = "partner_status",
                                                 "Religious Affiliation" = "faith_based",
                                                 "Nothing Selected" ="constant"),
-                                            selected = "constant"))
+                                            selected = "constant"))),
                                 
 
-                                ),
-                         column(2,style='padding-left:20px;padding-right:0px;',
+                                
+                            column(1,style='padding-left:5px;padding-right:0px;width:155px;',
                                 div(id = "demographic_help",
-                                pickerInput("demographics",label = "Change Demography",
+                                pickerInput("demographics",label = "Demography", width= '150px',
                                             inline=FALSE,multiple = FALSE,
                                             options = list(
                                                 `actions-box` = TRUE, 
                                                 size = 10),
                                             choices = c(unique(demographic_map$measure), "Nothing Selected" = "same"),
-                                            selected = "same")),
+                                            selected = "same"))),
                                 
-                               
+                            column(1,style='padding-left:5px;padding-right:0px;width:155px;', 
                                 selectizeInput("search",
                                                label = "Search Name: ",
                                                choices = plot$npo,
@@ -276,11 +271,13 @@ ui <- shinyUI(
                                                multiple = FALSE,
                                                options = list(
                                                    placeholder = 'Select a nonprofit',
-                                                   onInitialize = I('function() { this.setValue(""); }')))
+                                                   onInitialize = I('function() { this.setValue(""); }'))))
+                            
+                         
                                 
                                 
                                 
-                         )
+                         
                                 
                          )
         
@@ -465,14 +462,14 @@ server <- shinyServer(function(input, output, session) {
                     if (input$non == TRUE & input$dem == TRUE) {
                         leafletProxy("map") %>% 
                             addLegend(data = demographic(), "bottomright", pal = pal2(), values = ~demographic()$value,
-                                      opacity = 0.7, title = ~ paste0(unique(units)), group = "Demographic Data", layerId = "demleg") %>% 
+                                      opacity = 0.7, title = ~ paste0(unique(measure)), group = "Demographic Data", layerId = "demleg") %>% 
                             addLegend(data = data(), "bottomright",pal = pal, values = colorData, title = varname,
                                       group = "Nonprofit Data", layerId = "nonleg")
                     }
                     else if(input$dem == TRUE){
                         leafletProxy("map") %>% 
                             addLegend(data = demographic(), "bottomright", pal = pal2(), values = ~demographic()$value,
-                                      opacity = 0.7, title = ~ paste0(unique(units)), group = "Demographic Data", layerId = "demleg")
+                                      opacity = 0.7, title = ~ paste0(unique(measure)), group = "Demographic Data", layerId = "demleg")
                     }
                 
                     else if (input$non == TRUE) {

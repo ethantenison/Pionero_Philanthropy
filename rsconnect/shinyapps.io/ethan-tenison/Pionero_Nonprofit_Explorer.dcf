@@ -5,8 +5,6 @@ account: ethan-tenison
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 1745750
-bundleId: 2966654
+bundleId: 2976525
 url: https://ethan-tenison.shinyapps.io/Pionero_Nonprofit_Explorer/
-when: 1585955718.71843
-asMultiple: FALSE
-asStatic: FALSE
+when: 1586190323.05602
