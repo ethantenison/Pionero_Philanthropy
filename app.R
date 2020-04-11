@@ -90,7 +90,7 @@ demographic_map <- mutate(demographic_map, formatted = as.character(format(value
 
 ui <- shinyUI(
         bootstrapPage(
-            HTML('<meta name="viewport" content="width=1024">'),
+                HTML('<meta name="viewport" content="width=1024">'),
                 shinyjs::useShinyjs(),
                 introjsUI(),
                 tags$head(includeCSS("www/css/bootstrap.css"),
@@ -117,14 +117,14 @@ ui <- shinyUI(
                           :-moz-placeholder { /* Firefox 18- */
                                   color: white;
                           }"))
-                          ),
+                ),
                 tags$style(type = "text/css", "html, body {width:100%;height:100%}"),
-
+                
                 tags$style(".pretty.p-default input:dropdown~.state label:after {background-color: #A7E0AC !important;}"), #change color checkbox widgets 
-            
-        
-            
-
+                
+                
+                
+                
                 
                 leafletOutput("map", width = "100%", height = "95%"),
                 
@@ -140,149 +140,148 @@ ui <- shinyUI(
                         
                         fluidRow(
                                 column(8, offset = 1, 
-                                h1(strong("Guatemala Nonprofit Environment Explorer"),
-                                h3("(",textOutput("num_matching", inline = TRUE),"results)"))
-                        )
-                        
-                        
+                                       h1(strong("Guatemala Nonprofit Environment Explorer"),
+                                          h3("(",textOutput("num_matching", inline = TRUE),"results)"))
+                                )
+                                
+                                
                         )),
-            
-                 
-                     absolutePanel(
-                         id = "layercontrols",
-                         #class = "panel panel-default",
-                         fixed = TRUE,
-                         draggable = FALSE,
-                         top = "2.5%",
-                         left = "90%",
-                         right = "2.5%",
-                         bottom = "85%",
-                         
-                         div(id = "layers",
-                         fluidRow(
-                                 column(3, style='padding-left:5px;padding-right:5px;',
-                                        materialSwitch("non", label= strong("Nonprofit Data"), status= "default",value = TRUE),
-                                        materialSwitch("dem", label = strong("Demographic Data"), status = "default" ),
-                                        br(),
-                                        actionButton("help", label = "Tutorial  ", width = '100px',
-                                                     icon = icon("book-open")),
-                                        br(), br(),
-                                        actionButton("def", label = "Definitions", width = '100px',
-                                                   icon = icon("book-open"))
-                                        )
-                         ))
-                         
-                 ),
+                
+                
+                absolutePanel(
+                        id = "layercontrols",
+                        #class = "panel panel-default",
+                        fixed = TRUE,
+                        draggable = FALSE,
+                        top = "2.5%",
+                        left = "90%",
+                        right = "2.5%",
+                        bottom = "85%",
+                        
+                        div(id = "layers",
+                            fluidRow(
+                                    column(3, style='padding-left:5px;padding-right:5px;',
+                                           materialSwitch("non", label= strong("Nonprofit Data"), status= "default",value = TRUE),
+                                           materialSwitch("dem", label = strong("Demographic Data"), status = "default" ),
+                                           br(),
+                                           actionButton("help", label = "Tutorial  ", width = '100px',
+                                                        icon = icon("book-open")),
+                                           br(), br(),
+                                           actionButton("def", label = "Definitions", width = '100px',
+                                                        icon = icon("book-open"))
+                                    )
+                            ))
+                        
+                ),
                 
                 fluidRow(
-                            column(1, style='width:5px;'),
-                            column(1,style='padding-left:0px;padding-right:0px;width:155px;',
-                                div(id = "partner_help",
-                                    pickerInput("partner", label= "Affiliation",inline=FALSE,multiple = TRUE, width= '150px',
-                                            options = list(
-                                                `actions-box` = TRUE, 
-                                                size = 10,
-                                                `selected-text-format` = "count >= 1"
-                                            ),
-                                            c("Partnered","Eligible","Not Eligible", "Discontinued Partnership", "No Information"),
-                                            selected=c("Partnered")))),
-                                 
-                            column(1,style='padding:0px;padding-right:0px;width:155px;',
-                                div(id = "category_help",
-                                pickerInput("category", label= "Categories",inline=FALSE,multiple = TRUE,  width= '150px',
-                                            options = list(
-                                                `actions-box` = TRUE, 
-                                                size = 10,
-                                                `selected-text-format` = "count > 3"
-                                            ),
-                                            c("Health","Education", "Community Development","Youth & Children", "Women & Girls",
-                                              "Human Rights" ,"Environment & Conservation","Animal Welfare","Crime"),
-                                            selected=c("Health",
-                                                       "Education",
-                                                       "Community Development",
-                                                       "Youth & Children",
-                                                       "Women & Girls",
-                                                       "Human Rights" ,
-                                                       "Environment & Conservation",
-                                                       "Animal Welfare",
-                                                       "Crime")))),
-                            column(1,style='padding-left:5px;padding-right:0px;width:155px;',
-                                div(id = "department_help",
-                                pickerInput("depart_filters", label= "Departments",inline=FALSE, width= '150px',
-                                            multiple = TRUE, 
-                                            options = list(
-                                                `actions-box` = TRUE, 
-                                                size = 10,
-                                                `selected-text-format` = "count > 3"
-                                            ),choices =
-                                                c("Guatemala", "Quetzaltenango", "Huehuetenango", "Retalhuleu",    
-                                                  "Petén", "Quiché", "Chimaltenango",  "Sacatepéquez",  
-                                                  "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
-                                                  "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
-                                                  "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos"),
-                                            selected=c("Guatemala", "Quetzaltenango", "Huehuetenango", "Retalhuleu",    
-                                                       "Petén", "Quiché", "Chimaltenango",  "Sacatepéquez",  
-                                                       "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
-                                                       "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
-                                                       "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos")))),
-                            column(1,style='padding-left:5px;padding-right:0px;width:155px;',
-                                div(id = "size_help",
-                                pickerInput("sizevar",label = "Size", width= '150px',
-                                            inline=FALSE,multiple = FALSE,
-                                            options = list(
-                                                `actions-box` = TRUE, 
-                                                size = 10),
-                                            choices = c(
-                                                "Annual Budget" = "budget_adj",
-                                                "Nothing Selected" = "constant",
-                                                "Years Active" = "npo_age"),
-                                            selected = "constant"))),
-                            column(1,style='padding-left:5px;padding-right:0px;width:155px;',
-                                div(id = "color_help",
-                                pickerInput("colorvar",label = "Color", width= '150px',
-                                            inline=FALSE,multiple = FALSE,
-                                            options = list(
-                                                `actions-box` = TRUE, 
-                                                size = 10),
-                                            choices = c(
-                                                "Nonprofit Size" = "size",
-                                                "Partner Status" = "partner_status",
-                                                "Religious Affiliation" = "faith_based",
-                                                "Nothing Selected" ="constant"),
-                                            selected = "constant"))),
-                                
-
-                                
-                            column(1,style='padding-left:5px;padding-right:0px;width:155px;',
-                                div(id = "demographic_help",
-                                pickerInput("demographics",label = "Demography", width= '150px',
-                                            inline=FALSE,multiple = FALSE,
-                                            options = list(
-                                                `actions-box` = TRUE, 
-                                                size = 10),
-                                            choices = c(unique(demographic_map$measure), "Nothing Selected" = "same"),
-                                            selected = "same"))),
-                                
-                            column(1,style='padding-left:5px;padding-right:0px;width:155px;', 
-                                selectizeInput("search",
-                                               label = "Search Name: ",
-                                               choices = plot$npo,
-                                               selected = NULL,
-                                               multiple = FALSE,
+                        column(1, style='width:5px;'),
+                        column(1,style='padding-left:0px;padding-right:0px;width:155px;',
+                               div(id = "partner_help",
+                                   pickerInput("partner", label= "Affiliation",inline=FALSE,multiple = TRUE, width= '150px',
                                                options = list(
-                                                   placeholder = 'Select a nonprofit',
-                                                   onInitialize = I('function() { this.setValue(""); }'))))
-                            
-                         
-                                
-                                
-                                
-                         
-                                
-                         )
-        
+                                                       `actions-box` = TRUE, 
+                                                       size = 10,
+                                                       `selected-text-format` = "count >= 1"
+                                               ),
+                                               c("Partnered","Eligible","Not Eligible", "Discontinued Partnership", "No Information"),
+                                               selected=c("Partnered")))),
+                        
+                        column(1,style='padding:0px;padding-right:0px;width:155px;',
+                               div(id = "category_help",
+                                   pickerInput("category", label= "Categories",inline=FALSE,multiple = TRUE,  width= '150px',
+                                               options = list(
+                                                       `actions-box` = TRUE, 
+                                                       size = 10,
+                                                       `selected-text-format` = "count > 3"
+                                               ),
+                                               c("Health","Education", "Community Development","Youth & Children", "Women & Girls",
+                                                 "Human Rights" ,"Environment & Conservation","Animal Welfare","Crime"),
+                                               selected=c("Health",
+                                                          "Education",
+                                                          "Community Development",
+                                                          "Youth & Children",
+                                                          "Women & Girls",
+                                                          "Human Rights" ,
+                                                          "Environment & Conservation",
+                                                          "Animal Welfare",
+                                                          "Crime")))),
+                        column(1,style='padding-left:5px;padding-right:0px;width:155px;',
+                               div(id = "department_help",
+                                   pickerInput("depart_filters", label= "Departments",inline=FALSE, width= '150px',
+                                               multiple = TRUE, 
+                                               options = list(
+                                                       `actions-box` = TRUE, 
+                                                       size = 10,
+                                                       `selected-text-format` = "count > 3"
+                                               ),choices =
+                                                       c("Guatemala", "Quetzaltenango", "Huehuetenango", "Retalhuleu",    
+                                                         "Petén", "Quiché", "Chimaltenango",  "Sacatepéquez",  
+                                                         "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
+                                                         "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
+                                                         "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos"),
+                                               selected=c("Guatemala", "Quetzaltenango", "Huehuetenango", "Retalhuleu",    
+                                                          "Petén", "Quiché", "Chimaltenango",  "Sacatepéquez",  
+                                                          "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
+                                                          "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
+                                                          "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos")))),
+                        column(1,style='padding-left:5px;padding-right:0px;width:155px;',
+                               div(id = "size_help",
+                                   pickerInput("sizevar",label = "Size", width= '150px',
+                                               inline=FALSE,multiple = FALSE,
+                                               options = list(
+                                                       `actions-box` = TRUE, 
+                                                       size = 10),
+                                               choices = c(
+                                                       "Annual Budget" = "budget_adj",
+                                                       "Nothing Selected" = "constant",
+                                                       "Years Active" = "npo_age"),
+                                               selected = "constant"))),
+                        column(1,style='padding-left:5px;padding-right:0px;width:155px;',
+                               div(id = "color_help",
+                                   pickerInput("colorvar",label = "Color", width= '150px',
+                                               inline=FALSE,multiple = FALSE,
+                                               options = list(
+                                                       `actions-box` = TRUE, 
+                                                       size = 10),
+                                               choices = c(
+                                                       "Nonprofit Size" = "size",
+                                                       "Religious Affiliation" = "religious_aff",
+                                                       "Nothing Selected" ="constant"),
+                                               selected = "constant"))),
+                        
+                        
+                        
+                        column(1,style='padding-left:5px;padding-right:0px;width:155px;',
+                               div(id = "demographic_help",
+                                   pickerInput("demographics",label = "Demography", width= '150px',
+                                               inline=FALSE,multiple = FALSE,
+                                               options = list(
+                                                       `actions-box` = TRUE, 
+                                                       size = 10),
+                                               choices = c(unique(demographic_map$measure), "Nothing Selected" = "same"),
+                                               selected = "same"))),
+                        
+                        column(1,style='padding-left:5px;padding-right:0px;width:155px;', 
+                               selectizeInput("search",
+                                              label = "Search Name: ",
+                                              choices = plot$npo,
+                                              selected = NULL,
+                                              multiple = FALSE,
+                                              options = list(
+                                                      placeholder = 'Select a nonprofit',
+                                                      onInitialize = I('function() { this.setValue(""); }'))))
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                )
                 
-                ))
+                
+        ))
 
 
 # ------------------------------- #
@@ -298,7 +297,7 @@ ui <- shinyUI(
 # create dataframe 'data' to be plotted starts with dataframe 'plot', filtering depends on inputs from the UI
 server <- shinyServer(function(input, output, session) {
         
-         
+        
         # start introjs when button is pressed with custom options and events
         observeEvent(input$help,
                      introjs(session, options = list(
@@ -372,35 +371,36 @@ server <- shinyServer(function(input, output, session) {
         output$map <- renderLeaflet({
                 leaflet(data = demographic(), 
                         options = leafletOptions(
-                            attributionControl=FALSE)) %>%
-                        addProviderTiles("OpenMapSurfer") %>%
-                setView(-90.352651, 15.8, zoom = 8)
-             
-             
+                                attributionControl=FALSE)) %>%
+                        addTiles(
+                                urlTemplate = "https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=aae485d383324e008257aab3f9467916",
+                                attribution = 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> | Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', 
+                                options = tileOptions(minZoom = 0, maxZoom = 18)
+                        ) %>%
+                        setView(-90.352651, 15.8, zoom = 8)
+                
+                
         })
         
-        
-        #######################################Observer Function to have layers shown based on checkboxes 
-         observe({
-         if (input$non == TRUE) {
-             leafletProxy("map") %>% showGroup("Nonprofit Data")
-         } else {
-             leafletProxy("map") %>% hideGroup("Nonprofit Data")
-         }
-         })
-         
-         observe({
-         if (input$dem == TRUE) {
-             leafletProxy("map") %>% showGroup("Demographic Data")
-         } else {
-             leafletProxy("map") %>% hideGroup("Demographic Data")
-         }
-         })
         
         
         
         #######################################Observer Function for Circle Markers & Polygons
         observe({if (nrow(data()) != 0) {
+                
+                
+                if (input$non == TRUE) {
+                        leafletProxy("map") %>% showGroup("Nonprofit Data")
+                } else {
+                        leafletProxy("map") %>% hideGroup("Nonprofit Data")
+                }
+                
+                if (input$dem == TRUE) {
+                        leafletProxy("map") %>% showGroup("Demographic Data")
+                } else {
+                        leafletProxy("map") %>% hideGroup("Demographic Data")
+                }
+                
                 colorBy <- input$colorvar
                 sizeBy <- input$sizevar
                 colorData <- data()[[colorBy]]
@@ -414,18 +414,18 @@ server <- shinyServer(function(input, output, session) {
                 
                 
                 x <-data()[[sizeBy]] 
-                size <-sqrt(x / quantile(x, 0.95, na.rm = TRUE) * 100)
+                size <-sqrt(x / quantile(x, 0.95, na.rm = TRUE) * 80)
                 
                 
                 leafletProxy("map") %>% 
                         clearShapes() %>%
                         clearControls() %>%
                         addPolygons(data = Guatemala,
-                                        stroke = TRUE,
-                                        smoothFactor = 1,
-                                        weight = 2, 
-                                        color = "Black",
-                                        fillOpacity = 0) %>% 
+                                    stroke = TRUE,
+                                    smoothFactor = 1,
+                                    weight = 3, 
+                                    color = "Black",
+                                    fillOpacity = 0) %>% 
                         addPolygons(    data = demographic(),
                                         stroke = TRUE,
                                         smoothFactor = 1,
@@ -459,30 +459,30 @@ server <- shinyServer(function(input, output, session) {
                         )
                 
                 #######################################Legends based on which layer checkboxes are ticked
-                    if (input$non == TRUE & input$dem == TRUE) {
+                if (input$non == TRUE & input$dem == TRUE) {
                         leafletProxy("map") %>% 
-                            addLegend(data = demographic(), "bottomright", pal = pal2(), values = ~demographic()$value,
-                                      opacity = 0.7, title = ~ paste0(unique(measure)), group = "Demographic Data", layerId = "demleg") %>% 
-                            addLegend(data = data(), "bottomright",pal = pal, values = colorData, title = varname,
-                                      group = "Nonprofit Data", layerId = "nonleg")
-                    }
-                    else if(input$dem == TRUE){
+                                addLegend(data = demographic(), "bottomright", pal = pal2(), values = ~demographic()$value,
+                                          opacity = 0.7, title = ~ paste0(unique(measure)), group = "Demographic Data", layerId = "demleg") %>% 
+                                addLegend(data = data(), "bottomright",pal = pal, values = colorData, title = varname,
+                                          group = "Nonprofit Data", layerId = "nonleg")
+                }
+                else if(input$dem == TRUE){
                         leafletProxy("map") %>% 
-                            addLegend(data = demographic(), "bottomright", pal = pal2(), values = ~demographic()$value,
-                                      opacity = 0.7, title = ~ paste0(unique(measure)), group = "Demographic Data", layerId = "demleg")
-                    }
+                                addLegend(data = demographic(), "bottomright", pal = pal2(), values = ~demographic()$value,
+                                          opacity = 0.7, title = ~ paste0(unique(measure)), group = "Demographic Data", layerId = "demleg")
+                }
                 
-                    else if (input$non == TRUE) {
+                else if (input$non == TRUE) {
                         leafletProxy("map") %>%
-                            addLegend(data = data(), "bottomright",pal = pal, values = colorData, title = varname,
-                                      group = "Nonprofit Data", layerId = "nonleg")
-                    }
-                    
+                                addLegend(data = data(), "bottomright",pal = pal, values = colorData, title = varname,
+                                          group = "Nonprofit Data", layerId = "nonleg")
+                }
+                
         }
                 else{leafletProxy("map") %>% clearMarkers()} #clear the map if the data() is empty
                 
                 
-              
+                
                 
                 
                 
