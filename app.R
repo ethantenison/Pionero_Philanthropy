@@ -116,14 +116,18 @@ ui <- shinyUI(
                           }
                           :-moz-placeholder { /* Firefox 18- */
                                   color: white;
-                          }"))
+                          }")),
+                          tags$style(HTML(
+                                  ".introjs-tooltip {
+                                      max-width: 100%;
+                                      min-width: 1000px;
+                                    }"
+                          ))
                 ),
                 tags$style(type = "text/css", "html, body {width:100%;height:100%}"),
                 
                 tags$style(".pretty.p-default input:dropdown~.state label:after {background-color: #A7E0AC !important;}"), #change color checkbox widgets 
-                
-                
-                
+    
                 
                 
                 leafletOutput("map", width = "100%", height = "95%"),
@@ -173,7 +177,7 @@ ui <- shinyUI(
                             ))
                         
                 ),
-                
+                div(id = "filters",
                 fluidRow(
                         column(1, style='width:5px;'),
                         column(1,style='padding-left:0px;padding-right:0px;width:155px;',
@@ -270,7 +274,7 @@ ui <- shinyUI(
                                               multiple = FALSE,
                                               options = list(
                                                       placeholder = 'Select a nonprofit',
-                                                      onInitialize = I('function() { this.setValue(""); }'))))
+                                                      onInitialize = I('function() { this.setValue(""); }')))))
                         
                         
                         
@@ -298,45 +302,53 @@ ui <- shinyUI(
 server <- shinyServer(function(input, output, session) {
         
         
-        # start introjs when button is pressed with custom options and events
+        #######################################Tutorial 
         observeEvent(input$help,
                      introjs(session, options = list(
-                             steps = data.frame(element = c("#partner_help ",
-                                                            "#category_help ",
-                                                            "#department_help ",
-                                                            "#size_help ",
-                                                            "#color_help ",
-                                                            "#demographic_help",
-                                                            "#layers",
+                             steps = data.frame(element = c("#filters  ",
                                                             "#search + .form-control",
-                                                            "#histBudget "
+                                                            "#layers"
                                                             
                                                             
-                             ),#This section is used in the tutorial section
-                             intro = c(includeMarkdown("tooltips/partner.md"),
-                                       includeMarkdown("tooltips/categories.md"),
-                                       includeMarkdown("tooltips/departments.md"),
-                                       includeMarkdown("tooltips/sizevar.md"),
-                                       includeMarkdown("tooltips/colorvar.md"),
-                                       includeMarkdown("tooltips/demographic.md"),
-                                       includeMarkdown("tooltips/layers.md"),
-                                       includeMarkdown("tooltips/search.md"),
-                                       includeMarkdown("tooltips/hist.md")
+                             ),
+                             intro = c( includeMarkdown("tooltips/filters.md"),
+                                        includeMarkdown("tooltips/search.md"),
+                                        includeMarkdown("tooltips/layers.md")
+                                       
                              ),
                              position = c("auto",
-                                          "auto",
-                                          "auto",
-                                          "auto",
-                                          "auto",
-                                          "auto",
-                                          "auto",
                                           "auto",
                                           "auto"
                              )
                              ),
                              "nextLabel"="Next",
                              "prevLabel"="Previous",
-                             "skipLabel"="Exit"),
+                             "skipLabel"="Exit", 
+                             overlayOpacity = 0.5),
+                             
+                     )
+        )
+        
+        #######################################Definitions 
+        observeEvent(input$def,
+                     introjs(session, options = list(
+                             steps = data.frame(element = c("#definitions "
+                                                            
+                                                            
+                             ),
+                             intro = c(
+                                       includeMarkdown("tooltips/definitions.md")
+                             ),
+                             position = c(
+                                          "top"
+                             )
+                             ),
+                             "nextLabel"="Next",
+                             "prevLabel"="Previous",
+                             "skipLabel"="Exit", 
+                             overlayOpacity = 0.5,
+                             showProgress = FALSE),
+                             
                      )
         )
         
