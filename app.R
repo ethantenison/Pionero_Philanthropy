@@ -251,7 +251,8 @@ ui <- shinyUI(
                                                 size = 10),
                                             choices = c(
                                                 "Nonprofit Size" = "size",
-                                                "Religious Affiliation" = "religious_aff",
+                                                "Partner Status" = "partner_status",
+                                                "Religious Affiliation" = "faith_based",
                                                 "Nothing Selected" ="constant"),
                                             selected = "constant"))
                                 
@@ -375,35 +376,34 @@ server <- shinyServer(function(input, output, session) {
                 leaflet(data = demographic(), 
                         options = leafletOptions(
                             attributionControl=FALSE)) %>%
-                addTiles(
-                    urlTemplate = "https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=aae485d383324e008257aab3f9467916",
-                    attribution = 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> | Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', 
-                    options = tileOptions(minZoom = 0, maxZoom = 18)
-                ) %>%
+                        addProviderTiles("OpenMapSurfer") %>%
                 setView(-90.352651, 15.8, zoom = 8)
              
              
         })
         
-       
+        
+        #######################################Observer Function to have layers shown based on checkboxes 
+         observe({
+         if (input$non == TRUE) {
+             leafletProxy("map") %>% showGroup("Nonprofit Data")
+         } else {
+             leafletProxy("map") %>% hideGroup("Nonprofit Data")
+         }
+         })
+         
+         observe({
+         if (input$dem == TRUE) {
+             leafletProxy("map") %>% showGroup("Demographic Data")
+         } else {
+             leafletProxy("map") %>% hideGroup("Demographic Data")
+         }
+         })
+        
         
         
         #######################################Observer Function for Circle Markers & Polygons
         observe({if (nrow(data()) != 0) {
-            
-            
-                if (input$non == TRUE) {
-                    leafletProxy("map") %>% showGroup("Nonprofit Data")
-                } else {
-                    leafletProxy("map") %>% hideGroup("Nonprofit Data")
-                }
-            
-                if (input$dem == TRUE) {
-                    leafletProxy("map") %>% showGroup("Demographic Data")
-                } else {
-                    leafletProxy("map") %>% hideGroup("Demographic Data")
-                }
-            
                 colorBy <- input$colorvar
                 sizeBy <- input$sizevar
                 colorData <- data()[[colorBy]]
@@ -417,7 +417,7 @@ server <- shinyServer(function(input, output, session) {
                 
                 
                 x <-data()[[sizeBy]] 
-                size <-sqrt(x / quantile(x, 0.95, na.rm = TRUE) * 80)
+                size <-sqrt(x / quantile(x, 0.95, na.rm = TRUE) * 100)
                 
                 
                 leafletProxy("map") %>% 
@@ -426,7 +426,7 @@ server <- shinyServer(function(input, output, session) {
                         addPolygons(data = Guatemala,
                                         stroke = TRUE,
                                         smoothFactor = 1,
-                                        weight = 3, 
+                                        weight = 2, 
                                         color = "Black",
                                         fillOpacity = 0) %>% 
                         addPolygons(    data = demographic(),
