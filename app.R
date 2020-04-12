@@ -1,4 +1,9 @@
-
+# tags$style(HTML(
+#     ".introjs-tooltip {
+#                                       max-width: 100%;
+#                                       min-width: 100%;
+#                                     }"
+# ))
 
 
 
@@ -116,13 +121,8 @@ ui <- shinyUI(
                           }
                           :-moz-placeholder { /* Firefox 18- */
                                   color: white;
-                          }")),
-                          tags$style(HTML(
-                                  ".introjs-tooltip {
-                                      max-width: 100%;
-                                      min-width: 1000px;
-                                    }"
-                          ))
+                          }"))
+                          
                 ),
                 tags$style(type = "text/css", "html, body {width:100%;height:100%}"),
                 
@@ -197,7 +197,8 @@ ui <- shinyUI(
                                                options = list(
                                                        `actions-box` = TRUE, 
                                                        size = 10,
-                                                       `selected-text-format` = "count > 3"
+                                                       `selected-text-format` = "count > 3",
+                                                       `count-selected-text`= "{0} Items Selected"
                                                ),
                                                c("Health","Education", "Community Development","Youth & Children", "Women & Girls",
                                                  "Human Rights" ,"Environment & Conservation","Animal Welfare","Crime"),
@@ -217,7 +218,8 @@ ui <- shinyUI(
                                                options = list(
                                                        `actions-box` = TRUE, 
                                                        size = 10,
-                                                       `selected-text-format` = "count > 3"
+                                                       `selected-text-format` = "count > 3",
+                                                       `count-selected-text`= "{0} Items Selected"
                                                ),choices =
                                                        c("Guatemala", "Quetzaltenango", "Huehuetenango", "Retalhuleu",    
                                                          "Petén", "Quiché", "Chimaltenango",  "Sacatepéquez",  
@@ -263,17 +265,29 @@ ui <- shinyUI(
                                                options = list(
                                                        `actions-box` = TRUE, 
                                                        size = 10),
-                                               choices = c(unique(demographic_map$measure), "Nothing Selected" = "same"),
+                                               choices = c(
+                                                    "Population",                           "Poverty Rate",                         "Extreme Poverty Rate",                 "Gross Birth Rate",                    
+                                                    "Infant Mortality Rate",                "Low Birth Weight Babies" ,             "Medically Attended Births",            "Births Attended In Public Centers",   
+                                                    "Gross Death Rate",                     "Death By External Causes",             "Death By Diabetes",                    "Death By Diarrhea",                   
+                                                    "Death By Circulatory System Diseases", "Death By Respiratory System Diseases", "Death By Tuberculosis",                "Death By Hiv Aids",                   
+                                                    "Intrafamily Violence Rate",            "Homicide Rate",                        "Delinquent Injury Rate",               "Robbery Rate",                        
+                                                    "Rape Rate",                            "Crimes Against Freedom Rate",          "Judicial Offense Rate",                "Total Literacy Rate",                 
+                                                    "Male Literacy Rate",                   "Female Literacy Rate",                 "Number Of Libraries",                  "Preprimary Net Enrollment Rate",      
+                                                    "Number Of Preprimary School Students", "Primary School Net Enrollment Rate",   "Number Of Primary School Students",    "Middle School Net Enrollment Rate",   
+                                                    "Number Of Middle School Students",     "High School Net Enrollment Rate",      "Number Of High School Students",       "Female Paid Employees",               
+                                                    "Total Employment Rate",                "Potable Water Access",                 "Improved Sanitation Access",           "Forest Fires",                        
+                                                    "Home Water Access",                    "Homes Without Santitation Systems",    "Nothing Selected" = "same"
+                                               ),
                                                selected = "same"))),
                         
                         column(1,style='padding-left:5px;padding-right:0px;width:155px;', 
                                selectizeInput("search",
-                                              label = "Search Name: ",
+                                              label = "Search Name ",
                                               choices = plot$npo,
                                               selected = NULL,
                                               multiple = FALSE,
                                               options = list(
-                                                      placeholder = 'Select a nonprofit',
+                                                      placeholder = 'Select a Nonprofit',
                                                       onInitialize = I('function() { this.setValue(""); }')))))
                         
                         
@@ -348,6 +362,12 @@ server <- shinyServer(function(input, output, session) {
                              "skipLabel"="Exit", 
                              overlayOpacity = 0.5,
                              showProgress = FALSE),
+                             events = list("onbeforechange"='
+                                     if (targetElement.getAttribute("data-step")==="1") {
+                                      $(".newClass").css("max-width", "800px").css("min-width","800px");  
+                                     } else {
+                                      $(".newClass").css("max-width", "500px").css("min-width","500px");
+                                     }')
                              
                      )
         )

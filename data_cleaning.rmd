@@ -83,7 +83,7 @@ data$enviro_cons[data$enviro_cons == "N" ] <- NA
 data$crime[data$crime == "N" ] <- NA
 data$human_rights[data$human_rights == "N" ] <- NA
 data$animal_welfare[data$animal_welfare == "N" ] <- NA
-data$faith_based[data$faith_based == "N"] <- NA
+data$faith_based[data$faith_based == "N"] <- "Secular"
 
 data <- data %>% unite(list_categories,health:faith_based, remove = FALSE, sep =", ",na.rm = TRUE)
 
@@ -273,3 +273,7 @@ saveRDS(demographic_map, file="./data/demographic_map.rds")
 saveRDS(data, file="./data/npo_data.rds")
 
 ```
+
+
+
+

@@ -1,6 +1,23 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700");
 
 
+/* ------------------------------- */
+/* ------------------------------- */
+/* ------------------------------- */
+/* ------------------------------- */
+/* ---SECTION: Table STYLING------ */
+/* ------------------------------- */
+/* ------------------------------- */
+/* ------------------------------- */
+/* ------------------------------- */
+
+.mbtablestyle {
+        border-collapse: collapse;
+
+   > table, td, th {
+        border: 1px solid black;
+        }
+}
 
 
 /* ------------------------------- */
@@ -35,7 +52,7 @@
 	font-weight: 700;
 	color: black;
 	text-align: center;
-	text-shadow: 1px 1px 1px rgba(0,0,0,.4);
+	text-shadow: 1px 1px 1px rgba(0,0,0,.8);
 	background: #5da5da;
 	width: 25px;
 	height: 25px;
@@ -121,7 +138,7 @@ background-color: white; /* changes the background of the tutorial windows */
 min-width: 400px;
 max-width: 500px !important;
 border-radius: 3px;
-box-shadow: 0 1px 10px rgba(0,0,0,.4);
+box-shadow: 0 1px 10px rgba(0,0,0,.8);
 -webkit-transition: opacity .1s ease-out;
 -moz-transition: opacity .1s ease-out;
 -ms-transition: opacity .1s ease-out;
