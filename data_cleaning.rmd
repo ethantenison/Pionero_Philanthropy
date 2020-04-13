@@ -86,7 +86,7 @@ data$animal_welfare[data$animal_welfare == "N" ] <- NA
 data$faith_based[data$faith_based == "N"] <- "Secular"
 data$religious_aff[data$religious_aff == "None"] <- "Secular"
 
-data <- data %>% unite(list_categories,health:faith_based, remove = FALSE, sep =", ",na.rm = TRUE)
+data <- data %>% unite(list_categories,health:animal_welfare, remove = FALSE, sep =", ",na.rm = TRUE)
 
 
 data_1st_add <- data %>% dplyr::select(-c(address2,latitude2,longitude2,municipality2, department2, address3,latitude3, longitude3,
@@ -251,8 +251,8 @@ demo <- read_sheet(ss= "https://docs.google.com/spreadsheets/d/1KKSd_gHdtlYTdN0j
 demo <- clean_names(demo)
 write.csv(demo, file="data/demographics.csv", fileEncoding = "UTF-8" ) #Accents weren't working until I forced UTF encoding
 demographics <- read.csv("data/demographics.csv", fileEncoding = "UTF-8", encoding = "UTF-8", stringsAsFactors = FALSE)
-demographics <- demographics %>% mutate(same=1) %>%  dplyr::select(-c(X))
-demographics <- gather(demographics, measure, value, population:same)
+demographics <- demographics %>% mutate("Nothing Selected"=1) %>%  dplyr::select(-c(X))
+demographics <- gather(demographics, measure, value, population:"Nothing Selected")
 
 
 guatemala.dep_orig <- st_read("data/GTM_adm1.shp", stringsAsFactors=FALSE)

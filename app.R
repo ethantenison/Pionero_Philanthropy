@@ -170,8 +170,8 @@ ui <- shinyUI(
                             fluidRow(
                                     column(3, style='padding:5px;',
                                            
-                                           materialSwitch("non", label= strong("Nonprofit Data (off/on)"), status= "info",value = TRUE),
-                                           materialSwitch("dem", label = strong("Demographic Data (off/on)"), status = "info" ),
+                                           materialSwitch("non", label= strong("Nonprofits (off/on)"), status= "info",value = TRUE),
+                                           materialSwitch("dem", label = strong("Demographics (off/on)"), status = "info" ),
                                            br(),
                                            actionButton("help", label = "Tutorial  ", width = '100px',
                                                         icon = icon("question-circle")),
@@ -281,9 +281,9 @@ ui <- shinyUI(
                                                     "Number Of Preprimary School Students", "Primary School Net Enrollment Rate",   "Number Of Primary School Students",    "Middle School Net Enrollment Rate",   
                                                     "Number Of Middle School Students",     "High School Net Enrollment Rate",      "Number Of High School Students",       "Female Paid Employees",               
                                                     "Total Employment Rate",                "Potable Water Access",                 "Improved Sanitation Access",           "Forest Fires",                        
-                                                    "Home Water Access",                    "Homes Without Santitation Systems",    "Nothing Selected" = "same"
+                                                    "Home Water Access",                    "Homes Without Santitation Systems",    "Nothing Selected"
                                                ),
-                                               selected = "same"))),
+                                               selected = "Nothing Selected"))),
                         
                         column(1,style='padding-left:5px;padding-right:0px;width:155px;', 
                                selectizeInput("search",
@@ -471,7 +471,8 @@ server <- shinyServer(function(input, output, session) {
                                 "<h5/>","Year Founded: ",sep = " ",year_founded,
                                 "<h5/>","Annual Budget: $",format(budget, big.mark=","),
                                 "<h5/>","Website: ",sep = " ",website,
-                                "<h5/>","All Categories: ",sep = " ",list_categories),
+                                "<h5/>","All Categories: ",sep = " ",list_categories,
+                                "<h5/>","Religious Affiliation: ",sep = " ",religious_aff),
                                 
                                 label = ~ paste0("Nonprofit: ", sep = " ", npo),
                                 radius = size,
