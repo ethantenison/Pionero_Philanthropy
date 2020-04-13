@@ -64,6 +64,7 @@ library(ggplot2)
 # ------------------------------- #
 # ------------------------------- #
 
+source("./data/SwitchButton.R")
 
 plot <- readRDS("./data/npo_data.rds")
 plot$category <- as.factor(plot$category)
@@ -97,6 +98,7 @@ definitions <- htmlTemplate("tooltips/definitions.html")
 
 ui <- shinyUI(
         bootstrapPage(
+                theme = "www/css/button.css",
                 HTML('<meta name="viewport" content="width=1024">'),
                 shinyjs::useShinyjs(),
                 introjsUI(),
@@ -166,10 +168,10 @@ ui <- shinyUI(
                         
                         div(id = "layers",
                             fluidRow(
-                                    column(3, style='padding-left:5px;padding-right:5px;',
+                                    column(3, style='padding:5px;',
                                            
-                                           materialSwitch("non", label= strong("Nonprofit Data"), status= "default",value = TRUE),
-                                           materialSwitch("dem", label = strong("Demographic Data"), status = "default" ),
+                                           materialSwitch("non", label= strong("Nonprofit Data (off/on)"), status= "info",value = TRUE),
+                                           materialSwitch("dem", label = strong("Demographic Data (off/on)"), status = "info" ),
                                            br(),
                                            actionButton("help", label = "Tutorial  ", width = '100px',
                                                         icon = icon("question-circle")),
@@ -324,7 +326,7 @@ server <- shinyServer(function(input, output, session) {
                      introjs(session, options = list(
                              steps = data.frame(element = c("#filters  ",
                                                             "#search + .form-control",
-                                                            "#layers"
+                                                            "#layercontrols "
                                                             
                                                             
                              ),
