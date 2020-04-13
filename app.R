@@ -81,6 +81,8 @@ demographic_map <- st_as_sf(demographic_map)
 demographic_map <- st_transform(demographic_map,"+proj=longlat +ellps=WGS84 +datum=WGS84")
 demographic_map <- mutate(demographic_map, formatted = as.character(format(value,  big.mark=",", digits=0)))
 
+definitions <- htmlTemplate("tooltips/definitions.html")
+
 
 
 # ------------------------------- #
@@ -165,11 +167,12 @@ ui <- shinyUI(
                         div(id = "layers",
                             fluidRow(
                                     column(3, style='padding-left:5px;padding-right:5px;',
+                                           
                                            materialSwitch("non", label= strong("Nonprofit Data"), status= "default",value = TRUE),
                                            materialSwitch("dem", label = strong("Demographic Data"), status = "default" ),
                                            br(),
                                            actionButton("help", label = "Tutorial  ", width = '100px',
-                                                        icon = icon("book-open")),
+                                                        icon = icon("question-circle")),
                                            br(), br(),
                                            actionButton("def", label = "Definitions", width = '100px',
                                                         icon = icon("book-open"))
@@ -186,7 +189,7 @@ ui <- shinyUI(
                                                options = list(
                                                        `actions-box` = TRUE, 
                                                        size = 10,
-                                                       `selected-text-format` = "count >= 1"
+                                                       `selected-text-format` = "count > 1"
                                                ),
                                                c("Partnered","Eligible","Not Eligible", "Discontinued Partnership", "No Information"),
                                                selected=c("Partnered")))),
@@ -337,39 +340,25 @@ server <- shinyServer(function(input, output, session) {
                              ),
                              "nextLabel"="Next",
                              "prevLabel"="Previous",
-                             "skipLabel"="Exit", 
-                             overlayOpacity = 0.5),
+                             "skipLabel"="Exit" 
+                             ),
                              
                      )
         )
         
         #######################################Definitions 
-        observeEvent(input$def,
-                     introjs(session, options = list(
-                             steps = data.frame(element = c("#definitions "
-                                                            
-                                                            
-                             ),
-                             intro = c(
-                                       includeMarkdown("tooltips/definitions.md")
-                             ),
-                             position = c(
-                                          "top"
-                             )
-                             ),
-                             "nextLabel"="Next",
-                             "prevLabel"="Previous",
-                             "skipLabel"="Exit", 
-                             overlayOpacity = 0.5,
-                             showProgress = FALSE),
-                             events = list("onbeforechange"='
-                                     if (targetElement.getAttribute("data-step")==="1") {
-                                      $(".newClass").css("max-width", "800px").css("min-width","800px");  
-                                     } else {
-                                      $(".newClass").css("max-width", "500px").css("min-width","500px");
-                                     }')
-                             
-                     )
+        observeEvent(
+                        input$def, {
+                                    showModal(modalDialog(
+                                        title = "Definitions",
+                                        includeHTML(knitr::knit2html("tooltips/definitions.md", fragment.only = TRUE)), #I had to knit it here because reading a full html file resets the styling
+                                        easyClose = TRUE,
+                                        size = "l",
+                                        fade = TRUE
+                    
+                ))
+            }
+                     
         )
         
         #######################################Data for Circle markers 
