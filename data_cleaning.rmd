@@ -248,7 +248,7 @@ data$department[data$department == "Totonicapan" ] <- "Totonicapán"
 demo <- read_sheet(ss= "https://docs.google.com/spreadsheets/d/1KKSd_gHdtlYTdN0jnOtI86eCnRHQwoiBa6cMH9LnTA4/edit#gid=0", 
                    sheet = "Sheet1", col_names = TRUE)
 
-demo <- clean_names(demo)
+
 write.csv(demo, file="data/demographics.csv", fileEncoding = "UTF-8" ) #Accents weren't working until I forced UTF encoding
 demographics <- read.csv("data/demographics.csv", fileEncoding = "UTF-8", encoding = "UTF-8", stringsAsFactors = FALSE)
 demographics <- demographics %>% mutate("Nothing Selected"=1) %>%  dplyr::select(-c(X))

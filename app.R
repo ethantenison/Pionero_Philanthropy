@@ -170,8 +170,8 @@ ui <- shinyUI(
                             fluidRow(
                                     column(3, style='padding:5px;',
                                            
-                                           materialSwitch("non", label= strong("Nonprofits (off/on)"), status= "info",value = TRUE),
-                                           materialSwitch("dem", label = strong("Demographics (off/on)"), status = "info" ),
+                                           materialSwitch("non", label= strong("Nonprofits (off/on)"), status= "default",value = TRUE),
+                                           materialSwitch("dem", label = strong("Demographics (off/on)"), status = "default", value = TRUE ),
                                            br(),
                                            actionButton("help", label = "Tutorial  ", width = '100px',
                                                         icon = icon("question-circle")),
