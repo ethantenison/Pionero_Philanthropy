@@ -5,11 +5,11 @@ Using the drop down menu, you can select which demographic information you would
 <br/>
 <br/>
 
+#### Definitions
 If you'd like to see definitions for the different indicators please click on the Definitions button. 
 
 
-<img src="defs.png"
-     alt="Markdown Monster icon"
-     style="float: left; margin-right: 10px;" />
+<img src="definitions.png"
+     alt="The Definition Button"/>
      
      

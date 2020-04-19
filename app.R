@@ -315,6 +315,7 @@ server <- shinyServer(function(input, output, session) {
                              steps = data.frame(element = c("#filters  ",
                                                             "#demographic_help ", 
                                                             "#search + .form-control",
+                                                            "#nonprofits ",
                                                             "#layercontrols "
                                                             
                                                             
@@ -322,10 +323,12 @@ server <- shinyServer(function(input, output, session) {
                              intro = c( includeMarkdown("tooltips/filters.md"),
                                         includeMarkdown("tooltips/demographic.md"),
                                         includeMarkdown("tooltips/search.md"),
+                                        includeMarkdown("tooltips/nonprofits.md"),
                                         includeMarkdown("tooltips/layers.md")
                                        
                              ),
                              position = c("auto",
+                                          "auto",
                                           "auto",
                                           "auto",
                                           "auto"
@@ -428,7 +431,7 @@ server <- shinyServer(function(input, output, session) {
                 
                 
                 x <-data()[[sizeBy]] 
-                size <-sqrt(x / quantile(x, 0.95, na.rm = TRUE) * 80)
+                size <-sqrt(x / quantile(x, 0.95, na.rm = TRUE) * 100)
                 
                 
                 leafletProxy("map") %>% 
@@ -452,8 +455,11 @@ server <- shinyServer(function(input, output, session) {
                                                 fillOpacity = 0.7,
                                                 bringToFront = FALSE),
                                         popup =  ~ paste0(
-                                                "<h4/><b>",Department,"</b><h5/>","Measure: ",sep = " ",input$demographics,
-                                                "<h5/>","Value: ",sep = " ",demographic()$formatted),
+                                                "<h4/><b>",Department,"</b><h5/>","Selected Measure: ",sep = " ",input$demographics,
+                                                "<h5/>","Selected Measure Value: ",sep = " ",demographic()$formatted,
+                                                "<h5/>","Population: ",sep = " ", demographic()$Population,
+                                                "<h5/>","Population: ",sep = " ", demographic()$Population
+                                                ),
                                         group = "Demographic Data") %>%
                         clearMarkers() %>% #you have to clear previously drawn markers
                         addCircleMarkers(data = data(), lng =  ~ longitude,lat =  ~ latitude,stroke = FALSE,popup =  ~ paste0(

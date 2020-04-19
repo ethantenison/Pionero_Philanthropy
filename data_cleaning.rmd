@@ -252,6 +252,7 @@ demo <- read_sheet(ss= "https://docs.google.com/spreadsheets/d/1KKSd_gHdtlYTdN0j
 write.csv(demo, file="data/demographics.csv", fileEncoding = "UTF-8" ) #Accents weren't working until I forced UTF encoding
 demographics <- read.csv("data/demographics.csv", fileEncoding = "UTF-8", encoding = "UTF-8", stringsAsFactors = FALSE)
 demographics <- demographics %>% mutate("Nothing Selected"=1) %>%  dplyr::select(-c(X))
+to_paste <- demographics %>% select(Department, Population, Poverty.Rate, Total.Literacy.Rate, Homicide.Rate, Total.Employment.Rate, Improved.Sanitation.Access, Gross.Birth.Rate)
 demographics <- gather(demographics, measure, value, Population:"Nothing Selected")
 
 
@@ -261,6 +262,7 @@ guatemala_departments <- guatemala_departments %>% dplyr::select(NAME_1,geometry
 
 demographic_map <- left_join(demographics, guatemala_departments, by = c("Department" = "NAME_1"))
 demographic_map <- dplyr::select(demographic_map, Department, measure, value, geometry)
+demographic_map <- left_join(demographic_map, to_paste, by = "Department")
 library(stringr)
 demographic_map$measure <- str_replace_all(demographic_map$measure, "\\.", " ")
 
