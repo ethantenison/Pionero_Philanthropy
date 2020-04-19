@@ -270,19 +270,7 @@ ui <- shinyUI(
                                                options = list(
                                                        `actions-box` = TRUE, 
                                                        size = 10),
-                                               choices = c(
-                                                    "Population",                           "Poverty Rate",                         "Extreme Poverty Rate",                 "Gross Birth Rate",                    
-                                                    "Infant Mortality Rate",                "Low Birth Weight Babies" ,             "Medically Attended Births",            "Births Attended In Public Centers",   
-                                                    "Gross Death Rate",                     "Death By External Causes",             "Death By Diabetes",                    "Death By Diarrhea",                   
-                                                    "Death By Circulatory System Diseases", "Death By Respiratory System Diseases", "Death By Tuberculosis",                "Death By Hiv Aids",                   
-                                                    "Intrafamily Violence Rate",            "Homicide Rate",                        "Delinquent Injury Rate",               "Robbery Rate",                        
-                                                    "Rape Rate",                            "Crimes Against Freedom Rate",          "Judicial Offense Rate",                "Total Literacy Rate",                 
-                                                    "Male Literacy Rate",                   "Female Literacy Rate",                 "Number Of Libraries",                  "Preprimary Net Enrollment Rate",      
-                                                    "Number Of Preprimary School Students", "Primary School Net Enrollment Rate",   "Number Of Primary School Students",    "Middle School Net Enrollment Rate",   
-                                                    "Number Of Middle School Students",     "High School Net Enrollment Rate",      "Number Of High School Students",       "Female Paid Employees",               
-                                                    "Total Employment Rate",                "Potable Water Access",                 "Improved Sanitation Access",           "Forest Fires",                        
-                                                    "Home Water Access",                    "Homes Without Santitation Systems",    "Nothing Selected"
-                                               ),
+                                               choices = unique(demographic_map$measure),
                                                selected = "Nothing Selected"))),
                         
                         column(1,style='padding-left:5px;padding-right:0px;width:155px;', 
@@ -325,17 +313,20 @@ server <- shinyServer(function(input, output, session) {
         observeEvent(input$help,
                      introjs(session, options = list(
                              steps = data.frame(element = c("#filters  ",
+                                                            "#demographic_help ", 
                                                             "#search + .form-control",
                                                             "#layercontrols "
                                                             
                                                             
                              ),
                              intro = c( includeMarkdown("tooltips/filters.md"),
+                                        includeMarkdown("tooltips/demographic.md"),
                                         includeMarkdown("tooltips/search.md"),
                                         includeMarkdown("tooltips/layers.md")
                                        
                              ),
                              position = c("auto",
+                                          "auto",
                                           "auto",
                                           "auto"
                              )
@@ -370,7 +361,7 @@ server <- shinyServer(function(input, output, session) {
                         plot %>% 
                                 filter(category %in% input$category) %>%
                                 filter(partner_status %in% input$partner) %>%
-                                filter(department %in% input$depart_filters)
+                                filter(department%in% input$depart_filters)
                         
                 }
                 else {
@@ -461,7 +452,7 @@ server <- shinyServer(function(input, output, session) {
                                                 fillOpacity = 0.7,
                                                 bringToFront = FALSE),
                                         popup =  ~ paste0(
-                                                "<h4/><b>",department,"</b><h5/>","Measure: ",sep = " ",input$demographics,
+                                                "<h4/><b>",Department,"</b><h5/>","Measure: ",sep = " ",input$demographics,
                                                 "<h5/>","Value: ",sep = " ",demographic()$formatted),
                                         group = "Demographic Data") %>%
                         clearMarkers() %>% #you have to clear previously drawn markers
