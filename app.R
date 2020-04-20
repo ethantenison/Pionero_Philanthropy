@@ -457,8 +457,7 @@ server <- shinyServer(function(input, output, session) {
                                                 bringToFront = FALSE),
                                         popup =  ~ paste0(
                                                 "<h4/><b>",Department,"</b><h5/>",
-                                                "<h5/><b>","Selected Measure: ",sep = " ",input$demographics,
-                                                "<h5/><b>","Selected Measure Value: ",sep = " ",demographic()$formatted,sep = " ",demographic()$units,
+                                                "<h5/><b>",input$demographics,sep = " ",demographic()$formatted,sep = " ",demographic()$units,
                                                 "<h5/>","Population: ",sep = " ", demographic()$Population,
                                                 "<h5/>","Poverty Rate: ",sep = " ", demographic()$Poverty.Rate, "%",
                                                 "<h5/>","Literacy Rate: ",sep = " ", demographic()$Total.Literacy.Rate, "%",
@@ -488,20 +487,25 @@ server <- shinyServer(function(input, output, session) {
                         )
                 
                 #######################################Legends based on which layer checkboxes are ticked
-                if (input$non == TRUE & input$dem == TRUE) {
+                if (input$non == TRUE & input$dem == TRUE &  ("Nothing Selected" %in% input$demographics)) {
                         leafletProxy("map") %>% 
-                                addLegend(data = demographic(), "bottomright", pal = pal2(), values = ~demographic()$value,
-                                          opacity = 0.7, title = ~ paste0(unique(measure)), group = "Demographic Data", layerId = "demleg") %>% 
                                 addLegend(data = data(), "bottomright",pal = pal, values = colorData, title = varname,
                                           group = "Nonprofit Data", layerId = "nonleg")
                 }
-                else if(input$dem == TRUE){
+                else if (input$non == TRUE & input$dem == TRUE & !("Nothing Selected" %in% input$demographics)) {
+                        leafletProxy("map") %>% 
+                            addLegend(data = demographic(), "bottomright", pal = pal2(), values = ~demographic()$value,
+                                      opacity = 0.7, title = ~ paste0(unique(measure)), group = "Demographic Data", layerId = "demleg") %>% 
+                            addLegend(data = data(), "bottomright",pal = pal, values = colorData, title = varname,
+                                      group = "Nonprofit Data", layerId = "nonleg")
+                }
+                else if(input$dem == TRUE & input$non == FALSE){
                         leafletProxy("map") %>% 
                                 addLegend(data = demographic(), "bottomright", pal = pal2(), values = ~demographic()$value,
                                           opacity = 0.7, title = ~ paste0(unique(measure)), group = "Demographic Data", layerId = "demleg")
                 }
                 
-                else if (input$non == TRUE) {
+                else if (input$dem == FALSE & input$non == TRUE) {
                         leafletProxy("map") %>%
                                 addLegend(data = data(), "bottomright",pal = pal, values = colorData, title = varname,
                                           group = "Nonprofit Data", layerId = "nonleg")
