@@ -253,7 +253,7 @@ write.csv(demo, file="data/demographics.csv", fileEncoding = "UTF-8" ) #Accents 
 demographics <- read.csv("data/demographics.csv", fileEncoding = "UTF-8", encoding = "UTF-8", stringsAsFactors = FALSE)
 
 #Normalizing libraries to be per 1000 residents and creating a nothing selected variable 
-demographics <- demographics %>% mutate("Nothing Selected"=1) %>%  dplyr::select(-c(X)) %>% mutate(Number.of.Libraries = Number.of.Libraries/(Population/100000))
+demographics <- demographics %>% mutate("Nothing Selected"=1) %>% dplyr::select(-c(X,Number.of.Preprimary.School.Students, Number.of.Primary.School.Students, Number.of.Middle.School.Students,Number.of.High.School.Students )) %>% mutate(Number.of.Libraries = Number.of.Libraries/(Population/100000))
 to_paste <- demographics %>% select(Department, Population, Poverty.Rate, Total.Literacy.Rate, Homicide.Rate, Total.Employment.Rate, Improved.Sanitation.Access, Gross.Birth.Rate)
 demographics <- gather(demographics, measure, value, Population:"Nothing Selected")
 
@@ -295,15 +295,15 @@ for (i in 1:length(demographic_map$measure)){
                 }else if(demographic_map$measure[i] == "Time.to.Secondary.School"){        
                                 demographic_map$units[i] <- "minutes"
                 }
-                else if(demographic_map$measure[i] == "Number.of.Preprimary.School.Students"){        
-                                demographic_map$units[i] <- "students"
-                }else if(demographic_map$measure[i] == "Number.of.Primary.School.Students"){        
-                                demographic_map$units[i] <- "students"
-                }else if(demographic_map$measure[i] == "Number.of.Middle.School.Students"){        
-                                demographic_map$units[i] <- "students"
-                }else if(demographic_map$measure[i] == "Number.of.High.School.Students"){        
-                                demographic_map$units[i] <- "students"
-                              }
+                # else if(demographic_map$measure[i] == "Number.of.Preprimary.School.Students"){        
+                #                 demographic_map$units[i] <- "students"
+                # }else if(demographic_map$measure[i] == "Number.of.Primary.School.Students"){        
+                #                 demographic_map$units[i] <- "students"
+                # }else if(demographic_map$measure[i] == "Number.of.Middle.School.Students"){        
+                #                 demographic_map$units[i] <- "students"
+                # }else if(demographic_map$measure[i] == "Number.of.High.School.Students"){        
+                #                 demographic_map$units[i] <- "students"
+                #               }
 }
 
 library(stringr)

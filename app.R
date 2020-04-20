@@ -271,7 +271,84 @@ ui <- shinyUI(
                                                options = list(
                                                        `actions-box` = TRUE, 
                                                        size = 10),
-                                               choices = unique(demographic_map$measure),
+                                               choices = list(Population =list(
+                                                                    "Population"                               
+                                                                   , "Population Under 18"                      
+                                                                   , "Population 65 "                           
+                                                                   , "Indigenous Population"                    
+                                                                   , "Population in Urban Areas"                
+                                                                   , "Population with Personal ID"              
+                                                                   , "Population of Internal Migrants"          
+                                                                   , "Female lead Single Parent Households"     
+                                                                   , "People in Household" 
+                                                               ),
+                                                              Health = list(
+                                                                  "Gross Birth Rate"                         
+                                                                  , "Infant Mortality Rate"                    
+                                                                  , "Low Birth Weight Babies"                  
+                                                                  , "Access to Prenatal Care"                  
+                                                                  , "Access to Prenatal Vitamins"              
+                                                                  , "Medically Attended Births"                
+                                                                  , "Births Attended in Public Centers"        
+                                                                  , "Births Attended at Home"                  
+                                                                  , "Cesarian Section"                         
+                                                                  , "Gross Death Rate"                         
+                                                                  , "Death by External Causes"                 
+                                                                  , "Death by Diabetes"                        
+                                                                  , "Death by Diarrhea"                        
+                                                                  , "Death by Circulatory System Diseases"     
+                                                                  , "Death by Respiratory System Diseases"     
+                                                                  , "Death by Tuberculosis"                    
+                                                                  , "Death by HIV AIDS"        
+                                                              ),
+                                                              Education = list(
+                                                                  "Total Literacy Rate"                      
+                                                                  , "Male Literacy Rate"                       
+                                                                  , "Female Literacy Rate"                     
+                                                                  , "Youth Literacy Rate"                      
+                                                                  , "Number of Libraries"                      
+                                                                  , "Total Years of Schooling"                 
+                                                                  , "Female Years of Schooling"                
+                                                                  , "Youth Years of Schooling"                 
+                                                                  , "Time to Primary School"                   
+                                                                  , "Time to Secondary School"                 
+                                                                  , "Free Primary School Books"                
+                                                                  , "Borrowed or Gifted Secondary School Books"
+                                                                  , "Preprimary Net Enrollment Rate"           
+                                                                  , "Primary School Net Enrollment Rate"       
+                                                                  , "Middle School Net Enrollment Rate"        
+                                                                  , "High School Net Enrollment Rate"          
+                                                                  , "Enrollment in Higher Education"    
+                                                              ),
+                                                              Sanitation = list(
+                                                                    "Potable Water Access"                     
+                                                                  , "Improved Sanitation Access"
+                                                                  , "Home Water Access"                        
+                                                                  , "Homes Without Santitation Systems"
+                                                              ),
+                                                              Economy = list(
+                                                                  "Social Assistance Program Benefit"        
+                                                                  , "Poverty Rate"                             
+                                                                  , "Extreme Poverty Rate"
+                                                                  , "Female Paid Employees"                    
+                                                                  , "Total Employment Rate"      
+                                                              ),
+                                                              Crime = list(
+                                                                  "Intrafamily Violence Rate"                
+                                                                  , "Homicide Rate"                            
+                                                                  , "Delinquent Injury Rate"                   
+                                                                  , "Robbery Rate"                             
+                                                                  , "Rape Rate"                                
+                                                                  , "Crimes Against Freedom Rate"              
+                                                                  , "Judicial Offense Rate"       
+                                                              ),
+                                                              Miscellaneous = list(
+                                                                   "Forest Fires"
+                                                                  ,"Nothing Selected"
+                                                              )
+                                                              
+                                                   
+                                               ),
                                                selected = "Nothing Selected"))),
                         
                         column(1,style='padding-left:5px;padding-right:0px;width:155px;', 
