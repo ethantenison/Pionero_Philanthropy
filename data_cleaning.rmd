@@ -263,6 +263,44 @@ guatemala_departments <- guatemala_departments %>% dplyr::select(NAME_1,geometry
 demographic_map <- left_join(demographics, guatemala_departments, by = c("Department" = "NAME_1"))
 demographic_map <- dplyr::select(demographic_map, Department, measure, value, geometry)
 demographic_map <- left_join(demographic_map, to_paste, by = "Department")
+demographic_map <- mutate(demographic_map, units = "%")
+for (i in 1:length(demographic_map$measure)){
+                  if(demographic_map$measure[i] == "Population"){        
+                    demographic_map$units[i] <- ""
+                  }
+                  else if(demographic_map$measure[i] == "Forest.Fires"){        
+                    demographic_map$units[i] <- "hectares"
+                  }
+                  else if(demographic_map$measure[i] == "People.in.Household"){        
+                    demographic_map$units[i] <- ""
+                  }
+                 else if(demographic_map$measure[i] == "Number.of.Libraries"){        
+                    demographic_map$units[i] <- "Libraries"
+                 }
+                  else if(demographic_map$measure[i] == "Total.Years.of.Schooling"){        
+                    demographic_map$units[i] <- "years"
+                  }
+                 else if(demographic_map$measure[i] == "Female.Years.of.Schooling"){        
+                    demographic_map$units[i] <- "years"
+                 }
+                else if(demographic_map$measure[i] == "Male.Years.of.Schooling"){        
+                                demographic_map$units[i] <- "years"
+                }else if(demographic_map$measure[i] == "Time.to.Primary.School"){        
+                                demographic_map$units[i] <- "minutes"
+                }else if(demographic_map$measure[i] == "Time.to.Secondary.School"){        
+                                demographic_map$units[i] <- "minutes"
+                }
+                else if(demographic_map$measure[i] == "Number.of.Preprimary.School.Students"){        
+                                demographic_map$units[i] <- "students"
+                }else if(demographic_map$measure[i] == "Number.of.Primary.School.Students"){        
+                                demographic_map$units[i] <- "students"
+                }else if(demographic_map$measure[i] == "Number.of.Middle.School.Students"){        
+                                demographic_map$units[i] <- "students"
+                }else if(demographic_map$measure[i] == "Number.of.High.School.Students"){        
+                                demographic_map$units[i] <- "students"
+                              }
+}
+
 library(stringr)
 demographic_map$measure <- str_replace_all(demographic_map$measure, "\\.", " ")
 

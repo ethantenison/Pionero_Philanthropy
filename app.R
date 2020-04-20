@@ -458,7 +458,7 @@ server <- shinyServer(function(input, output, session) {
                                         popup =  ~ paste0(
                                                 "<h4/><b>",Department,"</b><h5/>",
                                                 "<h5/><b>","Selected Measure: ",sep = " ",input$demographics,
-                                                "<h5/><b>","Selected Measure Value: ",sep = " ",demographic()$formatted,
+                                                "<h5/><b>","Selected Measure Value: ",sep = " ",demographic()$formatted,sep = " ",demographic()$units,
                                                 "<h5/>","Population: ",sep = " ", demographic()$Population,
                                                 "<h5/>","Poverty Rate: ",sep = " ", demographic()$Poverty.Rate, "%",
                                                 "<h5/>","Literacy Rate: ",sep = " ", demographic()$Total.Literacy.Rate, "%",
