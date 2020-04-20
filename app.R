@@ -81,6 +81,7 @@ demographic_map <- as.data.frame(demographic_map)
 demographic_map <- st_as_sf(demographic_map)
 demographic_map <- st_transform(demographic_map,"+proj=longlat +ellps=WGS84 +datum=WGS84")
 demographic_map <- mutate(demographic_map, formatted = as.character(format(value,  big.mark=",", digits=0)))
+demographic_map <- mutate(demographic_map, Population = as.character(format(Population,  big.mark=",", digits=0)))
 
 definitions <- htmlTemplate("tooltips/definitions.html")
 
@@ -455,10 +456,17 @@ server <- shinyServer(function(input, output, session) {
                                                 fillOpacity = 0.7,
                                                 bringToFront = FALSE),
                                         popup =  ~ paste0(
-                                                "<h4/><b>",Department,"</b><h5/>","Selected Measure: ",sep = " ",input$demographics,
-                                                "<h5/>","Selected Measure Value: ",sep = " ",demographic()$formatted,
+                                                "<h4/><b>",Department,"</b><h5/>",
+                                                "<h5/><b>","Selected Measure: ",sep = " ",input$demographics,
+                                                "<h5/><b>","Selected Measure Value: ",sep = " ",demographic()$formatted,
                                                 "<h5/>","Population: ",sep = " ", demographic()$Population,
-                                                "<h5/>","Population: ",sep = " ", demographic()$Population
+                                                "<h5/>","Poverty Rate: ",sep = " ", demographic()$Poverty.Rate, "%",
+                                                "<h5/>","Literacy Rate: ",sep = " ", demographic()$Total.Literacy.Rate, "%",
+                                                "<h5/>","Homicide Rate: ",sep = " ", demographic()$Homicide.Rate, "%",
+                                                "<h5/>","Employment Rate: ",sep = " ", demographic()$Total.Employment.Rate, "%",
+                                                "<h5/>","Improved Sanitation Access: ",sep = " ", demographic()$Improved.Sanitation.Access, "%",
+                                                "<h5/>","Gross Birth Rate: ",sep = " ", demographic()$Gross.Birth.Rate, "%"
+                                              
                                                 ),
                                         group = "Demographic Data") %>%
                         clearMarkers() %>% #you have to clear previously drawn markers
