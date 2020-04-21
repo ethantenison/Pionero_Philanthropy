@@ -68,6 +68,7 @@ source("./data/SwitchButton.R")
 
 plot <- readRDS("./data/npo_data.rds")
 plot$category <- as.factor(plot$category)
+
 options(scipen = 999)
 
 guatemala.shape_orig <- st_read("data/GTM_adm0.shp", stringsAsFactors = FALSE)
@@ -111,6 +112,9 @@ ui <- shinyUI(
                           tags$style(".checkbox-inline {margin: 0 !important;}"),
                           tags$style(".selectize-dropdown {top: -200px !important;}"),
                           tags$style(".selectize-input {background: #474949; border-color: #474949; color: white;}"),
+                          #tags$style(".selectize-control.single .selectize-input.dropdown-active {color: white !important;}"),
+                          #tags$style(".selectize-control.single .selectize-input{color: white !important;}"),
+                          
                           tags$style(HTML(".selectize-dropdown-content .option {
                               color: black;
                           }
@@ -185,10 +189,10 @@ ui <- shinyUI(
                 ),
                 div(id = "filters",
                 fluidRow(
-                        column(1, style='width:5px;'),
-                        column(1,style='padding-left:0px;padding-right:0px;width:155px;',
+                        column(1, style='width:0px;'),
+                        column(1,style='padding-left:0px;padding-right:0px;width:142px;',
                                div(id = "partner_help",
-                                   pickerInput("partner", label= "Affiliation",inline=FALSE,multiple = TRUE, width= '150px',
+                                   pickerInput("partner", label= "Affiliation",inline=FALSE,multiple = TRUE, width= '140px',
                                                options = list(
                                                        `actions-box` = TRUE, 
                                                        size = 10,
@@ -197,9 +201,9 @@ ui <- shinyUI(
                                                c("Partnered","Eligible","Not Eligible", "Discontinued Partnership", "No Information"),
                                                selected=c("Partnered")))),
                         
-                        column(1,style='padding:0px;padding-right:0px;width:155px;',
+                        column(1,style='padding:0px;padding-left:2px;padding-right:0px;width:142px;',
                                div(id = "category_help",
-                                   pickerInput("category", label= "Categories",inline=FALSE,multiple = TRUE,  width= '150px',
+                                   pickerInput("category", label= "Categories",inline=FALSE,multiple = TRUE,  width= '140px',
                                                options = list(
                                                        `actions-box` = TRUE, 
                                                        size = 10,
@@ -217,9 +221,9 @@ ui <- shinyUI(
                                                           "Environment & Conservation",
                                                           "Animal Welfare",
                                                           "Crime")))),
-                        column(1,style='padding-left:5px;padding-right:0px;width:155px;',
+                        column(1,style='padding-left:2px;padding-right:0px;width:142px;',
                                div(id = "department_help",
-                                   pickerInput("depart_filters", label= "Departments",inline=FALSE, width= '150px',
+                                   pickerInput("depart_filters", label= "Departments",inline=FALSE, width= '140px',
                                                multiple = TRUE, 
                                                options = list(
                                                        `actions-box` = TRUE, 
@@ -237,41 +241,42 @@ ui <- shinyUI(
                                                           "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
                                                           "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
                                                           "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos")))),
-                        column(1,style='padding-left:5px;padding-right:0px;width:155px;',
+                        column(1,style='padding-left:2px;padding-right:0px;width:142px;',
                                div(id = "size_help",
-                                   pickerInput("sizevar",label = "Size", width= '150px',
+                                   pickerInput("sizevar",label = "Size", width= '140px',
                                                inline=FALSE,multiple = FALSE,
                                                options = list(
                                                        `actions-box` = TRUE, 
                                                        size = 10),
                                                choices = c(
                                                        "Annual Budget" = "budget_adj",
-                                                       "Nothing Selected" = "constant",
+                                                       "Nothing Selected" = "constant_size",
                                                        "Years Active" = "npo_age"),
-                                               selected = "constant"))),
-                        column(1,style='padding-left:5px;padding-right:0px;width:155px;',
+                                               selected = "constant_size"))),
+                        column(1,style='padding-left:2px;padding-right:0px;width:142px;',
                                div(id = "color_help",
-                                   pickerInput("colorvar",label = "Color", width= '150px',
+                                   pickerInput("colorvar",label = "Color", width= '140px',
                                                inline=FALSE,multiple = FALSE,
                                                options = list(
                                                        `actions-box` = TRUE, 
                                                        size = 10),
                                                choices = c(
                                                        "Nonprofit Size" = "size",
+                                                       "Tax Registration" = "Tax_Registration",
                                                        "Religious Affiliation" = "religious_aff",
-                                                       "Nothing Selected" ="constant"),
-                                               selected = "constant"))),
+                                                       "Nothing Selected" ="constant_color"),
+                                               selected = "constant_color"))),
                         
                         
                         
-                        column(1,style='padding-left:5px;padding-right:0px;width:155px;',
+                        column(1,style='padding-left:2px;padding-right:0px;width:142px;',
                                div(id = "demographic_help",
-                                   pickerInput("demographics",label = "Demography", width= '150px',
+                                   pickerInput("demographics",label = "Demography", width= '140px',
                                                inline=FALSE,multiple = FALSE,
                                                options = list(
                                                        `actions-box` = TRUE, 
                                                        size = 10),
-                                               choices = list(Population =list(
+                                               choices = list("Population" =list(
                                                                     "Population"                               
                                                                    , "Population Under 18"                      
                                                                    , "Population 65 "                           
@@ -351,14 +356,14 @@ ui <- shinyUI(
                                                ),
                                                selected = "Nothing Selected"))),
                         
-                        column(1,style='padding-left:5px;padding-right:0px;width:155px;', 
+                        column(1,style='padding-left:2px;padding-right:0px;width:142px;', 
                                selectizeInput("search",
                                               label = "Search Name ",
                                               choices = plot$npo,
                                               selected = NULL,
                                               multiple = FALSE,
                                               options = list(
-                                                      placeholder = 'Select a Nonprofit',
+                                                      placeholder = 'Nonprofit Search...',
                                                       onInitialize = I('function() { this.setValue(""); }')))))
                         
                         
@@ -499,7 +504,7 @@ server <- shinyServer(function(input, output, session) {
                 colorBy <- input$colorvar
                 sizeBy <- input$sizevar
                 colorData <- data()[[colorBy]]
-                pal <- colorFactor("viridis", colorData)
+                pal <- colorFactor("viridis", colorData, reverse = TRUE, na.color = "#39568CFF")
                 
                 varname <- switch(
                         input$colorvar,
@@ -509,7 +514,7 @@ server <- shinyServer(function(input, output, session) {
                 
                 
                 x <-data()[[sizeBy]] 
-                size <-sqrt(x / quantile(x, 0.95, na.rm = TRUE) * 100)
+                size <-sqrt(x / quantile(x, 0.95, na.rm = TRUE) * 150)
                 
                 
                 leafletProxy("map") %>% 
@@ -525,7 +530,7 @@ server <- shinyServer(function(input, output, session) {
                                         stroke = TRUE,
                                         smoothFactor = 1,
                                         fillColor = ~ pal2()(demographic()$value),
-                                        fillOpacity = .25,
+                                        fillOpacity = .3,
                                         weight = 3, 
                                         color = "black",
                                         highlight = highlightOptions(
@@ -542,7 +547,7 @@ server <- shinyServer(function(input, output, session) {
                                                 "<h5/>","Employment Rate: ",sep = " ", demographic()$Total.Employment.Rate, "%",
                                                 "<h5/>","Improved Sanitation Access: ",sep = " ", demographic()$Improved.Sanitation.Access, "%",
                                                 "<h5/>","Gross Birth Rate: ",sep = " ", demographic()$Gross.Birth.Rate, "%"
-                                              
+
                                                 ),
                                         group = "Demographic Data") %>%
                         clearMarkers() %>% #you have to clear previously drawn markers

@@ -1192,9 +1192,11 @@ th {
 }
 .glyphicon-triangle-bottom:before {
   content: "\e252";
+  color: #fff;
 }
 .glyphicon-triangle-top:before {
   content: "\e253";
+  color: #fff;
 }
 .glyphicon-console:before {
   content: "\e254";
@@ -7072,3 +7074,24 @@ label {
   /* Fade in while hovering */
   /*opacity: 0.95;
   transition-delay: 0;*/
+
+
+.selectize-control.single .selectize-input:after {
+       /* content: '\e259'; This will draw the icon*/
+        font-family: "Glyphicons Halflings";
+        line-height: 2;
+        display: block;
+        position: absolute;
+        top: -5px;
+        right: 0;
+        background-color: white;
+        padding-right: 2px;
+           }
+
+    .selectize-control.single .selectize-input.dropdown-active:after {
+        /* content: '\e260';*/
+        font-family: "Glyphicons Halflings";
+        background-color: white;
+        padding-right: 2px;
+
+    }
