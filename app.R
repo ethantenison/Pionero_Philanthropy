@@ -5,7 +5,7 @@
 #                                     }"
 # ))
 
-
+# Pionero color: #486F73 #193A45 #FFC000 #F2F2F2 #BFBFBF 
 
 # ------------------------------- #
 # ------------------------------- #
@@ -153,7 +153,7 @@ ui <- shinyUI(
                         
                         fluidRow(
                                 column(8, offset = 1, 
-                                       h1(strong("Guatemala Nonprofit Environment Explorer"),
+                                       h1(strong("Pionero Philanthropy Guatemala Nonprofit Explorer"),
                                           h3("(",textOutput("num_matching", inline = TRUE),"results)"))
                                 )
                                 
@@ -171,28 +171,30 @@ ui <- shinyUI(
                         right = "2.5%",
                         bottom = "85%",
                         
-                        div(id = "layers",
+                        
                             fluidRow(
-                                    column(3, style='padding:5px;',
+                                    column(3, style='padding:30px;',
+                                           #br(),
                                            
+                                           div(id = "layers",
                                            materialSwitch("non", label= strong("Nonprofits (off/on)"), status= "default",value = TRUE),
-                                           materialSwitch("dem", label = strong("Demographics (off/on)"), status = "default", value = TRUE ),
+                                           materialSwitch("dem", label = strong("Demographics (off/on)"), status = "default", value = TRUE )),
                                            br(),
                                            actionButton("help", label = "Tutorial  ", width = '100px',
                                                         icon = icon("question-circle")),
                                            br(), br(),
                                            actionButton("def", label = "Definitions", width = '100px',
-                                                        icon = icon("book-open"))
+                                                        icon = icon("book-open")
                                     )
                             ))
                         
                 ),
                 div(id = "filters",
                 fluidRow(
-                        column(1, style='width:0px;'),
-                        column(1,style='padding-left:0px;padding-right:0px;width:142px;',
+                        column(1, style='width:0px;padding-left:15px;padding-right:4px;'),
+                        column(1,style='padding-left:1px;padding-right:0px;width:142px;',
                                div(id = "partner_help",
-                                   pickerInput("partner", label= "Affiliation",inline=FALSE,multiple = TRUE, width= '140px',
+                                   pickerInput("partner", label= "Pionero Affiliation",inline=FALSE,multiple = TRUE, width= '140px',
                                                options = list(
                                                        `actions-box` = TRUE, 
                                                        size = 10,
@@ -211,7 +213,7 @@ ui <- shinyUI(
                                                        `count-selected-text`= "{0} Items Selected"
                                                ),
                                                c("Health","Education", "Community Development","Youth & Children", "Women & Girls",
-                                                 "Human Rights" ,"Environment & Conservation","Animal Welfare","Crime"),
+                                                 "Human Rights" ,"Environment & Conservation","Animal Welfare","Security"),
                                                selected=c("Health",
                                                           "Education",
                                                           "Community Development",
@@ -220,7 +222,7 @@ ui <- shinyUI(
                                                           "Human Rights" ,
                                                           "Environment & Conservation",
                                                           "Animal Welfare",
-                                                          "Crime")))),
+                                                          "Security")))),
                         column(1,style='padding-left:2px;padding-right:0px;width:142px;',
                                div(id = "department_help",
                                    pickerInput("depart_filters", label= "Departments",inline=FALSE, width= '140px',
@@ -250,8 +252,8 @@ ui <- shinyUI(
                                                        size = 10),
                                                choices = c(
                                                        "Annual Budget" = "budget_adj",
-                                                       "Nothing Selected" = "constant_size",
-                                                       "Years Active" = "npo_age"),
+                                                       "Years Active" = "npo_age",
+                                                       "Nothing Selected" = "constant_size"),
                                                selected = "constant_size"))),
                         column(1,style='padding-left:2px;padding-right:0px;width:142px;',
                                div(id = "color_help",
@@ -338,7 +340,7 @@ ui <- shinyUI(
                                                                   , "Female Paid Employees"                    
                                                                   , "Total Employment Rate"      
                                                               ),
-                                                              Crime = list(
+                                                              Security = list(
                                                                   "Intrafamily Violence Rate"                
                                                                   , "Homicide Rate"                            
                                                                   , "Delinquent Injury Rate"                   
@@ -558,11 +560,12 @@ server <- shinyServer(function(input, output, session) {
                                 "<h5/>","Annual Budget: $",format(budget, big.mark=","),
                                 "<h5/>","Website: ",sep = " ",website,
                                 "<h5/>","All Categories: ",sep = " ",list_categories,
-                                "<h5/>","Religious Affiliation: ",sep = " ",religious_aff),
+                                "<h5/>","Religious Affiliation: ",sep = " ",religious_aff,
+                                "<h5/>", "Tax Registration: ", sep = " ", Tax_Registration),
                                 
                                 label = ~ paste0("Nonprofit: ", sep = " ", npo),
                                 radius = size,
-                                fillOpacity = 0.5,
+                                fillOpacity = 0.6,
                                 color = "black",
                                 fillColor =  ~ pal(colorData),
                                 group = "Nonprofit Data"

@@ -26,7 +26,7 @@ library(labelled)
 library(rgdal)
 library(rio)
 library(haven)
-library(tidyverse)
+library(dplyr)
 library(geosphere) # library with lots of shape files
 library(mapview) # incredible interactive map visualization in R
 library(openxlsx)
@@ -34,7 +34,7 @@ library(janitor)
 library(googlesheets4)
 library(gargle)
 library(googledrive)
-library(dplyr)
+
 
 ```
 
@@ -69,7 +69,7 @@ data$comm_dev[data$comm_dev == "Y" ] <- "Community Development"
 data$youth_child[data$youth_child == "Y" ] <- "Youth & Children"
 data$women_girls[data$women_girls == "Y" ] <- "Women & Girls"
 data$enviro_cons[data$enviro_cons == "Y" ] <- "Environment & Conservation"
-data$crime[data$crime == "Y" ] <- "Crime"
+data$crime[data$crime == "Y" ] <- "Security"
 data$human_rights[data$human_rights == "Y" ] <- "Human Rights"
 data$animal_welfare[data$animal_welfare == "Y" ] <- "Animal Welfare"
 data$faith_based[data$faith_based == "Y"] <- "Faith Based"
@@ -212,6 +212,8 @@ data <- rename(data, category = value)
 ```{r altering_rearranging}
 
 #Altering the size variable 
+library(stringr)
+
         data$budget <- str_replace_all(data$budget, "\\$", "")
         data$budget <- str_replace_all(data$budget, ",", "")
         data$budget <- as.numeric(data$budget)
