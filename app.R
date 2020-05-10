@@ -152,10 +152,10 @@ ui <- shinyUI(
                         
                         
                         fluidRow(
-                                column(1,style='padding-right:10px;width:142px;', offset = 1, 
+                                column(1,style='padding-right:10px;width:142px;padding-top:10px;', offset = 1, 
                                        img(src="images/logo.png", height  = 150, width = 150),
                                           h3("(",textOutput("num_matching", inline = TRUE),"results)")),
-                                column(1, style='padding-left:25px;',
+                                column(1, style='padding-left:25px;padding-top:10px;',
                                        h1(strong("Nonprofit Environment Explorer"))
                                 )
                                 
@@ -582,14 +582,14 @@ server <- shinyServer(function(input, output, session) {
                 else if (input$non == TRUE & input$dem == TRUE & !("Nothing Selected" %in% input$demographics)) {
                         leafletProxy("map") %>% 
                             addLegend(data = demographic(), "bottomright", pal = pal2(), values = ~demographic()$value,
-                                      opacity = 0.7, title = ~ paste0(unique(measure)), group = "Demographic Data", layerId = "demleg") %>% 
+                                      opacity = 0.7, title = ~ paste0(unique(measure)," ",unique(units)), group = "Demographic Data", layerId = "demleg") %>% 
                             addLegend(data = data(), "bottomright",pal = pal, values = colorData, title = varname,
                                       group = "Nonprofit Data", layerId = "nonleg")
                 }
                 else if(input$dem == TRUE & input$non == FALSE){
                         leafletProxy("map") %>% 
                                 addLegend(data = demographic(), "bottomright", pal = pal2(), values = ~demographic()$value,
-                                          opacity = 0.7, title = ~ paste0(unique(measure)), group = "Demographic Data", layerId = "demleg")
+                                          opacity = 0.7, title = ~ paste0(unique(measure)," ",unique(units)), group = "Demographic Data", layerId = "demleg")
                 }
                 
                 else if (input$dem == FALSE & input$non == TRUE) {
