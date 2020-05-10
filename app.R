@@ -152,9 +152,11 @@ ui <- shinyUI(
                         
                         
                         fluidRow(
-                                column(8, offset = 1, 
-                                       h1(strong("Pionero Philanthropy Guatemala Nonprofit Explorer"),
-                                          h3("(",textOutput("num_matching", inline = TRUE),"results)"))
+                                column(1,style='padding-right:0px;', offset = 1, 
+                                       img(src="images/logo.png", height  = 150, width = 150),
+                                          h3("(",textOutput("num_matching", inline = TRUE),"results)")),
+                                column(1, style='padding-left:25px;',
+                                       h1(strong("Nonprofit Environment Explorer"))
                                 )
                                 
                                 
