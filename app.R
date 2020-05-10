@@ -23,7 +23,6 @@ list.of.packages <-
            "V8",
            "shinyjs",
            "RColorBrewer",
-           "tidyverse",
            "leaflet",
            "leaflet.extras",
            "sf",
@@ -480,8 +479,7 @@ server <- shinyServer(function(input, output, session) {
                                 urlTemplate = "https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=aae485d383324e008257aab3f9467916",
                                 attribution = 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> | Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', 
                                 options = tileOptions(minZoom = 0, maxZoom = 18)
-                        ) %>%
-                        setView(-90.352651, 15.8, zoom = 8)
+                        ) %>%  setView(-90.352651, 15.8, zoom = 8)
                 
                 
         })
