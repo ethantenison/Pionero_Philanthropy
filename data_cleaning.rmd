@@ -69,7 +69,7 @@ data$comm_dev[data$comm_dev == "Y" ] <- "Community Development"
 data$youth_child[data$youth_child == "Y" ] <- "Youth & Children"
 data$women_girls[data$women_girls == "Y" ] <- "Women & Girls"
 data$enviro_cons[data$enviro_cons == "Y" ] <- "Environment & Conservation"
-data$crime[data$crime == "Y" ] <- "Security"
+data$security[data$security == "Y" ] <- "Security"
 data$human_rights[data$human_rights == "Y" ] <- "Human Rights"
 data$animal_welfare[data$animal_welfare == "Y" ] <- "Animal Welfare"
 data$faith_based[data$faith_based == "Y"] <- "Faith Based"
@@ -80,11 +80,13 @@ data$comm_dev[data$comm_dev == "N" ] <- NA
 data$youth_child[data$youth_child == "N" ] <- NA
 data$women_girls[data$women_girls == "N" ] <- NA
 data$enviro_cons[data$enviro_cons == "N" ] <- NA
-data$crime[data$crime == "N" ] <- NA
+data$security[data$security == "N" ] <- NA
 data$human_rights[data$human_rights == "N" ] <- NA
 data$animal_welfare[data$animal_welfare == "N" ] <- NA
 data$faith_based[data$faith_based == "N"] <- "Secular"
+data$faith_based[is.na(data$faith_based)] <- "No information"
 data$religious_aff[data$religious_aff == "None"] <- "Secular"
+data$religious_aff[is.na(data$religious_aff)] <- "No information"
 
 data <- data %>% unite(list_categories,health:animal_welfare, remove = FALSE, sep =", ",na.rm = TRUE)
 data <- data %>% mutate(Tax_Registration = "Not Available")
@@ -101,6 +103,7 @@ for (i in 1:length(data$Tax_Registration)){
                     data$Tax_Registration[i] <- "Guatemala only"
                  }
 }
+
 
 
 data_1st_add <- data %>% dplyr::select(-c(address2,latitude2,longitude2,municipality2, department2, address3,latitude3, longitude3,
@@ -148,7 +151,7 @@ data <-pivot_longer(
                 "youth_child",
                 "women_girls",
                 "enviro_cons",
-                "crime",
+                "security",
                 "human_rights",
                 "animal_welfare",
                 "all_npos"
@@ -157,25 +160,34 @@ data <-pivot_longer(
         
 )
 
+
 data <- filter(data, !value %in% NA)
 data <- filter(data, !value %in% "")
 data <- dplyr::select(data, -c(category))
 data <- rename(data, category = value)
+
+for (i in 1:length(data$category)){
+                  if(data$list_categories[i] == ""){        
+                    data$category[i] <- "Uncategorized"
+                  }
+}
+
+data <- filter(data, category != "All Nonprofits")
 ```
 
 ```{r clickable_website}
 
- #data <- filter(data, !is.na(website))
- data$website <- paste0("<a href='",data$website,"' target='_blank'>","Click here","</a>")
- data$website <- gsub("<a href='NA' target='_blank'>Click here</a>", 'NA', data$website)
+data <- filter(data, !is.na(website))
+
+data$website <- paste0('<a href=\"',data$website,"\" target=\"_blank\">",data$npo,'</a>')
 ```
 
 ```{r size}
 
-
+                data$size[is.na(data$size)] <- "No Information"
 
                 data$size <- factor(data$size, levels=
-                                       c("Nano","Micro","Small","Medium","Large"),
+                                       c("Nano","Micro","Small","Medium","Large", "No Information"),
                                     exclude = NULL, ordered = TRUE)
 
 ```
@@ -207,6 +219,23 @@ data <- rename(data, category = value)
                 
 
 ```
+
+
+
+```{r eligibility}
+
+data$eligibility[data$eligibility == "Y"] <- "None"
+data$eligibility[data$eligibility == "E"] <- "None"
+data$eligibility[data$eligibility == "NC"] <- "Not eligible because nonprofit has closed"
+data$eligibility[data$eligibility == "NBL"] <- "Exceeds budget limit"
+data$eligibility[data$eligibility == "NPI"] <- "No public online information available"
+data$eligibility[data$eligibility == "NRA"] <- "Recent activity exceeds parameters"
+data$eligibility[is.na(data$eligibility)] <- "Unknown"
+
+
+
+
+```
         
         
 ```{r altering_rearranging}
@@ -229,12 +258,12 @@ library(stringr)
         data <- mutate(data, constant_color = NA)
                 
         data <- dplyr::select(data, npo,category,latitude, longitude, address, municipality, department, budget, budget_adj, size,
-                       year_founded,npo_age, partner_status, constant_size,constant_color, everything())
+                       year_founded,npo_age, partner_status,eligibility, constant_size,constant_color, everything())
         
         data <- data %>% arrange(npo)
         data <- filter(data, !is.na(category))
         
-        
+        data$npo <- gsub("\"", "", data$npo)
 
 ```
 
@@ -353,19 +382,7 @@ for (i in 1:length(demographic_map$measure)){
                 else if(demographic_map$measure[i] == "Rape.Rate"){        
                                                             demographic_map$units[i] <- "(per 100,000)"
                             }
-    
-    
-    
-    
-                # else if(demographic_map$measure[i] == "Number.of.Preprimary.School.Students"){        
-                #                 demographic_map$units[i] <- "students"
-                # }else if(demographic_map$measure[i] == "Number.of.Primary.School.Students"){        
-                #                 demographic_map$units[i] <- "students"
-                # }else if(demographic_map$measure[i] == "Number.of.Middle.School.Students"){        
-                #                 demographic_map$units[i] <- "students"
-                # }else if(demographic_map$measure[i] == "Number.of.High.School.Students"){        
-                #                 demographic_map$units[i] <- "students"
-                #               }
+                  
 }
 
 

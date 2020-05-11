@@ -1,12 +1,3 @@
-# tags$style(HTML(
-#     ".introjs-tooltip {
-#                                       max-width: 100%;
-#                                       min-width: 100%;
-#                                     }"
-# ))
-
-# Pionero color: #486F73 #193A45 #FFC000 #F2F2F2 #BFBFBF 
-
 # ------------------------------- #
 # ------------------------------- #
 # ------------------------------- #
@@ -214,7 +205,7 @@ ui <- shinyUI(
                                                        `count-selected-text`= "{0} Items Selected"
                                                ),
                                                c("Health","Education", "Community Development","Youth & Children", "Women & Girls",
-                                                 "Human Rights" ,"Environment & Conservation","Animal Welfare","Security"),
+                                                 "Human Rights" ,"Environment & Conservation","Animal Welfare","Security","Uncategorized"),
                                                selected=c("Health",
                                                           "Education",
                                                           "Community Development",
@@ -223,7 +214,8 @@ ui <- shinyUI(
                                                           "Human Rights" ,
                                                           "Environment & Conservation",
                                                           "Animal Welfare",
-                                                          "Security")))),
+                                                          "Security",
+                                                          "Uncategorized")))),
                         column(1,style='padding-left:2px;padding-right:0px;width:142px;',
                                div(id = "department_help",
                                    pickerInput("depart_filters", label= "Departments",inline=FALSE, width= '140px',
@@ -467,7 +459,7 @@ server <- shinyServer(function(input, output, session) {
         
         pal2 <- reactive({ colorNumeric(
                 palette = "viridis",
-                domain = demographic()$value)
+                domain = demographic()$value) # Pionero color: #486F73 #193A45 #FFC000 #F2F2F2 #BFBFBF 
         }) 
         
         
@@ -479,7 +471,7 @@ server <- shinyServer(function(input, output, session) {
                                 urlTemplate = "https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=aae485d383324e008257aab3f9467916",
                                 attribution = 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> | Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', 
                                 options = tileOptions(minZoom = 0, maxZoom = 18)
-                        ) %>%  setView(-90.352651, 15.8, zoom = 8)
+                        ) %>% setView(-90.352651, 15.8, zoom = 8)
                 
                 
         })
@@ -539,6 +531,7 @@ server <- shinyServer(function(input, output, session) {
                                                 weight = 5,
                                                 fillOpacity = 0.7,
                                                 bringToFront = FALSE),
+                                        label = ~ paste0("Department: ", Department),
                                         popup =  ~ paste0(
                                                 "<h4/><b>",Department,"</b><h5/>",
                                                 "<h5/><b>",input$demographics,sep = " ",demographic()$formatted,sep = " ",demographic()$units,
@@ -554,11 +547,12 @@ server <- shinyServer(function(input, output, session) {
                                         group = "Demographic Data") %>%
                         clearMarkers() %>% #you have to clear previously drawn markers
                         addCircleMarkers(data = data(), lng =  ~ longitude,lat =  ~ latitude,stroke = FALSE,popup =  ~ paste0(
-                                "<h4/><b>",npo,"</b><h5/>","Partner Status: ",sep = " ",partner_status,
+                                "<h4/><b>",website,"</b><h5/>",
+                                "<h5/>","Partner Status: ",sep = " ",partner_status,
+                                "<h5/>","Eligibility Restrictions: ",sep = " ",eligibility,
                                 "<h5/>","Nonprofit Size: ",sep = " ",size,
                                 "<h5/>","Year Founded: ",sep = " ",year_founded,
                                 "<h5/>","Annual Budget: $",format(budget, big.mark=","),
-                                "<h5/>","Website: ",sep = " ",website,
                                 "<h5/>","All Categories: ",sep = " ",list_categories,
                                 "<h5/>","Religious Affiliation: ",sep = " ",religious_aff,
                                 "<h5/>", "Tax Registration: ", sep = " ", Tax_Registration),
@@ -607,17 +601,6 @@ server <- shinyServer(function(input, output, session) {
         })
         
         output$num_matching <-renderText({format(nrow(data()), big.mark = ",")})
-        
-        
-        #below is what is needed for the "unfolding" UI
-        shinyjs::onclick("togglecategories",
-                         shinyjs::toggle(id = "filtercategories", anim = TRUE))
-        
-        shinyjs::onclick("toggleother",
-                         shinyjs::toggle(id = "filterother", anim = TRUE))
-        
-        shinyjs::onclick("toggledepartment",
-                         shinyjs::toggle(id = "filterdepartment", anim = TRUE))
         
         
 })
