@@ -263,7 +263,7 @@ library(stringr)
         data <- mutate(data, npo_age = lubridate::time_length(difftime(today, data$yrs_old), "years"))
         
         data <- mutate(data, constant_size = 1)
-        data <- mutate(data, constant_color = NA)
+        data <- mutate(data, constant_color = 1)
                 
         data <- dplyr::select(data, npo,category,latitude, longitude, address, municipality, department, budget, budget_adj, size,
                        year_founded,npo_age, partner_status,eligibility, constant_size,constant_color, everything())

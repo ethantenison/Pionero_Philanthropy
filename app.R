@@ -509,7 +509,7 @@ server <- shinyServer(function(input, output, session) {
                 
                 
                 x <-data()[[sizeBy]] 
-                size <-sqrt(x / quantile(x, 0.95, na.rm = TRUE) * 150)
+                size <-sqrt(x / mean(x) * 150)
                 
                 
                 leafletProxy("map") %>% 
