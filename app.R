@@ -142,10 +142,10 @@ ui <- shinyUI(
                         
                         
                         fluidRow(
-                                column(1,style='padding-right:10px;width:142px;padding-top:10px;', offset = 1, 
+                                column(1,style='padding-right:0px;width:200px;padding-top:10px;', offset = 1, 
                                        img(src="images/logo.png", height  = 150, width = 150),
-                                          h3("(",textOutput("num_matching", inline = TRUE),"results)")),
-                                column(1, style='padding-left:25px;padding-top:10px;',
+                                          h3("(",textOutput("num_matching", inline = TRUE)," nonprofits)")),
+                                column(1, style='padding-left:0px;padding-top:10px;',
                                        h1(strong("Nonprofit Environment Explorer"))
                                 )
                                 
@@ -259,6 +259,7 @@ ui <- shinyUI(
                                                        "Nonprofit Size" = "size",
                                                        "Tax Registration" = "Tax_Registration",
                                                        "Religious Affiliation" = "religious_aff",
+                                                       "Guatemala Government Funded" = "guate_govt_funding",
                                                        "Nothing Selected" ="constant_color"),
                                                selected = "constant_color"))),
                         
@@ -354,7 +355,7 @@ ui <- shinyUI(
                         column(1,style='padding-left:2px;padding-right:0px;width:142px;', 
                                selectizeInput("search",
                                               label = "Search Name ",
-                                              choices = plot$npo,
+                                              choices = unique(plot$npo),
                                               selected = NULL,
                                               multiple = FALSE,
                                               options = list(
@@ -600,7 +601,7 @@ server <- shinyServer(function(input, output, session) {
                 
         })
         
-        output$num_matching <-renderText({format(nrow(data()), big.mark = ",")})
+        output$num_matching <-renderText({format(nrow(unique(dplyr::select(data(), npo))), big.mark = ",")})
         
         
 })

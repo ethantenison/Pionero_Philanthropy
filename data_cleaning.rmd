@@ -47,13 +47,15 @@ guatemala.shape_orig <- st_read("data/GTM_adm1.shp", stringsAsFactors=FALSE)
 Guatemala <- st_transform(guatemala.shape_orig, "+proj=longlat +ellps=WGS84 +datum=WGS84")
 
 # using googlesheets4 package to call the data directly from the mapping dataset 
-data <- read_sheet(ss= "https://docs.google.com/spreadsheets/d/1klJ0aUZF1HX8qwR8EjsOhWUB9EJH6PYYdzPl2fQUvuM/edit?usp=sharing", sheet = "MD", col_names = TRUE, guess_max = 30) # Here I had to set guess_max = 5 because it was reading in the longitude column as a list
+data <- read_sheet(ss= "https://docs.google.com/spreadsheets/d/1klJ0aUZF1HX8qwR8EjsOhWUB9EJH6PYYdzPl2fQUvuM/edit?usp=sharing", sheet = "MD", col_names = TRUE, guess_max = 353) # Here I had to set guess_max = 5 because it was reading in the longitude column as a list
 
 data <- clean_names(data)
 
 
 write.csv(data, file="data/data.csv", fileEncoding = "UTF-8" )
-df <- read.csv("data/data.csv", fileEncoding = "UTF-8", encoding = "UTF-8", stringsAsFactors = FALSE)
+#df <- read_csv("data/data.csv", col_types = cols(guate_govt_funding = col_character(), 
+ #   seal_excellence = col_character()), locale = locale(encoding = "UTF-8"))
+df <- read.csv("data/data.csv", fileEncoding = "UTF-8", encoding = "UTF-8", stringsAsFactors = FALSE, colClasses=c("guate_govt_funding"="character", "seal_excellence"="character"))
 
 ```
 
@@ -73,6 +75,7 @@ data$security[data$security == "Y" ] <- "Security"
 data$human_rights[data$human_rights == "Y" ] <- "Human Rights"
 data$animal_welfare[data$animal_welfare == "Y" ] <- "Animal Welfare"
 data$faith_based[data$faith_based == "Y"] <- "Faith Based"
+data$guate_govt_funding[data$guate_govt_funding == "Y"] <- "Yes"
 
 data$health[data$health == "N" ] <- NA
 data$edu[data$edu == "N" ] <- NA
@@ -83,6 +86,7 @@ data$enviro_cons[data$enviro_cons == "N" ] <- NA
 data$security[data$security == "N" ] <- NA
 data$human_rights[data$human_rights == "N" ] <- NA
 data$animal_welfare[data$animal_welfare == "N" ] <- NA
+data$guate_govt_funding[is.na(data$guate_govt_funding)] <- "No"
 data$faith_based[data$faith_based == "N"] <- "Secular"
 data$faith_based[is.na(data$faith_based)] <- "No information"
 data$religious_aff[data$religious_aff == "None"] <- "Secular"
@@ -163,6 +167,8 @@ data <-pivot_longer(
 
 data <- filter(data, !value %in% NA)
 data <- filter(data, !value %in% "")
+data <- filter(data, !latitude %in% NA)
+data <- filter(data, !latitude %in% "")
 data <- dplyr::select(data, -c(category))
 data <- rename(data, category = value)
 
@@ -177,7 +183,9 @@ data <- filter(data, category != "All Nonprofits")
 
 ```{r clickable_website}
 
-data <- filter(data, !is.na(website))
+#data <- filter(data, !is.na(website))
+
+data$website[is.na(data$website)] <- "https://www.google.com/"
 
 data$website <- paste0('<a href=\"',data$website,"\" target=\"_blank\">",data$npo,'</a>')
 ```
