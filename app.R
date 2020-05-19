@@ -458,9 +458,10 @@ server <- shinyServer(function(input, output, session) {
                 demographic_map %>% dplyr::filter(measure == input$demographics)     
         })        
         
+        dempal <- colorRampPalette(c("#FFC000", "#193A45"))
         
         pal2 <- reactive({ colorNumeric(
-                palette = "viridis",
+                palette = dempal,
                 domain = demographic()$value) # Pionero color: #486F73 #193A45 #FFC000 #F2F2F2 #BFBFBF 
         }) 
         
