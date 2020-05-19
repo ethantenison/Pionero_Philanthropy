@@ -42,6 +42,7 @@ library(sf)
 library(htmltools)
 library(shinyWidgets)
 library(ggplot2)
+library(extrafont)
 
 
 
@@ -99,6 +100,7 @@ ui <- shinyUI(
                           tags$link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.1.0/css/all.css",
                                     integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt", crossorigin="anonymous"),
                           tags$script(src = "www/js/wordwrap.js"),
+                         # tags$style(HTML('body {font-family:"Cooper Hewitt";}')),
                           tags$style(".checkbox-inline {margin: 0 !important;}"),
                           tags$style(".selectize-dropdown {top: -200px !important;}"),
                           tags$style(".selectize-input {background: #474949; border-color: #474949; color: white;}"),
@@ -238,7 +240,7 @@ ui <- shinyUI(
                                                           "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos")))),
                         column(1,style='padding-left:2px;padding-right:0px;width:142px;',
                                div(id = "size_help",
-                                   pickerInput("sizevar",label = "Size", width= '140px',
+                                   pickerInput("sizevar",label = "Nonprofit Size", width= '140px',
                                                inline=FALSE,multiple = FALSE,
                                                options = list(
                                                        `actions-box` = TRUE, 
@@ -250,7 +252,7 @@ ui <- shinyUI(
                                                selected = "constant_size"))),
                         column(1,style='padding-left:2px;padding-right:0px;width:142px;',
                                div(id = "color_help",
-                                   pickerInput("colorvar",label = "Color", width= '140px',
+                                   pickerInput("colorvar",label = "Nonprofit Color", width= '140px',
                                                inline=FALSE,multiple = FALSE,
                                                options = list(
                                                        `actions-box` = TRUE, 
