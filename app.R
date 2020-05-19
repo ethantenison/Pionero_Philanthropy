@@ -568,7 +568,11 @@ server <- shinyServer(function(input, output, session) {
                         )
                 
                 #######################################Legends based on which layer checkboxes are ticked
-                if (input$non == TRUE & input$dem == TRUE &  ("Nothing Selected" %in% input$demographics)) {
+                if (input$non == TRUE & input$dem == TRUE &  ("Nothing Selected" %in% input$demographics) & ("constant_color" %in% input$colorvar)) {
+                    leafletProxy("map")
+                }
+                
+                else if (input$non == TRUE & input$dem == TRUE &  ("Nothing Selected" %in% input$demographics)) {
                         leafletProxy("map") %>% 
                                 addLegend(data = data(), "bottomright",pal = pal, values = colorData, title = varname,
                                           group = "Nonprofit Data", layerId = "nonleg")
