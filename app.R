@@ -185,10 +185,10 @@ ui <- shinyUI(
                 ),
                 div(id = "filters",
                 fluidRow(
-                        column(1, style='width:0px;padding-left:15px;padding-right:4px;'),
-                        column(1,style='padding-left:1px;padding-right:0px;width:142px;',
+                        column(1, style='width:0%;height:2.5%;padding-left:15px;padding-right:4px;'),
+                        column(1,style='padding-left:1px;padding-right:0px;padding-bottom:1px;width:14%;',
                                div(id = "partner_help",
-                                   pickerInput("partner", label= "Pionero Affiliation",inline=FALSE,multiple = TRUE, width= '140px',
+                                   pickerInput("partner", label= "Pionero Affiliation",inline=FALSE,multiple = TRUE, width= '100%',
                                                options = list(
                                                        `actions-box` = TRUE, 
                                                        size = 10,
@@ -197,14 +197,14 @@ ui <- shinyUI(
                                                c("Partnered","Eligible","Not Eligible", "Discontinued Partnership", "No Information"),
                                                selected=c("Partnered")))),
                         
-                        column(1,style='padding:0px;padding-left:2px;padding-right:0px;width:142px;',
+                        column(1,style='padding:0px;padding-left:2px;padding-right:0px;padding-bottom:1px;width:14%;height:2.5%;',
                                div(id = "category_help",
-                                   pickerInput("category", label= "Categories",inline=FALSE,multiple = TRUE,  width= '140px',
+                                   pickerInput("category", label= "Categories",inline=FALSE,multiple = TRUE,  width= '100%',
                                                options = list(
                                                        `actions-box` = TRUE, 
                                                        size = 10,
                                                        `selected-text-format` = "count > 3",
-                                                       `count-selected-text`= "{0} Items Selected"
+                                                       `count-selected-text`= "{0} Selected"
                                                ),
                                                c("Health","Education", "Community Development","Youth & Children", "Women & Girls",
                                                  "Human Rights" ,"Environment & Conservation","Animal Welfare","Security","Uncategorized"),
@@ -218,15 +218,15 @@ ui <- shinyUI(
                                                           "Animal Welfare",
                                                           "Security",
                                                           "Uncategorized")))),
-                        column(1,style='padding-left:2px;padding-right:0px;width:142px;',
+                        column(1,style='padding-left:2px;padding-right:0px;padding-bottom:1px;width:14%;height:2.5%;',
                                div(id = "department_help",
-                                   pickerInput("depart_filters", label= "Departments",inline=FALSE, width= '140px',
+                                   pickerInput("depart_filters", label= "Departments",inline=FALSE, width= '100%',
                                                multiple = TRUE, 
                                                options = list(
                                                        `actions-box` = TRUE, 
                                                        size = 10,
                                                        `selected-text-format` = "count > 3",
-                                                       `count-selected-text`= "{0} Items Selected"
+                                                       `count-selected-text`= "{0} Selected"
                                                ),choices =
                                                        c("Guatemala", "Quetzaltenango", "Huehuetenango", "Retalhuleu",    
                                                          "Petén", "Quiché", "Chimaltenango",  "Sacatepéquez",  
@@ -238,9 +238,9 @@ ui <- shinyUI(
                                                           "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
                                                           "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
                                                           "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos")))),
-                        column(1,style='padding-left:2px;padding-right:0px;width:142px;',
+                        column(1,style='padding-left:2px;padding-right:0px;padding-bottom:1px;width:14%;height:2.5%;',
                                div(id = "size_help",
-                                   pickerInput("sizevar",label = "Nonprofit Size", width= '140px',
+                                   pickerInput("sizevar",label = "Nonprofit Size", width= '100%',
                                                inline=FALSE,multiple = FALSE,
                                                options = list(
                                                        `actions-box` = TRUE, 
@@ -250,9 +250,9 @@ ui <- shinyUI(
                                                        "Years Active" = "npo_age",
                                                        "Nothing Selected" = "constant_size"),
                                                selected = "constant_size"))),
-                        column(1,style='padding-left:2px;padding-right:0px;width:142px;',
+                        column(1,style='padding-left:2px;padding-right:0px;padding-bottom:1px;width:14%;height:2.5%;',
                                div(id = "color_help",
-                                   pickerInput("colorvar",label = "Nonprofit Color", width= '140px',
+                                   pickerInput("colorvar",label = "Nonprofit Color", width= '100%',
                                                inline=FALSE,multiple = FALSE,
                                                options = list(
                                                        `actions-box` = TRUE, 
@@ -267,9 +267,9 @@ ui <- shinyUI(
                         
                         
                         
-                        column(1,style='padding-left:2px;padding-right:0px;width:142px;',
+                        column(1,style='padding-left:2px;padding-right:0px;padding-bottom:1px;width:14%;height:2.5%;',
                                div(id = "demographic_help",
-                                   pickerInput("demographics",label = "Demography", width= '140px',
+                                   pickerInput("demographics",label = "Demography", width= '100%',
                                                inline=FALSE,multiple = FALSE,
                                                options = list(
                                                        `actions-box` = TRUE, 
@@ -354,14 +354,14 @@ ui <- shinyUI(
                                                ),
                                                selected = "Nothing Selected"))),
                         
-                        column(1,style='padding-left:2px;padding-right:0px;width:142px;', 
-                               selectizeInput("search",
-                                              label = "Search Name ",
+                        column(1,style='padding-left:2px;padding-right:0px;padding-bottom:1px;width:13.8%;height:2.5%;', 
+                               selectizeInput("search",  
+                                              label = "Nonprofit Search",
                                               choices = unique(plot$npo),
                                               selected = NULL,
                                               multiple = FALSE,
                                               options = list(
-                                                      placeholder = 'Nonprofit Search...',
+                                                      placeholder = 'Enter Name...',
                                                       onInitialize = I('function() { this.setValue(""); }')))))
                         
                         
@@ -562,7 +562,7 @@ server <- shinyServer(function(input, output, session) {
                                 
                                 label = ~ paste0("Nonprofit: ", sep = " ", npo),
                                 radius = size,
-                                fillOpacity = 0.6,
+                                fillOpacity = 0.4,
                                 color = "black",
                                 fillColor =  ~ pal(colorData),
                                 group = "Nonprofit Data"
