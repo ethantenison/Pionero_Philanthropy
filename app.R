@@ -458,11 +458,12 @@ server <- shinyServer(function(input, output, session) {
                 demographic_map %>% dplyr::filter(measure == input$demographics)     
         })        
         
-        dempal <- colorRampPalette(c("#FFC000", "#193A45"))
+ 
         
-        pal2 <- reactive({ colorNumeric(
-                palette = dempal,
-                domain = demographic()$value) # Pionero color: #486F73 #193A45 #FFC000 #F2F2F2 #BFBFBF 
+        pal2 <- reactive({ 
+                    colorNumeric(
+                        palette = colorRampPalette(c("#F2F2F2", "#193A45"))(length(demographic()$value)),
+                        domain = demographic()$value) # Pionero color: #486F73 #193A45 #FFC000 #F2F2F2 #BFBFBF 
         }) 
         
         
@@ -501,7 +502,10 @@ server <- shinyServer(function(input, output, session) {
                 colorBy <- input$colorvar
                 sizeBy <- input$sizevar
                 colorData <- data()[[colorBy]]
-                pal <- colorFactor("viridis", colorData, reverse = TRUE, na.color = "#39568CFF")
+                pal <- colorFactor(palette = colorRampPalette(c("#486F73", "#806F2E","#702942","#1D4A4E","#2e2859", "#4F732A"),space = "Lab")(length(colorData)),
+                                   domain = colorData,
+                                   reverse = TRUE,
+                                   na.color = "#253256")
                 
                 varname <- switch(
                         input$colorvar,
@@ -511,7 +515,7 @@ server <- shinyServer(function(input, output, session) {
                 
                 
                 x <-data()[[sizeBy]] 
-                size <-sqrt(x / mean(x) * 150)
+                size <-sqrt(x / mean(x) * 100)
                 
                 
                 leafletProxy("map") %>% 
@@ -527,7 +531,7 @@ server <- shinyServer(function(input, output, session) {
                                         stroke = TRUE,
                                         smoothFactor = 1,
                                         fillColor = ~ pal2()(demographic()$value),
-                                        fillOpacity = .3,
+                                        fillOpacity = .5,
                                         weight = 3, 
                                         color = "black",
                                         highlight = highlightOptions(
