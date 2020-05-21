@@ -107,6 +107,7 @@ ui <- shinyUI(
                           #tags$style(".selectize-control.single .selectize-input.dropdown-active {color: white !important;}"),
                           #tags$style(".selectize-control.single .selectize-input{color: white !important;}"),
                           tags$style('h1 {color:#193A45;}'),
+                          tags$style('h3 {color:#193A45;}'),
                           tags$style(HTML(".selectize-dropdown-content .option {
                               color: #193A45;
                           }
@@ -466,7 +467,7 @@ server <- shinyServer(function(input, output, session) {
                 
                 colorNumeric(palette = colorRampPalette(c("#193A45"))(length(demographic()$value)),
                              domain = 1,
-                             na.color = "#F2F2F2")
+                             na.color = "#193A45")
             }
             
             else {
@@ -484,7 +485,8 @@ server <- shinyServer(function(input, output, session) {
                                 attributionControl=FALSE)) %>%
                         addTiles(
                                 urlTemplate = "https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=aae485d383324e008257aab3f9467916",
-                                attribution = 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> | Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', 
+                                attribution = 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> 
+                                | Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', 
                                 options = tileOptions(minZoom = 0, maxZoom = 18)
                         ) %>% setView(-90.352651, 15.8, zoom = 8)
                 
@@ -513,10 +515,21 @@ server <- shinyServer(function(input, output, session) {
                 colorBy <- input$colorvar
                 sizeBy <- input$sizevar
                 colorData <- data()[[colorBy]]
-                pal <- colorFactor(palette = colorRampPalette(c("#486F73","#702942","#1D4A4E", "#2e2859","#4F732A", "#806F2E"),space = "Lab")(length(colorData)),
+                
+                #I had to create a separate color palette for when "Nothing Selected"
+                if (input$colorvar %in% "constant_color"){
+                    
+                 pal <-   colorFactor(palette = colorRampPalette(c("#1D1AB2"),space = "Lab")(length(colorData)),
+                                domain = colorData,
+                                reverse = TRUE,
+                                na.color = "#1D1AB2")
+                    
+                } else {
+                pal <- colorFactor(palette = colorRampPalette(c("#FFE900","#FFC000", "#540EAD","#1D1AB2"),space = "Lab")(length(colorData)),
                                    domain = colorData,
                                    reverse = TRUE,
-                                   na.color = "#702942")
+                                   na.color = "#BFBFBF")
+                }
                 
                 varname <- switch(
                         input$colorvar,
