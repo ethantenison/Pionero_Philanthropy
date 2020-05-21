@@ -103,12 +103,12 @@ ui <- shinyUI(
                          # tags$style(HTML('body {font-family:"Cooper Hewitt";}')),
                           tags$style(".checkbox-inline {margin: 0 !important;}"),
                           tags$style(".selectize-dropdown {top: -200px !important;}"),
-                          tags$style(".selectize-input {background: #474949; border-color: #474949; color: white;}"),
+                          tags$style(".selectize-input {background: #193A45 ; border-color: #193A45 ; color: #F2F2F2;}"),
                           #tags$style(".selectize-control.single .selectize-input.dropdown-active {color: white !important;}"),
                           #tags$style(".selectize-control.single .selectize-input{color: white !important;}"),
-                          
+                          tags$style('h1 {color:#193A45;}'),
                           tags$style(HTML(".selectize-dropdown-content .option {
-                              color: black;
+                              color: #193A45;
                           }
                           
                           ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
@@ -127,7 +127,7 @@ ui <- shinyUI(
                 ),
                 tags$style(type = "text/css", "html, body {width:100%;height:100%}"),
                 
-                tags$style(".pretty.p-default input:dropdown~.state label:after {background-color: #A7E0AC !important;}"), #change color checkbox widgets 
+                tags$style(".pretty.p-default input:dropdown~.state label:after {background-color: #486F73 !important;}"), #change color checkbox widgets, also change css
     
                 
                 
@@ -147,7 +147,7 @@ ui <- shinyUI(
                                 column(1,style='padding-right:0px;width:200px;padding-top:10px;', offset = 1, 
                                        img(src="images/logo.png", height  = 150, width = 150),
                                           h3("(",textOutput("num_matching", inline = TRUE)," nonprofits)")),
-                                column(1, style='padding-left:0px;padding-top:10px;',
+                                column(1, style='padding-left:0px;padding-top:10px;color: #486F73;',
                                        h1(strong("Nonprofit Environment Explorer"))
                                 )
                                 
@@ -461,9 +461,20 @@ server <- shinyServer(function(input, output, session) {
  
         
         pal2 <- reactive({ 
+            
+            if (input$demographics %in% "Nothing Selected"){ #Separate colorpalette for "Nothing Selected"
+                
+                colorNumeric(palette = colorRampPalette(c("#193A45"))(length(demographic()$value)),
+                             domain = 1,
+                             na.color = "#F2F2F2")
+            }
+            
+            else {
                     colorNumeric(
-                        palette = colorRampPalette(c("#F2F2F2", "#193A45"))(length(demographic()$value)),
-                        domain = demographic()$value) # Pionero color: #486F73 #193A45 #FFC000 #F2F2F2 #BFBFBF 
+                        palette = colorRampPalette(c("#F2F2F2","#FFC000", "#193A45"))(length(demographic()$value)),
+                        domain = demographic()$value,
+                        na.color = "#808080") # Pionero color: #486F73 #193A45 #FFC000 #F2F2F2 #BFBFBF 
+            }
         }) 
         
         
@@ -502,10 +513,10 @@ server <- shinyServer(function(input, output, session) {
                 colorBy <- input$colorvar
                 sizeBy <- input$sizevar
                 colorData <- data()[[colorBy]]
-                pal <- colorFactor(palette = colorRampPalette(c("#486F73", "#806F2E","#702942","#1D4A4E","#2e2859", "#4F732A"),space = "Lab")(length(colorData)),
+                pal <- colorFactor(palette = colorRampPalette(c("#486F73","#702942","#1D4A4E", "#2e2859","#4F732A", "#806F2E"),space = "Lab")(length(colorData)),
                                    domain = colorData,
                                    reverse = TRUE,
-                                   na.color = "#253256")
+                                   na.color = "#702942")
                 
                 varname <- switch(
                         input$colorvar,
@@ -556,7 +567,7 @@ server <- shinyServer(function(input, output, session) {
                         addCircleMarkers(data = data(), lng =  ~ longitude,lat =  ~ latitude,stroke = FALSE,popup =  ~ paste0(
                                 "<h4/><b>",website,"</b><h5/>",
                                 "<h5/>","Partner Status: ",sep = " ",partner_status,
-                                "<h5/>","Eligibility Restrictions: ",sep = " ",eligibility,
+                                "<h5/>","Eligibility Restrictions: ",sep = " ", ne_dp_reason,
                                 "<h5/>","Nonprofit Size: ",sep = " ",size,
                                 "<h5/>","Year Founded: ",sep = " ",year_founded,
                                 "<h5/>","Annual Budget: $",format(budget, big.mark=","),

@@ -87,6 +87,7 @@ data$security[data$security == "N" ] <- NA
 data$human_rights[data$human_rights == "N" ] <- NA
 data$animal_welfare[data$animal_welfare == "N" ] <- NA
 data$guate_govt_funding[is.na(data$guate_govt_funding)] <- "No"
+data$guate_govt_funding[data$guate_govt_funding == "N"] <- "No"
 data$faith_based[data$faith_based == "N"] <- "Secular"
 data$faith_based[is.na(data$faith_based)] <- "No information"
 data$religious_aff[data$religious_aff == "None"] <- "Secular"
@@ -230,15 +231,16 @@ data$website <- paste0('<a href=\"',data$website,"\" target=\"_blank\">",data$np
 
 
 
-```{r eligibility}
+```{r eligibility_restrictions}
 
-data$eligibility[data$eligibility == "Y"] <- "None"
-data$eligibility[data$eligibility == "E"] <- "None"
-data$eligibility[data$eligibility == "NC"] <- "Not eligible because nonprofit has closed"
-data$eligibility[data$eligibility == "NBL"] <- "Exceeds budget limit"
-data$eligibility[data$eligibility == "NPI"] <- "No public online information available"
-data$eligibility[data$eligibility == "NRA"] <- "Recent activity exceeds parameters"
-data$eligibility[is.na(data$eligibility)] <- "Unknown"
+data$ne_dp_reason[data$ne_dp_reason == "Y"] <- "None"
+data$ne_dp_reason[data$ne_dp_reason == "E"] <- "None"
+data$ne_dp_reason[data$ne_dp_reason == "NC"] <- "Not eligible because nonprofit has closed"
+data$ne_dp_reason[data$ne_dp_reason == "NBL"] <- "Exceeds budget limit"
+data$ne_dp_reason[data$ne_dp_reason == "NPI"] <- "No public online information available"
+data$ne_dp_reason[data$ne_dp_reason == "NPi"] <- "No public online information available"
+data$ne_dp_reason[data$ne_dp_reason == "NRA"] <- "Recent activity exceeds parameters"
+data$ne_dp_reason[is.na(data$ne_dp_reason)] <- "Unknown"
 
 
 
@@ -266,7 +268,7 @@ library(stringr)
         data <- mutate(data, constant_color = 1)
                 
         data <- dplyr::select(data, npo,category,latitude, longitude, address, municipality, department, budget, budget_adj, size,
-                       year_founded,npo_age, partner_status,eligibility, constant_size,constant_color, everything())
+                       year_founded,npo_age, partner_status,ne_dp_reason, constant_size,constant_color, everything())
         
         data <- data %>% arrange(npo)
         data <- filter(data, !is.na(category))
@@ -303,7 +305,7 @@ write.csv(demo, file="data/demographics.csv", fileEncoding = "UTF-8" ) #Accents 
 demographics <- read.csv("data/demographics.csv", fileEncoding = "UTF-8", encoding = "UTF-8", stringsAsFactors = FALSE)
 
 #Normalizing libraries to be per 1000 residents and creating a nothing selected variable 
-demographics <- demographics %>% mutate("Nothing Selected"=1) %>% dplyr::select(-c(X,Number.of.Preprimary.School.Students, Number.of.Primary.School.Students, Number.of.Middle.School.Students,Number.of.High.School.Students )) %>% mutate(Number.of.Libraries = Number.of.Libraries/(Population/100000))
+demographics <- demographics %>% mutate("Nothing Selected"= NA) %>% dplyr::select(-c(X,Number.of.Preprimary.School.Students, Number.of.Primary.School.Students, Number.of.Middle.School.Students,Number.of.High.School.Students )) %>% mutate(Number.of.Libraries = Number.of.Libraries/(Population/100000))
 to_paste <- demographics %>% dplyr::select(Department, Population, Poverty.Rate, Total.Literacy.Rate, Homicide.Rate, Total.Employment.Rate, Improved.Sanitation.Access, Gross.Birth.Rate)
 demographics <- gather(demographics, measure, value, Population:"Nothing Selected")
 
@@ -396,6 +398,7 @@ for (i in 1:length(demographic_map$measure)){
 
 library(stringr)
 demographic_map$measure <- str_replace_all(demographic_map$measure, "\\.", " ")
+
 
 
 saveRDS(demographic_map, file="./data/demographic_map.rds")
