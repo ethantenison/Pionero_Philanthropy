@@ -59,6 +59,9 @@ source("./data/SwitchButton.R")
 
 plot <- readRDS("./data/npo_data.rds")
 plot$category <- as.factor(plot$category)
+names <- dplyr::select(plot, npo)
+names[nrow(names) + 1,] = c("None Selected")
+names <- unique(names$npo)
 
 options(scipen = 999)
 
@@ -104,10 +107,15 @@ ui <- shinyUI(
                           tags$style(".checkbox-inline {margin: 0 !important;}"),
                           tags$style(".selectize-dropdown {top: -200px !important;}"),
                           tags$style(".selectize-input {background: #193A45 ; border-color: #193A45 ; color: #F2F2F2;}"),
-                          #tags$style(".selectize-control.single .selectize-input.dropdown-active {color: white !important;}"),
-                          #tags$style(".selectize-control.single .selectize-input{color: white !important;}"),
-                          tags$style('h1 {color:#193A45;}'),
-                          tags$style('h3 {color:#193A45;}'),
+                          tags$style('h1 {color:#193A45;font-family:"Cooper Hewitt";}'),
+                          tags$style('h3 {color:#193A45;font-family:"Cooper Hewitt";}'),
+                          tags$style('#category {font-family:"Cooper Hewitt";}'),
+                          tags$style('#partner {font-family:"Cooper Hewitt";}'),
+                          tags$style('#depart_filters {font-family:"Cooper Hewitt";}'),
+                          tags$style('#sizevar {font-family:"Cooper Hewitt";}'),
+                          tags$style('#colorvar {font-family:"Cooper Hewitt";}'),
+                          tags$style('#demographics {font-family:"Cooper Hewitt";}'),
+                          tags$style('#search {font-family:"Cooper Hewitt";color:white;}'),
                           tags$style(HTML(".selectize-dropdown-content .option {
                               color: #193A45;
                           }
@@ -147,7 +155,7 @@ ui <- shinyUI(
                         fluidRow(
                                 column(1,style='padding-right:0px;width:200px;padding-top:10px;', offset = 1, 
                                        img(src="images/logo.png", height  = 150, width = 150),
-                                          h3("(",textOutput("num_matching", inline = TRUE)," nonprofits)")),
+                                          h3(strong("(",textOutput("num_matching", inline = TRUE)," nonprofits)"))),
                                 column(1, style='padding-left:0px;padding-top:10px;color: #486F73;',
                                        h1(strong("Nonprofit Environment Explorer"))
                                 )
@@ -272,7 +280,8 @@ ui <- shinyUI(
                                    pickerInput("demographics",label = "Demography", width= '100%',
                                                inline=FALSE,multiple = FALSE,
                                                options = list(
-                                                       `actions-box` = TRUE, 
+                                                       `actions-box` = TRUE,
+                                                       `live-search` = TRUE,
                                                        size = 10),
                                                choices = list("Population" =list(
                                                                     "Population"                               
@@ -355,14 +364,28 @@ ui <- shinyUI(
                                                selected = "Nothing Selected"))),
                         
                         column(1,style='padding-left:2px;padding-right:0px;padding-bottom:1px;width:13.8%;height:2%;', 
-                               selectizeInput("search",  
-                                              label = "Nonprofit Search",
-                                              choices = unique(plot$npo),
-                                              selected = NULL,
-                                              multiple = FALSE,
-                                              options = list(
-                                                      placeholder = 'Enter Name...',
-                                                      onInitialize = I('function() { this.setValue(""); }')))))
+                               div(id = "search_help",
+                               
+                               pickerInput("search",label = "Nonprofit Search", width= '100%',
+                                           inline=FALSE,multiple = TRUE,
+                                           options = list(
+                                               `actions-box` = TRUE,
+                                               `live-search` = TRUE,
+                                               `deselect-all-text` = "Disable Search",
+                                               title = "Enter Name...",
+                                               size = 10
+                                               ), # onInitialize = I('function() { this.setValue(""); }')
+                                           choices = names,
+                                           choicesOpt = list(
+                                               content = stringr::str_trunc(names, width = 15)
+                                           ),
+                                           selected = "None Selected"))
+                               
+                               
+                               
+                               
+                               
+                               ))
                         
                         
                         
@@ -395,7 +418,7 @@ server <- shinyServer(function(input, output, session) {
                      introjs(session, options = list(
                              steps = data.frame(element = c("#filters  ",
                                                             "#demographic_help ", 
-                                                            "#search + .form-control",
+                                                            "#search_help ",
                                                             "#nonprofits ",
                                                             "#layercontrols "
                                                             
@@ -441,12 +464,19 @@ server <- shinyServer(function(input, output, session) {
         #######################################Data for Circle markers 
         data <- reactive({
                 
-                if (input$search == "") {
+                if (is.null(input$search)) {
                         plot %>% 
                                 filter(category %in% input$category) %>%
                                 filter(partner_status %in% input$partner) %>%
                                 filter(department%in% input$depart_filters)
                         
+                }
+                else if (input$search == "None Selected") {
+                    plot %>% 
+                        filter(category %in% input$category) %>%
+                        filter(partner_status %in% input$partner) %>%
+                        filter(department%in% input$depart_filters)
+                    
                 }
                 else {
                         filter(plot, npo %in% input$search)
