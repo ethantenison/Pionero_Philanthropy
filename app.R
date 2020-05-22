@@ -78,6 +78,7 @@ demographic_map <- st_transform(demographic_map,"+proj=longlat +ellps=WGS84 +dat
 demographic_map <- mutate(demographic_map, formatted = as.character(format(value,  big.mark=",", digits=0)))
 demographic_map <- mutate(demographic_map, Population = as.character(format(Population,  big.mark=",", digits=0)))
 
+
 definitions <- htmlTemplate("tooltips/definitions.html")
 
 
@@ -246,6 +247,115 @@ ui <- shinyUI(
                                                           "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
                                                           "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
                                                           "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos")))),
+                        
+                        column(1,style='padding-left:2px;padding-right:0px;padding-bottom:1px;width:13.8%;height:2%;',
+                               div(id = "demographic_help",
+                                   pickerInput("demographics",label = "Demography", width= '100%',
+                                               inline=FALSE,multiple = FALSE,
+                                               options = list(
+                                                   `actions-box` = TRUE,
+                                                   `live-search` = TRUE,
+                                                   size = 10),
+                                               
+                                               choices = list("Population" =list(
+                                                   "Population"                               
+                                                   , "Population Under 18"                      
+                                                   , "Population 65 "                           
+                                                   , "Indigenous Population"                    
+                                                   , "Population in Urban Areas"                
+                                                   , "Population with Personal ID"              
+                                                   , "Population of Internal Migrants"          
+                                                   , "Female lead Single Parent Households"     
+                                                   , "People in Household" 
+                                               ),
+                                               Health = list(
+                                                   "Gross Birth Rate"                         
+                                                   , "Infant Mortality Rate"                    
+                                                   , "Low Birth Weight Babies"                  
+                                                   , "Access to Prenatal Care"                  
+                                                   , "Access to Prenatal Vitamins"              
+                                                   , "Medically Attended Births"                
+                                                   , "Births Attended in Public Centers"        
+                                                   , "Births Attended at Home"                  
+                                                   , "Cesarian Section"                         
+                                                   , "Gross Death Rate"                         
+                                                   , "Death by External Causes"                 
+                                                   , "Death by Diabetes"                        
+                                                   , "Death by Diarrhea"                        
+                                                   , "Death by Circulatory System Diseases"     
+                                                   , "Death by Respiratory System Diseases"     
+                                                   , "Death by Tuberculosis"                    
+                                                   , "Death by HIV AIDS"        
+                                               ),
+                                               Education = list(
+                                                   "Total Literacy Rate"                      
+                                                   , "Male Literacy Rate"                       
+                                                   , "Female Literacy Rate"                     
+                                                   , "Youth Literacy Rate"                      
+                                                   , "Number of Libraries"                      
+                                                   , "Total Years of Schooling"                 
+                                                   , "Female Years of Schooling"                
+                                                   , "Youth Years of Schooling"                 
+                                                   , "Time to Primary School"                   
+                                                   , "Time to Secondary School"                 
+                                                   , "Free Primary School Books"                
+                                                   , "Borrowed or Gifted Secondary School Books"
+                                                   , "Preprimary Net Enrollment Rate"           
+                                                   , "Primary School Net Enrollment Rate"       
+                                                   , "Middle School Net Enrollment Rate"        
+                                                   , "High School Net Enrollment Rate"          
+                                                   , "Enrollment in Higher Education"    
+                                               ),
+                                               Sanitation = list(
+                                                   "Potable Water Access"                     
+                                                   , "Improved Sanitation Access"
+                                                   , "Home Water Access"                        
+                                                   , "Homes Without Santitation Systems"
+                                               ),
+                                               Economy = list(
+                                                   "Social Assistance Program Benefit"        
+                                                   , "Poverty Rate"                             
+                                                   , "Extreme Poverty Rate"
+                                                   , "Female Paid Employees"                    
+                                                   , "Total Employment Rate"      
+                                               ),
+                                               Security = list(
+                                                   "Intrafamily Violence Rate"                
+                                                   , "Homicide Rate"                            
+                                                   , "Delinquent Injury Rate"                   
+                                                   , "Robbery Rate"                             
+                                                   , "Rape Rate"                                
+                                                   , "Crimes Against Freedom Rate"              
+                                                   , "Judicial Offense Rate"       
+                                               ),
+                                               Miscellaneous = list(
+                                                   "Forest Fires"
+                                                   ,"None Selected" = "Nothing Selected"
+                                               )
+                                               
+                                               
+                                               ),
+                                               selected = "Nothing Selected"))),
+                        
+                        column(1,style='padding-left:2px;padding-right:0px;padding-bottom:1px;width:13.8%;height:2%;', 
+                               div(id = "search_help",
+                                   
+                                   pickerInput("search",label = "Nonprofit Search", width= '100%',
+                                               inline=FALSE,multiple = TRUE,
+                                               options = list(
+                                                   `actions-box` = TRUE,
+                                                   `live-search` = TRUE,
+                                                   `deselect-all-text` = "Disable Search",
+                                                   #title = "Enter Name...",
+                                                   size = 10
+                                               ), # onInitialize = I('function() { this.setValue(""); }')
+                                               choices = names,
+                                               choicesOpt = list(
+                                                   content = stringr::str_trunc(names, width = 25)
+                                               ),
+                                               selected = "None Selected"))),
+                        
+                        
                         column(1,style='padding-left:2px;padding-right:0px;padding-bottom:1px;width:13.8%;height:2%;',
                                div(id = "size_help",
                                    pickerInput("sizevar",label = "Nonprofit Size", width= '100%',
@@ -271,121 +381,14 @@ ui <- shinyUI(
                                                        "Religious Affiliation" = "religious_aff",
                                                        "Guatemala Government Funded" = "guate_govt_funding",
                                                        "None Selected" ="constant_color"),
-                                               selected = "constant_color"))),
+                                               selected = "constant_color")))
                         
                         
                         
-                        column(1,style='padding-left:2px;padding-right:0px;padding-bottom:1px;width:13.8%;height:2%;',
-                               div(id = "demographic_help",
-                                   pickerInput("demographics",label = "Demography", width= '100%',
-                                               inline=FALSE,multiple = FALSE,
-                                               options = list(
-                                                       `actions-box` = TRUE,
-                                                       `live-search` = TRUE,
-                                                       size = 10),
-                                               choices = list("Population" =list(
-                                                                    "Population"                               
-                                                                   , "Population Under 18"                      
-                                                                   , "Population 65 "                           
-                                                                   , "Indigenous Population"                    
-                                                                   , "Population in Urban Areas"                
-                                                                   , "Population with Personal ID"              
-                                                                   , "Population of Internal Migrants"          
-                                                                   , "Female lead Single Parent Households"     
-                                                                   , "People in Household" 
-                                                               ),
-                                                              Health = list(
-                                                                  "Gross Birth Rate"                         
-                                                                  , "Infant Mortality Rate"                    
-                                                                  , "Low Birth Weight Babies"                  
-                                                                  , "Access to Prenatal Care"                  
-                                                                  , "Access to Prenatal Vitamins"              
-                                                                  , "Medically Attended Births"                
-                                                                  , "Births Attended in Public Centers"        
-                                                                  , "Births Attended at Home"                  
-                                                                  , "Cesarian Section"                         
-                                                                  , "Gross Death Rate"                         
-                                                                  , "Death by External Causes"                 
-                                                                  , "Death by Diabetes"                        
-                                                                  , "Death by Diarrhea"                        
-                                                                  , "Death by Circulatory System Diseases"     
-                                                                  , "Death by Respiratory System Diseases"     
-                                                                  , "Death by Tuberculosis"                    
-                                                                  , "Death by HIV AIDS"        
-                                                              ),
-                                                              Education = list(
-                                                                  "Total Literacy Rate"                      
-                                                                  , "Male Literacy Rate"                       
-                                                                  , "Female Literacy Rate"                     
-                                                                  , "Youth Literacy Rate"                      
-                                                                  , "Number of Libraries"                      
-                                                                  , "Total Years of Schooling"                 
-                                                                  , "Female Years of Schooling"                
-                                                                  , "Youth Years of Schooling"                 
-                                                                  , "Time to Primary School"                   
-                                                                  , "Time to Secondary School"                 
-                                                                  , "Free Primary School Books"                
-                                                                  , "Borrowed or Gifted Secondary School Books"
-                                                                  , "Preprimary Net Enrollment Rate"           
-                                                                  , "Primary School Net Enrollment Rate"       
-                                                                  , "Middle School Net Enrollment Rate"        
-                                                                  , "High School Net Enrollment Rate"          
-                                                                  , "Enrollment in Higher Education"    
-                                                              ),
-                                                              Sanitation = list(
-                                                                    "Potable Water Access"                     
-                                                                  , "Improved Sanitation Access"
-                                                                  , "Home Water Access"                        
-                                                                  , "Homes Without Santitation Systems"
-                                                              ),
-                                                              Economy = list(
-                                                                  "Social Assistance Program Benefit"        
-                                                                  , "Poverty Rate"                             
-                                                                  , "Extreme Poverty Rate"
-                                                                  , "Female Paid Employees"                    
-                                                                  , "Total Employment Rate"      
-                                                              ),
-                                                              Security = list(
-                                                                  "Intrafamily Violence Rate"                
-                                                                  , "Homicide Rate"                            
-                                                                  , "Delinquent Injury Rate"                   
-                                                                  , "Robbery Rate"                             
-                                                                  , "Rape Rate"                                
-                                                                  , "Crimes Against Freedom Rate"              
-                                                                  , "Judicial Offense Rate"       
-                                                              ),
-                                                              Miscellaneous = list(
-                                                                   "Forest Fires"
-                                                                  ,"None Selected" = "Nothing Selected"
-                                                              )
-                                                              
-                                                   
-                                               ),
-                                               selected = "Nothing Selected"))),
                         
-                        column(1,style='padding-left:2px;padding-right:0px;padding-bottom:1px;width:13.8%;height:2%;', 
-                               div(id = "search_help",
-                               
-                               pickerInput("search",label = "Nonprofit Search", width= '100%',
-                                           inline=FALSE,multiple = TRUE,
-                                           options = list(
-                                               `actions-box` = TRUE,
-                                               `live-search` = TRUE,
-                                               `deselect-all-text` = "Disable Search",
-                                               title = "Enter Name...",
-                                               size = 10
-                                               ), # onInitialize = I('function() { this.setValue(""); }')
-                                           choices = names,
-                                           choicesOpt = list(
-                                               content = stringr::str_trunc(names, width = 15)
-                                           ),
-                                           selected = "None Selected"))
-                               
-                               
-                               
-                               
-                               
-                               ))
+                        
+                        
+                        )
                         
                         
                         
