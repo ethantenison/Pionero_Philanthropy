@@ -100,7 +100,7 @@ ui <- shinyUI(
                           tags$link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.1.0/css/all.css",
                                     integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt", crossorigin="anonymous"),
                           tags$script(src = "www/js/wordwrap.js"),
-                         # tags$style(HTML('body {font-family:"Cooper Hewitt";}')),
+                          tags$style(HTML('body {font-family:"Cooper Hewitt";}')),
                           tags$style(".checkbox-inline {margin: 0 !important;}"),
                           tags$style(".selectize-dropdown {top: -200px !important;}"),
                           tags$style(".selectize-input {background: #193A45 ; border-color: #193A45 ; color: #F2F2F2;}"),
@@ -516,7 +516,12 @@ server <- shinyServer(function(input, output, session) {
                 sizeBy <- input$sizevar
                 colorData <- data()[[colorBy]]
                 
-                #I had to create a separate color palette for when "Nothing Selected"
+                #I had to create a separate color palette for basically every color variable 
+                # "Nonprofit Size" = "size",
+                # "Tax Registration" = "Tax_Registration",
+                # "Religious Affiliation" = "religious_aff",
+                # "Guatemala Government Funded" = "guate_govt_funding",
+                # "None Selected" ="constant_color"
                 if (input$colorvar %in% "constant_color"){
                     
                  pal <-   colorFactor(palette = colorRampPalette(c("#1D1AB2"),space = "Lab")(length(colorData)),
@@ -524,12 +529,25 @@ server <- shinyServer(function(input, output, session) {
                                 reverse = TRUE,
                                 na.color = "#1D1AB2")
                     
-                } else {
+                } else if (input$colorvar %in% "size" | input$colorvar %in% "guate_govt_funding" ) {
                 pal <- colorFactor(palette = colorRampPalette(c("#FFE900","#FFC000", "#540EAD","#1D1AB2"),space = "Lab")(length(colorData)),
                                    domain = colorData,
                                    reverse = TRUE,
                                    na.color = "#BFBFBF")
+                
+                }else if (input$colorvar %in% "Tax_Registration") {
+                    pal <- colorFactor(palette = colorRampPalette(c("#FFE900","#FFC000", "#540EAD","#1D1AB2", "#5DE100"),space = "Lab")(length(colorData)),
+                                       domain = colorData,
+                                       reverse = TRUE,
+                                       na.color = "#BFBFBF")
+                    
+                }else if (input$colorvar %in% "religious_aff" ) {
+                    pal <- colorFactor(palette = colorRampPalette(c("#FFC000", "#540EAD", "#000000","#FFE900", "#1D1AB2", "#5DE100", "#E7003E"),space = "Lab")(length(colorData)),
+                                       domain = colorData,
+                                       reverse = TRUE,
+                                       na.color = "#BFBFBF")
                 }
+                
                 
                 varname <- switch(
                         input$colorvar,
