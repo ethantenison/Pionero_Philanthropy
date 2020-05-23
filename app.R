@@ -408,12 +408,7 @@ server <- shinyServer(function(input, output, session) {
                              position = c("auto",
                                           "auto",
                                           "auto",
-                                          "auto"
-                             )
-                             ),
-                             "nextLabel"="Next",
-                             "prevLabel"="Previous",
-                             "skipLabel"="Exit" 
+                                          "auto"))
                              ),
                              
                      )
@@ -605,7 +600,8 @@ server <- shinyServer(function(input, output, session) {
                                             "<h5/>","Annual Budget: $",format(budget, big.mark=","),
                                             "<h5/>","Theme Areas: ",sep = " ",list_categories,
                                             "<h5/>","Religious Affiliation: ",sep = " ",religious_aff,
-                                            "<h5/>", "Tax Registration: ", sep = " ", Tax_Registration),
+                                            "<h5/>", "Tax Registration: ", sep = " ", Tax_Registration,
+                                            "<h5/>", "Receives Guatemalan Government Funds: ", sep = " ",guate_govt_funding),
                                 label = ~ paste0("Nonprofit: ", sep = " ", npo),
                                 radius = size,
                                 fillOpacity = 0.6,
