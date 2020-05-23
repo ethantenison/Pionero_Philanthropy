@@ -552,7 +552,9 @@ server <- shinyServer(function(input, output, session) {
                 # "Tax Registration" = "Tax_Registration",
                 # "Religious Affiliation" = "religious_aff",
                 # "Guatemala Government Funded" = "guate_govt_funding",
-                # "None Selected" ="constant_color"
+                # "None Selected" ="constant_color" 
+                # "#F2F2F2", "#BFBFBF","#FFC000", "#486F73","#193A45"
+                
                 if (input$colorvar %in% "constant_color"){
                     
                  pal <-   colorFactor(palette = colorRampPalette(c("#F2F2F2"),space = "Lab")(length(colorData)),
