@@ -563,19 +563,19 @@ server <- shinyServer(function(input, output, session) {
                                 na.color = "#F2F2F2")
                     
                 } else if (input$colorvar %in% "size" | input$colorvar %in% "guate_govt_funding" ) {
-                pal <- colorFactor(palette = colorRampPalette(c("#F2F2F2", "#FFE900","#FFC000", "#540EAD","#1D1AB2"),space = "Lab")(length(colorData)),
+                pal <- colorFactor(palette = colorRampPalette(c("#F2F2F2", "#BFBFBF","#FFC000", "#486F73","#193A45"),space = "Lab")(length(colorData)),
                                    domain = colorData,
                                    reverse = TRUE,
                                    na.color = "#BFBFBF")
                 
                 }else if (input$colorvar %in% "Tax_Registration") {
-                    pal <- colorFactor(palette = colorRampPalette(c("#F2F2F2", "#FFE900","#FFC000", "#540EAD","#1D1AB2"),space = "Lab")(length(colorData)),
+                    pal <- colorFactor(palette = colorRampPalette(c("#F2F2F2", "#BFBFBF","#FFC000", "#486F73","#193A45"),space = "Lab")(length(colorData)),
                                        domain = colorData,
                                        reverse = TRUE,
                                        na.color = "#BFBFBF")
                     
                 }else if (input$colorvar %in% "religious_aff" ) {
-                    pal <- colorFactor(palette = colorRampPalette(c("#F2F2F2","#BFBFBF", "#FFE900","#FFC000", "#540EAD","#1D1AB2"),space = "Lab")(length(colorData)),
+                    pal <- colorFactor(palette = colorRampPalette(c("#F2F2F2", "#BFBFBF","#FFC000", "#486F73","#193A45"),space = "Lab")(length(colorData)),
                                        domain = colorData,
                                        reverse = TRUE,
                                        na.color = "#BFBFBF")
@@ -590,7 +590,15 @@ server <- shinyServer(function(input, output, session) {
                 
                 
                 x <-data()[[sizeBy]] 
-                size <-sqrt(x / mean(x) * 100)
+                
+                #setting a different size when partners are the only ones selected
+                if (unique(data()$partner_status) %in% "Partnered"){
+                    
+                    size <-sqrt(x / mean(x) * 100)    
+                    
+                } else {
+                    size <-sqrt(x / mean(x) * 50) 
+                }
                 
                 
                 leafletProxy("map") %>% 
@@ -644,7 +652,7 @@ server <- shinyServer(function(input, output, session) {
                                             "<h5/>", "Tax Registration: ", sep = " ", Tax_Registration),
                                 label = ~ paste0("Nonprofit: ", sep = " ", npo),
                                 radius = size,
-                                fillOpacity = 0.4,
+                                fillOpacity = 0.6,
                                 fillColor =  ~ pal(colorData),
                                 group = "Nonprofit Data"
                         )
