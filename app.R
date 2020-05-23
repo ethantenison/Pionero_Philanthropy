@@ -107,8 +107,8 @@ ui <- shinyUI(
                           tags$style(".checkbox-inline {margin: 0 !important;}"),
                           tags$style(".selectize-dropdown {top: -200px !important;}"),
                           tags$style(".selectize-input {background: #193A45 ; border-color: #193A45 ; color: #F2F2F2;}"),
-                          tags$style('h1 {color:#193A45;}'),
-                          tags$style('h3 {color:#193A45;}'),
+                          tags$style('h2 {color:#193A45;}'),
+                          tags$style('h4 {color:#193A45;}'),
                           tags$style(HTML(".selectize-dropdown-content .option {
                               color: #193A45;
                           }
@@ -131,8 +131,6 @@ ui <- shinyUI(
                 
                 tags$style(".pretty.p-default input:dropdown~.state label:after {background-color: #486F73 !important;}"), #change color checkbox widgets, also change css
     
-                
-                
                 leafletOutput("map", width = "100%", height = "91.5%"),
                 
                 absolutePanel(
@@ -141,19 +139,17 @@ ui <- shinyUI(
                         draggable = FALSE,
                         top = "0%",
                         left = "0%",
-                        right = "0%",
+                        right = "80%",
                         bottom = "95%",
                         
                         
                         fluidRow(
-                                column(1,style='padding-right:0px;width:200px;padding-top:10px;', offset = 1, 
-                                       img(src="images/logo.png", height  = 150, width = 150),
-                                          h3(strong("(",textOutput("num_matching", inline = TRUE)," nonprofits)"))),
+                                column(1,style='padding-right:0px;width:150px;padding-top:10px;', offset = 1, 
+                                       img(src="images/logo.png", height  = 125, width = 125),
+                                          h4(strong("(",textOutput("num_matching", inline = TRUE)," nonprofits)"))),
                                 column(1, style='padding-left:0px;padding-top:10px;color: #486F73;',
-                                       h1(strong("Nonprofit Environment Explorer"))
+                                       h2(strong("Nonprofit Environment Explorer"))
                                 )
-                                
-                                
                         )),
                 
                 
@@ -162,23 +158,19 @@ ui <- shinyUI(
                         #class = "panel panel-default",
                         fixed = TRUE,
                         draggable = FALSE,
-                        top = "2.5%",
-                        left = "85%",
-                        right = "5%",
+                        top = "0%",
+                        left = "87.5%",
+                        right = "2.5%",
                         bottom = "85%",
                         
                         
                             fluidRow(
-                                    column(1, style='padding:30px;',
-                                
-                                           div(id = "layers",
-                                           materialSwitch("non", label= strong("Nonprofits (off/on)"), status= "default",value = TRUE),
-                                           materialSwitch("dem", label = strong("Demographics (off/on)"), status = "default", value = TRUE )),
-                                           br(),
-                                           actionButton("help", label = "Tutorial  ", width = '100px',
+                                    column(1, style='padding-top:15px;padding-right:0px;width: 100%',
+  
+                                           actionButton("help", label = "Tutorial  ", width = '100%',
                                                         icon = icon("question-circle")),
                                            br(), br(),
-                                           actionButton("def", label = "Definitions", width = '100px',
+                                           actionButton("def", label = "Definitions", width = '100%',
                                                         icon = icon("book-open")
                                     )
                             ))
@@ -193,7 +185,8 @@ ui <- shinyUI(
                                                options = list(
                                                        `actions-box` = TRUE, 
                                                        size = 10,
-                                                       `selected-text-format` = "count > 1"
+                                                       `selected-text-format` = "count > 1",
+                                                       `none-selected-text` = "None Selected"
                                                ),
                                                c("Partnered","Eligible","Not Eligible", "Discontinued Partnership", "No Information"),
                                                selected=c("Partnered")))),
@@ -205,7 +198,8 @@ ui <- shinyUI(
                                                        `actions-box` = TRUE, 
                                                        size = 10,
                                                        `selected-text-format` = "count > 3",
-                                                       `count-selected-text`= "{0} Selected"
+                                                       `count-selected-text`= "{0} Selected",
+                                                       `none-selected-text` = "None Selected"
                                                ),
                                                c("Health","Education", "Community Development","Youth & Children", "Women & Girls",
                                                  "Human Rights" ,"Environment & Conservation","Animal Welfare","Security","Uncategorized"),
@@ -257,9 +251,8 @@ ui <- shinyUI(
                                                    `actions-box` = TRUE,
                                                    `live-search` = TRUE,
                                                    `deselect-all-text` = "Disable Search",
-                                                   #title = "Enter Name...",
                                                    size = 10
-                                               ), # onInitialize = I('function() { this.setValue(""); }')
+                                               ), 
                                                choices = names,
                                                choicesOpt = list(
                                                    content = stringr::str_trunc(names, width = 25)
@@ -364,7 +357,8 @@ ui <- shinyUI(
                                                    `actions-box` = TRUE, 
                                                    size = 10,
                                                    `selected-text-format` = "count > 3",
-                                                   `count-selected-text`= "{0} Selected"
+                                                   `count-selected-text`= "{0} Selected",
+                                                   `none-selected-text` = "None Selected"
                                                ),choices =
                                                    c("Guatemala", "Quetzaltenango", "Huehuetenango", "Retalhuleu",    
                                                      "Petén", "Quiché", "Chimaltenango",  "Sacatepéquez",  
@@ -376,27 +370,8 @@ ui <- shinyUI(
                                                           "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
                                                           "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
                                                           "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos"))))
-                        
-                        
-                        
-                       
-                        
-                        
-                        
-                        
-                        
-                        
                         )
-                        
-                        
-                        
-                        
-                        
-                        
-                        
                 )
-                
-                
         ))
 
 
@@ -420,20 +395,17 @@ server <- shinyServer(function(input, output, session) {
                              steps = data.frame(element = c("#filters  ",
                                                             "#demographic_help ", 
                                                             "#search_help ",
-                                                            "#nonprofits ",
-                                                            "#layercontrols "
+                                                            "#nonprofits "
                                                             
                                                             
                              ),
                              intro = c( includeMarkdown("tooltips/filters.md"),
                                         includeMarkdown("tooltips/demographic.md"),
                                         includeMarkdown("tooltips/search.md"),
-                                        includeMarkdown("tooltips/nonprofits.md"),
-                                        includeMarkdown("tooltips/layers.md")
+                                        includeMarkdown("tooltips/nonprofits.md")
                                        
                              ),
                              position = c("auto",
-                                          "auto",
                                           "auto",
                                           "auto",
                                           "auto"
@@ -531,28 +503,12 @@ server <- shinyServer(function(input, output, session) {
         observe({if (nrow(data()) != 0) {
                 
                 
-                if (input$non == TRUE) {
-                        leafletProxy("map") %>% showGroup("Nonprofit Data")
-                } else {
-                        leafletProxy("map") %>% hideGroup("Nonprofit Data")
-                }
-                
-                if (input$dem == TRUE) {
-                        leafletProxy("map") %>% showGroup("Demographic Data")
-                } else {
-                        leafletProxy("map") %>% hideGroup("Demographic Data")
-                }
-                
                 colorBy <- input$colorvar
                 sizeBy <- input$sizevar
                 colorData <- data()[[colorBy]]
+                x <-data()[[sizeBy]] 
                 
                 #I had to create a separate color palette for basically every color variable 
-                # "Nonprofit Size" = "size",
-                # "Tax Registration" = "Tax_Registration",
-                # "Religious Affiliation" = "religious_aff",
-                # "Guatemala Government Funded" = "guate_govt_funding",
-                # "None Selected" ="constant_color" 
                 # "#F2F2F2", "#BFBFBF","#FFC000", "#486F73","#193A45"
                 
                 if (input$colorvar %in% "constant_color"){
@@ -563,7 +519,7 @@ server <- shinyServer(function(input, output, session) {
                                 na.color = "#F2F2F2")
                     
                 } else if (input$colorvar %in% "size" | input$colorvar %in% "guate_govt_funding" ) {
-                pal <- colorFactor(palette = colorRampPalette(c("#F2F2F2", "#BFBFBF","#FFC000", "#486F73","#193A45"),space = "Lab")(length(colorData)),
+                pal <- colorFactor(palette = colorRampPalette(c("#193A45","#486F73","#BFBFBF","#FFC000","#F2F2F2"),space = "Lab")(length(colorData)),
                                    domain = colorData,
                                    reverse = TRUE,
                                    na.color = "#BFBFBF")
@@ -589,7 +545,7 @@ server <- shinyServer(function(input, output, session) {
                         "faith_based"= "Faith Based")
                 
                 
-                x <-data()[[sizeBy]] 
+                
                 
                 #setting a different size when partners are the only ones selected
                 if (unique(data()$partner_status) %in% "Partnered"){
@@ -658,39 +614,29 @@ server <- shinyServer(function(input, output, session) {
                         )
                 
                 #######################################Legends based on which layer checkboxes are ticked
-                if (input$non == TRUE & input$dem == TRUE &  ("Nothing Selected" %in% input$demographics) & ("constant_color" %in% input$colorvar)) {
+                if (("Nothing Selected" %in% input$demographics) & ("constant_color" %in% input$colorvar)) {
                     leafletProxy("map")
                 }
                 
-                else if (input$non == TRUE & input$dem == TRUE &  ("Nothing Selected" %in% input$demographics)) {
+                else if (("Nothing Selected" %in% input$demographics)) {
                         leafletProxy("map") %>% 
                                 addLegend(data = data(), "bottomright",pal = pal, values = colorData, title = varname,
                                           group = "Nonprofit Data", layerId = "nonleg")
                 }
-                else if (input$non == TRUE & input$dem == TRUE & !("Nothing Selected" %in% input$demographics)) {
+                else if (!("Nothing Selected" %in% input$demographics)) {
                         leafletProxy("map") %>% 
                             addLegend(data = demographic(), "bottomright", pal = pal2(), values = ~demographic()$value,
                                       opacity = 0.7, title = ~ paste0(unique(measure)," ",unique(units)), group = "Demographic Data", layerId = "demleg") %>% 
                             addLegend(data = data(), "bottomright",pal = pal, values = colorData, title = varname,
                                       group = "Nonprofit Data", layerId = "nonleg")
                 }
-                else if(input$dem == TRUE & input$non == FALSE){
-                        leafletProxy("map") %>% 
-                                addLegend(data = demographic(), "bottomright", pal = pal2(), values = ~demographic()$value,
-                                          opacity = 0.7, title = ~ paste0(unique(measure)," ",unique(units)), group = "Demographic Data", layerId = "demleg")
-                }
                 
-                else if (input$dem == FALSE & input$non == TRUE) {
-                        leafletProxy("map") %>%
-                                addLegend(data = data(), "bottomright",pal = pal, values = colorData, title = varname,
-                                          group = "Nonprofit Data", layerId = "nonleg")
-                }
                 
-        }
+        
                 else{leafletProxy("map") %>% clearMarkers()} #clear the map if the data() is empty
                 
                 
-                
+        }    
                 
                 
                 
