@@ -104,19 +104,11 @@ ui <- shinyUI(
                           tags$link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.1.0/css/all.css",
                                     integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt", crossorigin="anonymous"),
                           tags$script(src = "www/js/wordwrap.js"),
-                          tags$style(HTML('body {font-family:"Cooper Hewitt";}')),
                           tags$style(".checkbox-inline {margin: 0 !important;}"),
                           tags$style(".selectize-dropdown {top: -200px !important;}"),
                           tags$style(".selectize-input {background: #193A45 ; border-color: #193A45 ; color: #F2F2F2;}"),
-                          tags$style('h1 {color:#193A45;font-family:"Cooper Hewitt";}'),
-                          tags$style('h3 {color:#193A45;font-family:"Cooper Hewitt";}'),
-                          tags$style('#category {font-family:"Cooper Hewitt";}'),
-                          tags$style('#partner {font-family:"Cooper Hewitt";}'),
-                          tags$style('#depart_filters {font-family:"Cooper Hewitt";}'),
-                          tags$style('#sizevar {font-family:"Cooper Hewitt";}'),
-                          tags$style('#colorvar {font-family:"Cooper Hewitt";}'),
-                          tags$style('#demographics {font-family:"Cooper Hewitt";}'),
-                          tags$style('#search {font-family:"Cooper Hewitt";color:white;}'),
+                          tags$style('h1 {color:#193A45;}'),
+                          tags$style('h3 {color:#193A45;}'),
                           tags$style(HTML(".selectize-dropdown-content .option {
                               color: #193A45;
                           }
@@ -208,7 +200,7 @@ ui <- shinyUI(
                         
                         column(1,style='padding:0px;padding-left:2px;padding-right:0px;padding-bottom:1px;width:13.8%;height:2%;',
                                div(id = "category_help",
-                                   pickerInput("category", label= "Categories",inline=FALSE,multiple = TRUE,  width= '100%',
+                                   pickerInput("category", label= "Theme Areas",inline=FALSE,multiple = TRUE,  width= '100%',
                                                options = list(
                                                        `actions-box` = TRUE, 
                                                        size = 10,
@@ -227,26 +219,53 @@ ui <- shinyUI(
                                                           "Animal Welfare",
                                                           "Security",
                                                           "Uncategorized")))),
+                        
                         column(1,style='padding-left:2px;padding-right:0px;padding-bottom:1px;width:13.8%;height:2%;',
-                               div(id = "department_help",
-                                   pickerInput("depart_filters", label= "Departments",inline=FALSE, width= '100%',
-                                               multiple = TRUE, 
+                               div(id = "size_help",
+                                   pickerInput("sizevar",label = "Nonprofit Size", width= '100%',
+                                               inline=FALSE,multiple = FALSE,
                                                options = list(
-                                                       `actions-box` = TRUE, 
-                                                       size = 10,
-                                                       `selected-text-format` = "count > 3",
-                                                       `count-selected-text`= "{0} Selected"
-                                               ),choices =
-                                                       c("Guatemala", "Quetzaltenango", "Huehuetenango", "Retalhuleu",    
-                                                         "Petén", "Quiché", "Chimaltenango",  "Sacatepéquez",  
-                                                         "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
-                                                         "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
-                                                         "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos"),
-                                               selected=c("Guatemala", "Quetzaltenango", "Huehuetenango", "Retalhuleu",    
-                                                          "Petén", "Quiché", "Chimaltenango",  "Sacatepéquez",  
-                                                          "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
-                                                          "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
-                                                          "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos")))),
+                                                   `actions-box` = TRUE, 
+                                                   size = 10),
+                                               choices = c(
+                                                   "Annual Budget" = "budget_adj",
+                                                   "Years Active" = "npo_age",
+                                                   "None Selected" = "constant_size"),
+                                               selected = "constant_size"))),
+                        
+                        column(1,style='padding-left:2px;padding-right:0px;padding-bottom:1px;width:13.8%;height:2%;',
+                               div(id = "color_help",
+                                   pickerInput("colorvar",label = "Nonprofit Color", width= '100%',
+                                               inline=FALSE,multiple = FALSE,
+                                               options = list(
+                                                   `actions-box` = TRUE, 
+                                                   size = 10),
+                                               choices = c(
+                                                   "Nonprofit Size" = "size",
+                                                   "Tax Registration" = "Tax_Registration",
+                                                   "Religious Affiliation" = "religious_aff",
+                                                   "Guatemala Government Funded" = "guate_govt_funding",
+                                                   "None Selected" ="constant_color"),
+                                               selected = "constant_color"))),
+                        
+                        column(1,style='padding-left:2px;padding-right:0px;padding-bottom:1px;width:13.8%;height:2%;', 
+                               div(id = "search_help",
+                                   
+                                   pickerInput("search",label = "Nonprofit Search", width= '100%',
+                                               inline=FALSE,multiple = TRUE,
+                                               options = list(
+                                                   `actions-box` = TRUE,
+                                                   `live-search` = TRUE,
+                                                   `deselect-all-text` = "Disable Search",
+                                                   #title = "Enter Name...",
+                                                   size = 10
+                                               ), # onInitialize = I('function() { this.setValue(""); }')
+                                               choices = names,
+                                               choicesOpt = list(
+                                                   content = stringr::str_trunc(names, width = 25)
+                                               ),
+                                               selected = "None Selected"))),
+                        
                         
                         column(1,style='padding-left:2px;padding-right:0px;padding-bottom:1px;width:13.8%;height:2%;',
                                div(id = "demographic_help",
@@ -337,51 +356,30 @@ ui <- shinyUI(
                                                ),
                                                selected = "Nothing Selected"))),
                         
-                        column(1,style='padding-left:2px;padding-right:0px;padding-bottom:1px;width:13.8%;height:2%;', 
-                               div(id = "search_help",
-                                   
-                                   pickerInput("search",label = "Nonprofit Search", width= '100%',
-                                               inline=FALSE,multiple = TRUE,
+                        column(1,style='padding-left:2px;padding-right:0px;padding-bottom:1px;width:13.8%;height:2%;',
+                               div(id = "department_help",
+                                   pickerInput("depart_filters", label= "Departments",inline=FALSE, width= '100%',
+                                               multiple = TRUE, 
                                                options = list(
-                                                   `actions-box` = TRUE,
-                                                   `live-search` = TRUE,
-                                                   `deselect-all-text` = "Disable Search",
-                                                   #title = "Enter Name...",
-                                                   size = 10
-                                               ), # onInitialize = I('function() { this.setValue(""); }')
-                                               choices = names,
-                                               choicesOpt = list(
-                                                   content = stringr::str_trunc(names, width = 25)
-                                               ),
-                                               selected = "None Selected"))),
+                                                   `actions-box` = TRUE, 
+                                                   size = 10,
+                                                   `selected-text-format` = "count > 3",
+                                                   `count-selected-text`= "{0} Selected"
+                                               ),choices =
+                                                   c("Guatemala", "Quetzaltenango", "Huehuetenango", "Retalhuleu",    
+                                                     "Petén", "Quiché", "Chimaltenango",  "Sacatepéquez",  
+                                                     "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
+                                                     "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
+                                                     "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos"),
+                                               selected=c("Guatemala", "Quetzaltenango", "Huehuetenango", "Retalhuleu",    
+                                                          "Petén", "Quiché", "Chimaltenango",  "Sacatepéquez",  
+                                                          "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
+                                                          "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
+                                                          "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos"))))
                         
                         
-                        column(1,style='padding-left:2px;padding-right:0px;padding-bottom:1px;width:13.8%;height:2%;',
-                               div(id = "size_help",
-                                   pickerInput("sizevar",label = "Nonprofit Size", width= '100%',
-                                               inline=FALSE,multiple = FALSE,
-                                               options = list(
-                                                       `actions-box` = TRUE, 
-                                                       size = 10),
-                                               choices = c(
-                                                       "Annual Budget" = "budget_adj",
-                                                       "Years Active" = "npo_age",
-                                                       "None Selected" = "constant_size"),
-                                               selected = "constant_size"))),
-                        column(1,style='padding-left:2px;padding-right:0px;padding-bottom:1px;width:13.8%;height:2%;',
-                               div(id = "color_help",
-                                   pickerInput("colorvar",label = "Nonprofit Color", width= '100%',
-                                               inline=FALSE,multiple = FALSE,
-                                               options = list(
-                                                       `actions-box` = TRUE, 
-                                                       size = 10),
-                                               choices = c(
-                                                       "Nonprofit Size" = "size",
-                                                       "Tax Registration" = "Tax_Registration",
-                                                       "Religious Affiliation" = "religious_aff",
-                                                       "Guatemala Government Funded" = "guate_govt_funding",
-                                                       "None Selected" ="constant_color"),
-                                               selected = "constant_color")))
+                        
+                       
                         
                         
                         
@@ -557,25 +555,25 @@ server <- shinyServer(function(input, output, session) {
                 # "None Selected" ="constant_color"
                 if (input$colorvar %in% "constant_color"){
                     
-                 pal <-   colorFactor(palette = colorRampPalette(c("#1D1AB2"),space = "Lab")(length(colorData)),
+                 pal <-   colorFactor(palette = colorRampPalette(c("#F2F2F2"),space = "Lab")(length(colorData)),
                                 domain = colorData,
                                 reverse = TRUE,
-                                na.color = "#1D1AB2")
+                                na.color = "#F2F2F2")
                     
                 } else if (input$colorvar %in% "size" | input$colorvar %in% "guate_govt_funding" ) {
-                pal <- colorFactor(palette = colorRampPalette(c("#FFE900","#FFC000", "#540EAD","#1D1AB2"),space = "Lab")(length(colorData)),
+                pal <- colorFactor(palette = colorRampPalette(c("#F2F2F2", "#FFE900","#FFC000", "#540EAD","#1D1AB2"),space = "Lab")(length(colorData)),
                                    domain = colorData,
                                    reverse = TRUE,
                                    na.color = "#BFBFBF")
                 
                 }else if (input$colorvar %in% "Tax_Registration") {
-                    pal <- colorFactor(palette = colorRampPalette(c("#FFE900","#FFC000", "#540EAD","#1D1AB2", "#5DE100"),space = "Lab")(length(colorData)),
+                    pal <- colorFactor(palette = colorRampPalette(c("#F2F2F2", "#FFE900","#FFC000", "#540EAD","#1D1AB2"),space = "Lab")(length(colorData)),
                                        domain = colorData,
                                        reverse = TRUE,
                                        na.color = "#BFBFBF")
                     
                 }else if (input$colorvar %in% "religious_aff" ) {
-                    pal <- colorFactor(palette = colorRampPalette(c("#FFC000", "#540EAD", "#000000","#FFE900", "#1D1AB2", "#5DE100", "#E7003E"),space = "Lab")(length(colorData)),
+                    pal <- colorFactor(palette = colorRampPalette(c("#F2F2F2","#BFBFBF", "#FFE900","#FFC000", "#540EAD","#1D1AB2"),space = "Lab")(length(colorData)),
                                        domain = colorData,
                                        reverse = TRUE,
                                        na.color = "#BFBFBF")
@@ -607,7 +605,7 @@ server <- shinyServer(function(input, output, session) {
                                         smoothFactor = 1,
                                         fillColor = ~ pal2()(demographic()$value),
                                         fillOpacity = .5,
-                                        weight = 3, 
+                                        weight = 2.5, 
                                         color = "black",
                                         highlight = highlightOptions(
                                                 weight = 5,
@@ -628,21 +626,23 @@ server <- shinyServer(function(input, output, session) {
                                                 ),
                                         group = "Demographic Data") %>%
                         clearMarkers() %>% #you have to clear previously drawn markers
-                        addCircleMarkers(data = data(), lng =  ~ longitude,lat =  ~ latitude,stroke = FALSE,popup =  ~ paste0(
-                                "<h4/><b>",website,"</b><h5/>",
-                                "<h5/>","Partner Status: ",sep = " ",partner_status,
-                                "<h5/>","Eligibility Restrictions: ",sep = " ", ne_dp_reason,
-                                "<h5/>","Nonprofit Size: ",sep = " ",size,
-                                "<h5/>","Year Founded: ",sep = " ",year_founded,
-                                "<h5/>","Annual Budget: $",format(budget, big.mark=","),
-                                "<h5/>","All Categories: ",sep = " ",list_categories,
-                                "<h5/>","Religious Affiliation: ",sep = " ",religious_aff,
-                                "<h5/>", "Tax Registration: ", sep = " ", Tax_Registration),
-                                
+                        addCircleMarkers(data = data(), lng =  ~ longitude,lat =  ~ latitude,
+                                stroke = TRUE,
+                                weight = 2,
+                                color = "black",
+                                popup =  ~ paste0(
+                                            "<h4/><b>",website,"</b><h5/>",
+                                            "<h5/>","Partner Status: ",sep = " ",partner_status,
+                                            "<h5/>","Eligibility Restrictions: ",sep = " ", ne_dp_reason,
+                                            "<h5/>","Nonprofit Size: ",sep = " ",size,
+                                            "<h5/>","Year Founded: ",sep = " ",year_founded,
+                                            "<h5/>","Annual Budget: $",format(budget, big.mark=","),
+                                            "<h5/>","Theme Areas: ",sep = " ",list_categories,
+                                            "<h5/>","Religious Affiliation: ",sep = " ",religious_aff,
+                                            "<h5/>", "Tax Registration: ", sep = " ", Tax_Registration),
                                 label = ~ paste0("Nonprofit: ", sep = " ", npo),
                                 radius = size,
                                 fillOpacity = 0.4,
-                                color = "black",
                                 fillColor =  ~ pal(colorData),
                                 group = "Nonprofit Data"
                         )
