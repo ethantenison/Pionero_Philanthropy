@@ -190,7 +190,7 @@ ui <- shinyUI(
                                                        `none-selected-text` = "None Selected"
                                                ),
                                                c("Partnered","Eligible","Not Eligible", "Discontinued Partnership", "No Information"),
-                                               selected=c("Partnered")))),
+                                               selected=c("Partnered","Eligible","Not Eligible", "Discontinued Partnership", "No Information")))),
                         
                         column(1,style='padding:0px;padding-left:2px;padding-right:0px;padding-bottom:1px;width:13.8%;height:2%;',
                                div(id = "category_help",
@@ -203,7 +203,7 @@ ui <- shinyUI(
                                                        `none-selected-text` = "None Selected"
                                                ),
                                                c("Health","Education", "Community Development","Youth & Children", "Women & Girls",
-                                                 "Human Rights" ,"Environment & Conservation","Animal Welfare","Security","Uncategorized"),
+                                                 "Human Rights" ,"Environment & Conservation","Animal Welfare","Security","Theme not available" = "Uncategorized"),
                                                selected=c("Health",
                                                           "Education",
                                                           "Community Development",
