@@ -75,8 +75,9 @@ demographic_map <- readRDS("./data/demographic_map.rds")
 demographic_map <- as.data.frame(demographic_map)
 demographic_map <- st_as_sf(demographic_map)
 demographic_map <- st_transform(demographic_map,"+proj=longlat +ellps=WGS84 +datum=WGS84")
-demographic_map <- mutate(demographic_map, formatted = as.character(format(value,  big.mark=",", digits=0)))
+demographic_map <- mutate(demographic_map, formatted = as.character(format(value,  big.mark=",", digits=1)))
 demographic_map <- mutate(demographic_map, Population = as.character(format(Population,  big.mark=",", digits=0)))
+demographic_map <- mutate(demographic_map, Total.Literacy.Rate = as.character(format(Total.Literacy.Rate,  big.mark=",", digits=1)))
 
 
 definitions <- htmlTemplate("tooltips/definitions.html")
@@ -138,7 +139,7 @@ ui <- shinyUI(
                         fixed = TRUE,
                         draggable = FALSE,
                         top = "0%",
-                        left = "0%",
+                        left = "2.5%",
                         right = "80%",
                         bottom = "95%",
                         
@@ -223,7 +224,8 @@ ui <- shinyUI(
                                                    size = 10),
                                                choices = c(
                                                    "Annual Budget" = "budget_adj",
-                                                   "Years Active" = "npo_age",
+                                                   "Years Active" = "npo_age_adj",
+                                                   "Total Evaluation Score" = "total_eval_score_adj",
                                                    "None Selected" = "constant_size"),
                                                selected = "constant_size"))),
                         
@@ -239,6 +241,7 @@ ui <- shinyUI(
                                                    "Tax Registration" = "Tax_Registration",
                                                    "Religious Affiliation" = "religious_aff",
                                                    "Guatemala Government Funded" = "guate_govt_funding",
+                                                   "Seal of Excellence" = "seal_excellence",
                                                    "None Selected" ="constant_color"),
                                                selected = "constant_color"))),
                         
@@ -322,7 +325,7 @@ ui <- shinyUI(
                                                    "Potable Water Access"                     
                                                    , "Improved Sanitation Access"
                                                    , "Home Water Access"                        
-                                                   , "Homes Without Santitation Systems"
+                                                   , "Homes without Santitation Systems"
                                                ),
                                                Economy = list(
                                                    "Social Assistance Program Benefit"        
@@ -514,13 +517,13 @@ server <- shinyServer(function(input, output, session) {
                                 na.color = "#F2F2F2")
                     
                 } else if (input$colorvar %in% "size" | input$colorvar %in% "guate_govt_funding" ) {
-                pal <- colorFactor(palette = colorRampPalette(c("#193A45","#486F73","#BFBFBF","#FFC000","#F2F2F2"),space = "Lab")(length(colorData)),
+                pal <- colorFactor(palette = colorRampPalette(c("#193A45","#486F73","#BFBFBF","#F2F2F2", "#FFC000"),space = "Lab")(length(colorData)),
                                    domain = colorData,
                                    reverse = TRUE,
                                    na.color = "#BFBFBF")
                 
                 }else if (input$colorvar %in% "Tax_Registration") {
-                    pal <- colorFactor(palette = colorRampPalette(c("#F2F2F2", "#BFBFBF","#FFC000", "#486F73","#193A45"),space = "Lab")(length(colorData)),
+                    pal <- colorFactor(palette = colorRampPalette(c("#F2F2F2","#FFC000", "#486F73","#193A45"),space = "Lab")(length(colorData)),
                                        domain = colorData,
                                        reverse = TRUE,
                                        na.color = "#BFBFBF")
@@ -530,6 +533,12 @@ server <- shinyServer(function(input, output, session) {
                                        domain = colorData,
                                        reverse = TRUE,
                                        na.color = "#BFBFBF")
+                }
+                else if (input$colorvar %in% "seal_excellence" ) {
+                  pal <- colorFactor(palette = colorRampPalette(c("#F2F2F2", "#BFBFBF","#FFC000", "#486F73","#193A45"),space = "Lab")(length(colorData)),
+                                     domain = colorData,
+                                     reverse = TRUE,
+                                     na.color = "#BFBFBF")
                 }
                 
                 
@@ -594,6 +603,8 @@ server <- shinyServer(function(input, output, session) {
                                 popup =  ~ paste0(
                                             "<h4/><b>",website,"</b><h5/>",
                                             "<h5/>","Partner Status: ",sep = " ",partner_status,
+                                            "<h5/>","Seal of Excellence: ",sep = " ",seal_excellence,
+                                            "<h5/>","Total Evaluation Score: ",sep = " ",total_eval_score,
                                             "<h5/>","Eligibility Restrictions: ",sep = " ", ne_dp_reason,
                                             "<h5/>","Nonprofit Size: ",sep = " ",size,
                                             "<h5/>","Year Founded: ",sep = " ",year_founded,
@@ -601,6 +612,7 @@ server <- shinyServer(function(input, output, session) {
                                             "<h5/>","Theme Areas: ",sep = " ",list_categories,
                                             "<h5/>","Religious Affiliation: ",sep = " ",religious_aff,
                                             "<h5/>", "Tax Registration: ", sep = " ", Tax_Registration,
+                                            "<h5/>", "Tax Details: ", sep = " ", tax_details,
                                             "<h5/>", "Receives Guatemalan Government Funds: ", sep = " ",guate_govt_funding),
                                 label = ~ paste0("Nonprofit: ", sep = " ", npo),
                                 radius = size,

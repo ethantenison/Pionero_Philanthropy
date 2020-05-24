@@ -55,7 +55,7 @@ data <- clean_names(data)
 write.csv(data, file="data/data.csv", fileEncoding = "UTF-8" )
 #df <- read_csv("data/data.csv", col_types = cols(guate_govt_funding = col_character(), 
  #   seal_excellence = col_character()), locale = locale(encoding = "UTF-8"))
-df <- read.csv("data/data.csv", fileEncoding = "UTF-8", encoding = "UTF-8", stringsAsFactors = FALSE, colClasses=c("guate_govt_funding"="character", "seal_excellence"="character"))
+df <- read.csv("data/data.csv", fileEncoding = "UTF-8", encoding = "UTF-8", stringsAsFactors = FALSE, colClasses=c("guate_govt_funding"="character", "seal_excellence"="character", "total_eval_score" = "numeric" ))
 
 ```
 
@@ -108,6 +108,15 @@ for (i in 1:length(data$Tax_Registration)){
                     data$Tax_Registration[i] <- "Guatemala only"
                  }
 }
+
+data$us_tax_status[data$us_tax_status == "N"] <- NA
+data$us_tax_status[data$us_tax_status == "Y"] <- "501(c)3"
+data$us_tax_status[data$us_tax_status == "Yes"] <- "501(c)3"
+data$guate_reg[data$guate_reg == "Asso"] <- "Guatemalan Association"
+data$guate_reg[data$guate_reg == "NGO"] <- "Guatemalan NGO"
+data$guate_reg[data$guate_reg == "Found"] <- "Foundation"
+data$guate_reg[data$guate_reg == "N"] <- NA
+data <- data %>% unite(tax_details, us_tax_status:guate_reg, remove = FALSE, sep =", ",na.rm = TRUE)
 
 
 
@@ -191,7 +200,7 @@ data$website[is.na(data$website)] <- "https://www.google.com/"
 data$website <- paste0('<a href=\"',data$website,"\" target=\"_blank\">",data$npo,'</a>')
 ```
 
-```{r size}
+```{r npo_size}
 
                 data$size[is.na(data$size)] <- "No Information"
 
@@ -257,18 +266,23 @@ library(stringr)
         data$budget <- str_replace_all(data$budget, ",", "")
         data$budget <- as.numeric(data$budget)
         data <- mutate(data, budget_adj = budget)
-        
         data$budget_adj[is.na(data$budget_adj)] <- 25000 
         
         data$yrs_old <- as.Date(as.character(data$year_founded), format = "%Y")
         today <- as.Date(Sys.Date(), format='%Y')
         data <- mutate(data, npo_age = lubridate::time_length(difftime(today, data$yrs_old), "years"))
+        data <- mutate(data, npo_age_adj = npo_age)
+        data$npo_age_adj[is.na(data$npo_age_adj)] <- 1 
+        
+        data <- mutate(data, total_eval_score_adj = total_eval_score)
+        data$total_eval_score_adj[is.na(data$total_eval_score_adj)] <- 1
+        
         
         data <- mutate(data, constant_size = 1)
         data <- mutate(data, constant_color = 1)
-                
+            
         data <- dplyr::select(data, npo,category,latitude, longitude, address, municipality, department, budget, budget_adj, size,
-                       year_founded,npo_age, partner_status,ne_dp_reason, constant_size,constant_color, everything())
+                   year_founded,npo_age, partner_status,ne_dp_reason, constant_size,constant_color, everything())
         
         data <- data %>% arrange(npo)
         data <- filter(data, !is.na(category))
@@ -398,6 +412,9 @@ for (i in 1:length(demographic_map$measure)){
 
 library(stringr)
 demographic_map$measure <- str_replace_all(demographic_map$measure, "\\.", " ")
+
+demographic_map$measure[demographic_map$measure == "Population 65 "] <- "Population 65+"
+demographic_map$measure[demographic_map$measure == "Homes Without Santitation Systems"] <- "Homes without Santitation Systems"
 
 
 
