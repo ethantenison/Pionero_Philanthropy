@@ -521,7 +521,13 @@ server <- shinyServer(function(input, output, session) {
                                    domain = colorData,
                                    reverse = TRUE,
                                    na.color = "#BFBFBF")
-                
+                #taxreg is twice so that partner only will be yellow
+                }else if (input$colorvar %in% "Tax_Registration" & unique(data()$Tax_Registration) == "US & Guatemala") { 
+                  pal <- colorFactor(palette = colorRampPalette(c("#FFC000"),space = "Lab")(length(colorData)),
+                                     domain = colorData,
+                                     reverse = TRUE,
+                                     na.color = "#BFBFBF")
+                  
                 }else if (input$colorvar %in% "Tax_Registration") {
                     pal <- colorFactor(palette = colorRampPalette(c("#F2F2F2","#FFC000", "#486F73","#193A45"),space = "Lab")(length(colorData)),
                                        domain = colorData,
