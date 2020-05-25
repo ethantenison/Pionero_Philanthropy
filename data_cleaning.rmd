@@ -47,15 +47,15 @@ guatemala.shape_orig <- st_read("data/GTM_adm1.shp", stringsAsFactors=FALSE)
 Guatemala <- st_transform(guatemala.shape_orig, "+proj=longlat +ellps=WGS84 +datum=WGS84")
 
 # using googlesheets4 package to call the data directly from the mapping dataset 
-data <- read_sheet(ss= "https://docs.google.com/spreadsheets/d/1klJ0aUZF1HX8qwR8EjsOhWUB9EJH6PYYdzPl2fQUvuM/edit?usp=sharing", sheet = "MD", col_names = TRUE, guess_max = 353) # Here I had to set guess_max = 5 because it was reading in the longitude column as a list
+data <- read_sheet(ss= "https://docs.google.com/spreadsheets/d/1klJ0aUZF1HX8qwR8EjsOhWUB9EJH6PYYdzPl2fQUvuM/edit?usp=sharing", sheet = "MD", col_names = TRUE, col_types = "ccncccccnncccnncccnncccnncccnncccnccccccccccccccccccccc") # Here I had to set guess_max = 5 because it was reading in the longitude column as a list
 
 data <- clean_names(data)
 
 
 write.csv(data, file="data/data.csv", fileEncoding = "UTF-8" )
 #df <- read_csv("data/data.csv", col_types = cols(guate_govt_funding = col_character(), 
- #   seal_excellence = col_character()), locale = locale(encoding = "UTF-8"))
-df <- read.csv("data/data.csv", fileEncoding = "UTF-8", encoding = "UTF-8", stringsAsFactors = FALSE, colClasses=c("guate_govt_funding"="character", "seal_excellence"="character", "total_eval_score" = "numeric" ))
+#   seal_excellence = col_character()), locale = locale(encoding = "UTF-8"))
+df <- read.csv("data/data.csv", fileEncoding = "UTF-8", encoding = "UTF-8", stringsAsFactors = FALSE, colClasses=c("guate_govt_funding"="character", "seal_excellence"="character", "total_eval_score" = "character","efficiency" = "character","transparency" = "character", "relevance" = "character","impact" = "character", "sustainability" = "character"))
 
 ```
 
@@ -95,6 +95,14 @@ data$religious_aff[is.na(data$religious_aff)] <- "No information"
 
 data <- data %>% unite(list_categories,health:animal_welfare, remove = FALSE, sep =", ",na.rm = TRUE)
 data <- data %>% mutate(Tax_Registration = "Not Available")
+data$us_tax_status[data$us_tax_status == "N"] <- NA
+data$us_tax_status[data$us_tax_status == "Y"] <- "501(c)3"
+data$us_tax_status[data$us_tax_status == "Yes"] <- "501(c)3"
+data$guate_reg[data$guate_reg == "Asso"] <- "Guatemalan Association"
+data$guate_reg[data$guate_reg == "NGO"] <- "Guatemalan NGO"
+data$guate_reg[data$guate_reg == "Found"] <- "Foundation"
+data$guate_reg[data$guate_reg == "N"] <- NA
+data <- data %>% unite(tax_details, us_tax_status:guate_reg, remove = FALSE, sep =", ",na.rm = TRUE)
 
 
 for (i in 1:length(data$Tax_Registration)){
@@ -109,14 +117,6 @@ for (i in 1:length(data$Tax_Registration)){
                  }
 }
 
-data$us_tax_status[data$us_tax_status == "N"] <- NA
-data$us_tax_status[data$us_tax_status == "Y"] <- "501(c)3"
-data$us_tax_status[data$us_tax_status == "Yes"] <- "501(c)3"
-data$guate_reg[data$guate_reg == "Asso"] <- "Guatemalan Association"
-data$guate_reg[data$guate_reg == "NGO"] <- "Guatemalan NGO"
-data$guate_reg[data$guate_reg == "Found"] <- "Foundation"
-data$guate_reg[data$guate_reg == "N"] <- NA
-data <- data %>% unite(tax_details, us_tax_status:guate_reg, remove = FALSE, sep =", ",na.rm = TRUE)
 
 
 
@@ -195,9 +195,19 @@ data <- filter(data, category != "All Nonprofits")
 
 #data <- filter(data, !is.na(website))
 
-data$website[is.na(data$website)] <- "https://www.google.com/"
+#data$website[is.na(data$website)] <- "https://www.google.com/"
 
-data$website <- paste0('<a href=\"',data$website,"\" target=\"_blank\">",data$npo,'</a>')
+
+for (i in 1:length(data$website)){
+                  if(data$website[i] != "No"){        
+                    data$website[i] <- paste0('<a href=\"',data$website[i],"\" target=\"_blank\">",data$npo[i],'</a>')
+                  }
+                  else {
+                    data$website[i] <- data$npo[i] 
+                  }
+}
+
+#data$website <- paste0('<a href=\"',data$website,"\" target=\"_blank\">",data$npo,'</a>')
 ```
 
 ```{r npo_size}
