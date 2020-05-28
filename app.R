@@ -662,6 +662,7 @@ server <- shinyServer(function(input, output, session) {
                 
         })
         
+        #####Outputs the number of nonprofits Selected
         output$num_matching <-renderText({format(nrow(unique(dplyr::select(data(), npo))), big.mark = ",")})
         
         
