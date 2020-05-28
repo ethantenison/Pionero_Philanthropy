@@ -47,7 +47,7 @@ guatemala.shape_orig <- st_read("data/GTM_adm1.shp", stringsAsFactors=FALSE)
 Guatemala <- st_transform(guatemala.shape_orig, "+proj=longlat +ellps=WGS84 +datum=WGS84")
 
 # using googlesheets4 package to call the data directly from the mapping dataset 
-data <- read_sheet(ss= "https://docs.google.com/spreadsheets/d/1klJ0aUZF1HX8qwR8EjsOhWUB9EJH6PYYdzPl2fQUvuM/edit?usp=sharing", sheet = "MD", col_names = TRUE, col_types = "ccncccccnncccnncccnncccnncccnncccnccccccccccccccccccccc") # Here I had to set guess_max = 5 because it was reading in the longitude column as a list
+data <- googlesheets4::read_sheet(ss= "https://docs.google.com/spreadsheets/d/1klJ0aUZF1HX8qwR8EjsOhWUB9EJH6PYYdzPl2fQUvuM/edit?usp=sharing", sheet = "MD", col_names = TRUE, col_types = "ccncccccnncccnncccnncccnncccnncccnccccccccccccccccccccc") # Here I had to set guess_max = 5 because it was reading in the longitude column as a list
 
 data <- clean_names(data)
 
@@ -90,10 +90,14 @@ data$guate_govt_funding[is.na(data$guate_govt_funding)] <- "No"
 data$guate_govt_funding[data$guate_govt_funding == "N"] <- "No"
 data$faith_based[data$faith_based == "N"] <- "Secular"
 data$faith_based[is.na(data$faith_based)] <- "No information"
+data$faith_based_adj <- data$faith_based
+data$faith_based_adj[data$faith_based_adj == "No information"] <- ""
 data$religious_aff[data$religious_aff == "None"] <- "Secular"
 data$religious_aff[is.na(data$religious_aff)] <- "No information"
+data$religious_aff_adj <- data$religious_aff
+data$religious_aff_adj[data$religious_aff_adj == "No information"] <- ""
 
-data <- data %>% unite(list_categories,health:animal_welfare, remove = FALSE, sep =", ",na.rm = TRUE)
+data <- data %>% tidyr::unite(list_categories,health:animal_welfare, remove = FALSE, sep =", ",na.rm = TRUE)
 data <- data %>% mutate(Tax_Registration = "Not Available")
 data$us_tax_status[data$us_tax_status == "N"] <- NA
 data$us_tax_status[data$us_tax_status == "Y"] <- "501(c)3"
@@ -102,7 +106,7 @@ data$guate_reg[data$guate_reg == "Asso"] <- "Guatemalan Association"
 data$guate_reg[data$guate_reg == "NGO"] <- "Guatemalan NGO"
 data$guate_reg[data$guate_reg == "Found"] <- "Foundation"
 data$guate_reg[data$guate_reg == "N"] <- NA
-data <- data %>% unite(tax_details, us_tax_status:guate_reg, remove = FALSE, sep =", ",na.rm = TRUE)
+data <- data %>% tidyr::unite(tax_details, us_tax_status:guate_reg, remove = FALSE, sep =", ",na.rm = TRUE)
 
 
 for (i in 1:length(data$Tax_Registration)){
@@ -156,7 +160,7 @@ data <- do.call("rbind", list(data_1st_add,data_2nd_add,data_3rd_add,data_4th_ad
 data <- filter(data, !is.na(latitude))
 data <- data[ , names(data) != "X"]
 
-data <-pivot_longer(
+data <- tidyr::pivot_longer(
         data,
         cols = c(
                 "health",
@@ -195,24 +199,23 @@ data <- filter(data, category != "All Nonprofits")
 
 #data <- filter(data, !is.na(website))
 
-#data$website[is.na(data$website)] <- "https://www.google.com/"
+data$website[data$website == "No"] <- "https://www.google.com/"
+data$website <- paste0('<a href=\"',data$website,"\" target=\"_blank\">",data$npo,'</a>')
+
+# for (i in 1:length(data$website)){
+#                   if(data$website[i] != "No"){        
+#                     data$website[i] <- paste0('<a href=\"',data$website[i],"\" target=\"_blank\">",data$npo[i],'</a>')
+#                   }
+# }
 
 
-for (i in 1:length(data$website)){
-                  if(data$website[i] != "No"){        
-                    data$website[i] <- paste0('<a href=\"',data$website[i],"\" target=\"_blank\">",data$npo[i],'</a>')
-                  }
-                  else {
-                    data$website[i] <- data$npo[i] 
-                  }
-}
-
-#data$website <- paste0('<a href=\"',data$website,"\" target=\"_blank\">",data$npo,'</a>')
 ```
 
 ```{r npo_size}
 
                 data$size[is.na(data$size)] <- "No Information"
+                data$size_adj <- data$size
+                data$size_adj[data$size_adj == "No Information"] <- ""
 
                 data$size <- factor(data$size, levels=
                                        c("Nano","Micro","Small","Medium","Large", "No Information"),
@@ -238,6 +241,9 @@ for (i in 1:length(data$website)){
         data$partner_status[data$partner_status == "DP" ] <- "Discontinued Partnership"
         data$partner_status[data$partner_status == "NE" ] <- "Not Eligible"
         data$partner_status[is.na(data$partner_status)] <- "No Information"
+        
+        data$partner_status_adj <- data$partner_status
+        data$partner_status_adj[data$partner_status_adj == "No Information"] <- ""
         
         #changing it to an ordered factor 
         data$partner_status <- factor(data$partner_status, levels=
@@ -277,6 +283,9 @@ library(stringr)
         data$budget <- as.numeric(data$budget)
         data <- mutate(data, budget_adj = budget)
         data$budget_adj[is.na(data$budget_adj)] <- 25000 
+        data$budget[is.na(data$budget)] <- 0
+        data$budget <- format(data$budget,big.mark="," )
+        data$budget[data$budget == "        0.00"] <- ""
         
         data$yrs_old <- as.Date(as.character(data$year_founded), format = "%Y")
         today <- as.Date(Sys.Date(), format='%Y')
@@ -285,7 +294,52 @@ library(stringr)
         data$npo_age_adj[is.na(data$npo_age_adj)] <- 1 
         
         data <- mutate(data, total_eval_score_adj = total_eval_score)
+        data$total_eval_score_adj[data$total_eval_score_adj =="TBE"] <- NA
         data$total_eval_score_adj[is.na(data$total_eval_score_adj)] <- 1
+        data$total_eval_score_adj <- as.numeric(data$total_eval_score_adj)
+        data$total_eval_score[data$total_eval_score == "TBE"] <- "To be evaluated"
+         #data$total_eval_score_adj <- data$total_eval_score_adj + ifelse(data$partner_status == "Partnered", 2, 0)
+        
+        data <- mutate(data, efficiency_adj = efficiency)
+        data$efficiency_adj[data$efficiency_adj =="TBE"] <- NA
+        data$efficiency_adj[is.na(data$efficiency_adj)] <- 1
+        data$efficiency_adj <- as.numeric(data$efficiency_adj)
+        data$efficiency[data$efficiency == "TBE"] <- "To be evaluated"
+         #data$efficiency_adj <- data$efficiency_adj + ifelse(data$partner_status == "Partnered", 1, 0)
+        
+        
+        data <- mutate(data, transparency_adj = transparency)
+        data$transparency_adj[data$transparency_adj =="TBE"] <- NA
+        data$transparency_adj[is.na(data$transparency_adj)] <- 1
+        data$transparency_adj <- as.numeric(data$transparency_adj)
+        data$transparency[data$transparency == "TBE"] <- "To be evaluated"
+         #data$transparency_adj <- data$transparency_adj + ifelse(data$partner_status == "Partnered", 1, 0)
+        
+        
+        data <- mutate(data, relevance_adj = relevance)
+        data$relevance_adj[data$relevance_adj =="TBE"] <- NA
+        data$relevance_adj[is.na(data$relevance_adj)] <- 1
+        data$relevance_adj <- as.numeric(data$relevance_adj)
+        data$relevance[data$relevance == "TBE"] <- "To be evaluated"
+         #data$relevance_adj <- data$relevance_adj + ifelse(data$partner_status == "Partnered", 1, 0)
+        
+        
+        data <- mutate(data, impact_adj = impact)
+        data$impact_adj[data$impact_adj =="TBE"] <- NA
+        data$impact_adj[is.na(data$impact_adj)] <- 1
+        data$impact_adj <- as.numeric(data$impact_adj)
+        data$impact[data$impact == "TBE"] <- "To be evaluated"
+         #data$impact_adj <- data$impact_adj + ifelse(data$partner_status == "Partnered",1, 0)
+        
+        
+        data <- mutate(data, sustainability_adj = sustainability)
+        data$sustainability_adj[data$sustainability_adj =="TBE"] <- NA
+        data$sustainability_adj[is.na(data$sustainability_adj)] <- 1
+        data$sustainability_adj <- as.numeric(data$sustainability_adj)
+        data$sustainability[data$sustainability == "TBE"] <- "To be evaluated"
+       # data$sustainability_adj <- data$sustainability_adj + ifelse(data$partner_status == "Partnered", 1, 0)
+        
+        
         
         
         data <- mutate(data, constant_size = 1)
@@ -321,7 +375,7 @@ data$department[data$department == "Totonicapan" ] <- "Totonicapán"
 ```{r demographics}
 
 
-demo <- read_sheet(ss= "https://docs.google.com/spreadsheets/d/1KKSd_gHdtlYTdN0jnOtI86eCnRHQwoiBa6cMH9LnTA4/edit#gid=0", 
+demo <- googlesheets4::read_sheet(ss= "https://docs.google.com/spreadsheets/d/1KKSd_gHdtlYTdN0jnOtI86eCnRHQwoiBa6cMH9LnTA4/edit#gid=0", 
                    sheet = "Sheet1", col_names = TRUE) #I had to set the NA values in forest fires and home water access to 0
 
 
@@ -329,9 +383,9 @@ write.csv(demo, file="data/demographics.csv", fileEncoding = "UTF-8" ) #Accents 
 demographics <- read.csv("data/demographics.csv", fileEncoding = "UTF-8", encoding = "UTF-8", stringsAsFactors = FALSE)
 
 #Normalizing libraries to be per 1000 residents and creating a nothing selected variable 
-demographics <- demographics %>% mutate("Nothing Selected"= NA) %>% dplyr::select(-c(X,Number.of.Preprimary.School.Students, Number.of.Primary.School.Students, Number.of.Middle.School.Students,Number.of.High.School.Students )) %>% mutate(Number.of.Libraries = Number.of.Libraries/(Population/100000))
+demographics <- demographics %>% mutate("None Selected"= NA) %>% dplyr::select(-c(X,Number.of.Preprimary.School.Students, Number.of.Primary.School.Students, Number.of.Middle.School.Students,Number.of.High.School.Students )) %>% mutate(Number.of.Libraries = Number.of.Libraries/(Population/100000))
 to_paste <- demographics %>% dplyr::select(Department, Population, Poverty.Rate, Total.Literacy.Rate, Homicide.Rate, Total.Employment.Rate, Improved.Sanitation.Access, Gross.Birth.Rate)
-demographics <- gather(demographics, measure, value, Population:"Nothing Selected")
+demographics <- gather(demographics, measure, value, Population:"None Selected")
 
 
 guatemala.dep_orig <- st_read("data/GTM_adm1.shp", stringsAsFactors=FALSE)
@@ -346,17 +400,17 @@ for (i in 1:length(demographic_map$measure)){
                   if(demographic_map$measure[i] == "Population"){        
                     demographic_map$units[i] <- ""
                   }
-                 else if(demographic_map$measure[i] == "Nothing Selected"){        
+                 else if(demographic_map$measure[i] == "None Selected"){        
                     demographic_map$units[i] <- ""
                   }
                   else if(demographic_map$measure[i] == "Forest.Fires"){        
-                    demographic_map$units[i] <- "(hectares)"
+                    demographic_map$units[i] <- " (hectares)"
                   }
                   else if(demographic_map$measure[i] == "People.in.Household"){        
                     demographic_map$units[i] <- ""
                   }
                  else if(demographic_map$measure[i] == "Number.of.Libraries"){        
-                    demographic_map$units[i] <- "per 100,000 people"
+                    demographic_map$units[i] <- " per 100,000 people"
                  }
                   else if(demographic_map$measure[i] == "Total.Years.of.Schooling"){        
                     demographic_map$units[i] <- ""
@@ -367,54 +421,54 @@ for (i in 1:length(demographic_map$measure)){
                 else if(demographic_map$measure[i] == "Male.Years.of.Schooling"){        
                                 demographic_map$units[i] <- ""
                 }else if(demographic_map$measure[i] == "Time.to.Primary.School"){        
-                                demographic_map$units[i] <- "(minutes)"
+                                demographic_map$units[i] <- " (minutes)"
                 }else if(demographic_map$measure[i] == "Time.to.Secondary.School"){        
-                                demographic_map$units[i] <- "(minutes)"
+                                demographic_map$units[i] <- " (minutes)"
                 }
                 else if(demographic_map$measure[i] == "Gross.Birth.Rate"){        
-                                                demographic_map$units[i] <- "(births/1,000)"
+                                                demographic_map$units[i] <- " (births/1,000)"
                 }
                 else if(demographic_map$measure[i] == "Infant.Mortality.Rate"){        
-                                                demographic_map$units[i] <- "(deaths/1,000)"
+                                                demographic_map$units[i] <- " (deaths/1,000)"
                 }
                 else if(demographic_map$measure[i] == "Gross.Death.Rate"){        
-                                                demographic_map$units[i] <- "(deaths/1,000)"
+                                                demographic_map$units[i] <- " (deaths/1,000)"
                 }
                 else if(demographic_map$measure[i] == "Gross.Death.Rate"){        
-                                                demographic_map$units[i] <- "(deaths/1,000)"
+                                                demographic_map$units[i] <- " (deaths/1,000)"
                 }
                 else if(demographic_map$measure[i] == "Death.by.Diabetes"){        
-                                                demographic_map$units[i] <- "(deaths/1,000)"
+                                                demographic_map$units[i] <- " (deaths/1,000)"
                 }
                 else if(demographic_map$measure[i] == "Death.by.Diarrhea"){        
-                                                demographic_map$units[i] <- "(deaths/1,000)"
+                                                demographic_map$units[i] <- " (deaths/1,000)"
                 }
                 else if(demographic_map$measure[i] == "Death.by.Circulatory.System.Diseases"){        
-                                                demographic_map$units[i] <- "(deaths/1,000)"
+                                                demographic_map$units[i] <- " (deaths/1,000)"
                             }
                 else if(demographic_map$measure[i] == "Death.by.Respiratory.System.Diseases"){        
-                                                            demographic_map$units[i] <- "(deaths/1,000)"
+                                                            demographic_map$units[i] <- " (deaths/1,000)"
                 }
                 else if(demographic_map$measure[i] == "Death.by.Tuberculosis"){        
-                                                            demographic_map$units[i] <- "(deaths/1,000)"
+                                                            demographic_map$units[i] <- " (deaths/1,000)"
                 }
                 else if(demographic_map$measure[i] == "Death.by.HIV.AIDS"){        
-                                                            demographic_map$units[i] <- "(deaths/1,000)"
+                                                            demographic_map$units[i] <- " (deaths/1,000)"
                 }
                 else if(demographic_map$measure[i] == "Intrafamily.Violence"){        
                                                             demographic_map$units[i] <- ""
                 }
                 else if(demographic_map$measure[i] == "Homicide.Rate"){        
-                                                            demographic_map$units[i] <- "(per 100,000)"
+                                                            demographic_map$units[i] <- " (per 100,000)"
                 }
                 else if(demographic_map$measure[i] == "Delinquent.Injury.Rate"){        
-                                                            demographic_map$units[i] <- "(per 100,000)"
+                                                            demographic_map$units[i] <- " (per 100,000)"
                 }
                 else if(demographic_map$measure[i] == "Robbery.Rate"){        
-                                                            demographic_map$units[i] <- "(per 100,000)"
+                                                            demographic_map$units[i] <- " (per 100,000)"
                 }
                 else if(demographic_map$measure[i] == "Rape.Rate"){        
-                                                            demographic_map$units[i] <- "(per 100,000)"
+                                                            demographic_map$units[i] <- " (per 100,000)"
                             }
                   
 }
@@ -425,6 +479,7 @@ demographic_map$measure <- str_replace_all(demographic_map$measure, "\\.", " ")
 
 demographic_map$measure[demographic_map$measure == "Population 65 "] <- "Population 65+"
 demographic_map$measure[demographic_map$measure == "Homes Without Santitation Systems"] <- "Homes without Santitation Systems"
+demographic_map$measure[demographic_map$measure == "Female led Single Parent Households"] <- "Female-led Single Parent Households"
 
 
 

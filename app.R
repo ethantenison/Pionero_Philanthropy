@@ -59,6 +59,8 @@ source("./data/SwitchButton.R")
 
 plot <- readRDS("./data/npo_data.rds")
 plot$category <- as.factor(plot$category)
+#plot$budget <- as.character(plot$budget)
+#plot$budget[is.na(plot$budget)] <- ""
 names <- dplyr::select(plot, npo)
 names[nrow(names) + 1,] = c("None Selected")
 names <- unique(names$npo)
@@ -96,7 +98,6 @@ definitions <- htmlTemplate("tooltips/definitions.html")
 
 ui <- shinyUI(
         bootstrapPage(
-                theme = "www/css/button.css",
                 HTML('<meta name="viewport" content="width=1024">'),
                 shinyjs::useShinyjs(),
                 introjsUI(),
@@ -107,6 +108,7 @@ ui <- shinyUI(
                           tags$script(src = "www/js/wordwrap.js"),
                           tags$style(".checkbox-inline {margin: 0 !important;}"),
                           tags$style(".selectize-dropdown {top: -200px !important;}"),
+        
                           tags$style(".selectize-input {background: #193A45 ; border-color: #193A45 ; color: #F2F2F2;}"),
                           tags$style('h2 {color:#193A45;}'),
                           tags$style('h4 {color:#193A45;}'),
@@ -166,8 +168,8 @@ ui <- shinyUI(
                         
                         
                             fluidRow(
-                                    column(1, style='padding-top:15px;padding-right:0px;width: 100%',
-  
+                                    column(1, style='padding-top:20px;padding-right:0px;width: 100%',
+                                           
                                            actionButton("help", label = "Tutorial  ", width = '100%',
                                                         icon = icon("question-circle")),
                                            br(), br(),
@@ -187,9 +189,10 @@ ui <- shinyUI(
                                                        `actions-box` = TRUE, 
                                                        size = 10,
                                                        `selected-text-format` = "count > 1",
+                                                       `count-selected-text`= "{0} Selected",
                                                        `none-selected-text` = "None Selected"
                                                ),
-                                               c("Partnered","Eligible","Not Eligible", "Discontinued Partnership", "No Information"),
+                                               c("Partner" = "Partnered","Eligible","Not Eligible", "Discontinued Partnership", "No Information"),
                                                selected=c("Partnered","Eligible","Not Eligible", "Discontinued Partnership", "No Information")))),
                         
                         column(1,style='padding:0px;padding-left:2px;padding-right:0px;padding-bottom:1px;width:13.8%;height:2%;',
@@ -226,6 +229,10 @@ ui <- shinyUI(
                                                    "Annual Budget" = "budget_adj",
                                                    "Years Active" = "npo_age_adj",
                                                    "Total Evaluation Score" = "total_eval_score_adj",
+                                                   "Efficiency" = "efficiency_adj",
+                                                   "Transparency" = "transparency_adj",
+                                                   "Relevance" = "relevance_adj",
+                                                   "Impact" = "impact_adj",
                                                    "None Selected" = "constant_size"),
                                                selected = "constant_size"))),
                         
@@ -240,7 +247,7 @@ ui <- shinyUI(
                                                    "Nonprofit Size" = "size",
                                                    "Tax Registration" = "Tax_Registration",
                                                    "Religious Affiliation" = "religious_aff",
-                                                   "Guatemala Government Funded" = "guate_govt_funding",
+                                                   "Guatemalan Government Funded" = "guate_govt_funding",
                                                    "Seal of Excellence" = "seal_excellence",
                                                    "None Selected" ="constant_color"),
                                                selected = "constant_color"))),
@@ -254,6 +261,7 @@ ui <- shinyUI(
                                                    `actions-box` = TRUE,
                                                    `live-search` = TRUE,
                                                    `deselect-all-text` = "Disable Search",
+                                                   `none-selected-text` = "None Selected", 
                                                    size = 10
                                                ), 
                                                choices = names,
@@ -272,68 +280,76 @@ ui <- shinyUI(
                                                    `live-search` = TRUE,
                                                    size = 10),
                                                
-                                               choices = list("Population" =list(
+                                               choices = 
+                                                 list(
+                                                   Education = list(
+                                                     "Total Literacy Rate"                      
+                                                     , "Male Literacy Rate"                       
+                                                     , "Female Literacy Rate"                     
+                                                     , "Youth Literacy Rate"                      
+                                                     , "Number of Libraries"                      
+                                                     , "Total Years of Schooling"                 
+                                                     , "Female Years of Schooling"                
+                                                     , "Youth Years of Schooling"                 
+                                                     , "Time to Primary School"                   
+                                                     , "Time to Secondary School"                 
+                                                     , "Free Primary School Books"                
+                                                     , "Borrowed or Gifted Secondary School Books"
+                                                     , "Preprimary Net Enrollment Rate"           
+                                                     , "Primary School Net Enrollment Rate"       
+                                                     , "Middle School Net Enrollment Rate"        
+                                                     , "High School Net Enrollment Rate"          
+                                                     , "Enrollment in Higher Education"    
+                                                   ),
+                                                   
+                                                   Economy = list(
+                                                     "Social Assistance Program Benefit"        
+                                                     , "Poverty Rate"                             
+                                                     , "Extreme Poverty Rate"
+                                                     , "Female Paid Employees"                    
+                                                     , "Total Employment Rate"      
+                                                   ),
+                                                   
+                                                   Health = list(
+                                                     "Gross Birth Rate"                         
+                                                     , "Infant Mortality Rate"                    
+                                                     , "Low Birth Weight Babies"                  
+                                                     , "Access to Prenatal Care"                  
+                                                     , "Access to Prenatal Vitamins"              
+                                                     , "Medically Attended Births"                
+                                                     , "Births Attended in Public Centers"        
+                                                     , "Births Attended at Home"                  
+                                                     , "Cesarian Section"                         
+                                                     , "Gross Death Rate"                         
+                                                     , "Death by External Causes"                 
+                                                     , "Death by Diabetes"                        
+                                                     , "Death by Diarrhea"                        
+                                                     , "Death by Circulatory System Diseases"     
+                                                     , "Death by Respiratory System Diseases"     
+                                                     , "Death by Tuberculosis"                    
+                                                     , "Death by HIV AIDS"        
+                                                   ),
+                                                   
+                                                   "Population" =list(
                                                    "Population"                               
                                                    , "Population Under 18"                      
-                                                   , "Population 65 "                           
+                                                   , "Population 65+"                           
                                                    , "Indigenous Population"                    
                                                    , "Population in Urban Areas"                
                                                    , "Population with Personal ID"              
                                                    , "Population of Internal Migrants"          
-                                                   , "Female lead Single Parent Households"     
+                                                   , "Female-led Single Parent Households"     
                                                    , "People in Household" 
                                                ),
-                                               Health = list(
-                                                   "Gross Birth Rate"                         
-                                                   , "Infant Mortality Rate"                    
-                                                   , "Low Birth Weight Babies"                  
-                                                   , "Access to Prenatal Care"                  
-                                                   , "Access to Prenatal Vitamins"              
-                                                   , "Medically Attended Births"                
-                                                   , "Births Attended in Public Centers"        
-                                                   , "Births Attended at Home"                  
-                                                   , "Cesarian Section"                         
-                                                   , "Gross Death Rate"                         
-                                                   , "Death by External Causes"                 
-                                                   , "Death by Diabetes"                        
-                                                   , "Death by Diarrhea"                        
-                                                   , "Death by Circulatory System Diseases"     
-                                                   , "Death by Respiratory System Diseases"     
-                                                   , "Death by Tuberculosis"                    
-                                                   , "Death by HIV AIDS"        
-                                               ),
-                                               Education = list(
-                                                   "Total Literacy Rate"                      
-                                                   , "Male Literacy Rate"                       
-                                                   , "Female Literacy Rate"                     
-                                                   , "Youth Literacy Rate"                      
-                                                   , "Number of Libraries"                      
-                                                   , "Total Years of Schooling"                 
-                                                   , "Female Years of Schooling"                
-                                                   , "Youth Years of Schooling"                 
-                                                   , "Time to Primary School"                   
-                                                   , "Time to Secondary School"                 
-                                                   , "Free Primary School Books"                
-                                                   , "Borrowed or Gifted Secondary School Books"
-                                                   , "Preprimary Net Enrollment Rate"           
-                                                   , "Primary School Net Enrollment Rate"       
-                                                   , "Middle School Net Enrollment Rate"        
-                                                   , "High School Net Enrollment Rate"          
-                                                   , "Enrollment in Higher Education"    
-                                               ),
+                                               
+                                               
                                                Sanitation = list(
                                                    "Potable Water Access"                     
                                                    , "Improved Sanitation Access"
                                                    , "Home Water Access"                        
                                                    , "Homes without Santitation Systems"
                                                ),
-                                               Economy = list(
-                                                   "Social Assistance Program Benefit"        
-                                                   , "Poverty Rate"                             
-                                                   , "Extreme Poverty Rate"
-                                                   , "Female Paid Employees"                    
-                                                   , "Total Employment Rate"      
-                                               ),
+                                               
                                                Security = list(
                                                    "Intrafamily Violence Rate"                
                                                    , "Homicide Rate"                            
@@ -345,12 +361,12 @@ ui <- shinyUI(
                                                ),
                                                Miscellaneous = list(
                                                    "Forest Fires"
-                                                   ,"None Selected" = "Nothing Selected"
+                                                   ,"None Selected" = "None Selected"
                                                )
                                                
                                                
                                                ),
-                                               selected = "Nothing Selected"))),
+                                               selected = "None Selected"))),
                         
                         column(1,style='padding-left:2px;padding-right:0px;padding-bottom:1px;width:13.8%;height:2%;',
                                div(id = "department_help",
@@ -363,16 +379,14 @@ ui <- shinyUI(
                                                    `count-selected-text`= "{0} Selected",
                                                    `none-selected-text` = "None Selected"
                                                ),choices =
-                                                   c("Guatemala", "Quetzaltenango", "Huehuetenango", "Retalhuleu",    
-                                                     "Petén", "Quiché", "Chimaltenango",  "Sacatepéquez",  
-                                                     "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
-                                                     "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
-                                                     "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos"),
-                                               selected=c("Guatemala", "Quetzaltenango", "Huehuetenango", "Retalhuleu",    
-                                                          "Petén", "Quiché", "Chimaltenango",  "Sacatepéquez",  
-                                                          "Sololá", "Baja Verapaz", "Izabal", "Jutiapa","Totonicapán",
-                                                          "Suchitepéquez", "Escuintla", "El Progreso","Alta Verapaz",
-                                                          "Santa Rosa","Zacapa", "Jalapa","Chiquimula","San Marcos"))))
+                                                   c("Alta Verapaz","Baja Verapaz","Chimaltenango","Chiquimula","El Progreso","Escuintla","Guatemala",
+                                                     "Huehuetenango","Izabal","Jalapa","Jutiapa","Petén", "Quetzaltenango", "Quiché","Retalhuleu",    
+                                                     "Sacatepéquez","San Marcos", "Santa Rosa", "Sololá","Suchitepéquez", "Totonicapán","Zacapa"),
+                                               
+                                               
+                                               selected=c("Alta Verapaz","Baja Verapaz","Chimaltenango","Chiquimula","El Progreso","Escuintla","Guatemala",
+                                                          "Huehuetenango","Izabal","Jalapa","Jutiapa","Petén", "Quetzaltenango", "Quiché","Retalhuleu",    
+                                                          "Sacatepéquez","San Marcos", "Santa Rosa", "Sololá","Suchitepéquez", "Totonicapán","Zacapa"))))
                         )
                 )
         ))
@@ -396,15 +410,15 @@ server <- shinyServer(function(input, output, session) {
         observeEvent(input$help,
                      introjs(session, options = list(
                              steps = data.frame(element = c("#filters  ",
-                                                            "#demographic_help ", 
                                                             "#search_help ",
+                                                            "#demographic_help ",
                                                             "#nonprofits "
                                                             
                                                             
                              ),
                              intro = c( includeMarkdown("tooltips/filters.md"),
-                                        includeMarkdown("tooltips/demographic.md"),
                                         includeMarkdown("tooltips/search.md"),
+                                        includeMarkdown("tooltips/demographic.md"),
                                         includeMarkdown("tooltips/nonprofits.md")
                                        
                              ),
@@ -464,7 +478,7 @@ server <- shinyServer(function(input, output, session) {
         
         pal2 <- reactive({ 
             
-            if (input$demographics %in% "Nothing Selected"){ #Separate colorpalette for "Nothing Selected"
+            if (input$demographics %in% "None Selected"){ #Separate colorpalette for "None Selected"
                 
                 colorNumeric(palette = colorRampPalette(c("#193A45"))(length(demographic()$value)),
                              domain = 1,
@@ -547,7 +561,7 @@ server <- shinyServer(function(input, output, session) {
                                      na.color = "#BFBFBF")
                 }
                 
-                
+                 q
                 varname <- switch(
                         input$colorvar,
                         "constant" = "All Nonprofits",
@@ -590,7 +604,7 @@ server <- shinyServer(function(input, output, session) {
                                         label = ~ paste0("Department: ", Department),
                                         popup =  ~ paste0(
                                                 "<h4/><b>",Department,"</b><h5/>",
-                                                "<h5/><b>",input$demographics,sep = " ",demographic()$formatted,sep = " ",demographic()$units,
+                                                "<h5/><b>",input$demographics,sep = ": ",demographic()$formatted,sep = "",demographic()$units,
                                                 "<h5/>","Population: ",sep = " ", demographic()$Population,
                                                 "<h5/>","Poverty Rate: ",sep = " ", demographic()$Poverty.Rate, "%",
                                                 "<h5/>","Literacy Rate: ",sep = " ", demographic()$Total.Literacy.Rate, "%",
@@ -608,15 +622,15 @@ server <- shinyServer(function(input, output, session) {
                                 color = "black",
                                 popup =  ~ paste0(
                                             "<h4/><b>",website,"</b><h5/>",
-                                            "<h5/>","Partner Status: ",sep = " ",partner_status,
+                                            "<h5/>","Pionero Affiliation: ",sep = " ",partner_status_adj,
+                                            "<h5/>","Restrictions: ",sep = " ", ne_dp_reason,
                                             "<h5/>","Seal of Excellence: ",sep = " ",seal_excellence,
                                             "<h5/>","Total Evaluation Score: ",sep = " ",total_eval_score,
-                                            "<h5/>","Eligibility Restrictions: ",sep = " ", ne_dp_reason,
-                                            "<h5/>","Nonprofit Size: ",sep = " ",size,
+                                            "<h5/>","Nonprofit Size: ",sep = " ",size_adj,
                                             "<h5/>","Year Founded: ",sep = " ",year_founded,
                                             "<h5/>","Annual Budget: $",format(budget, big.mark=","),
                                             "<h5/>","Theme Areas: ",sep = " ",list_categories,
-                                            "<h5/>","Religious Affiliation: ",sep = " ",religious_aff,
+                                            "<h5/>","Religious Affiliation: ",sep = " ",religious_aff_adj,
                                             "<h5/>", "Tax Registration: ", sep = " ", Tax_Registration,
                                             "<h5/>", "Tax Details: ", sep = " ", tax_details,
                                             "<h5/>", "Receives Guatemalan Government Funds: ", sep = " ",guate_govt_funding),
@@ -628,16 +642,16 @@ server <- shinyServer(function(input, output, session) {
                         )
                 
                 #######################################Legends based on which layer checkboxes are ticked
-                if (("Nothing Selected" %in% input$demographics) & ("constant_color" %in% input$colorvar)) {
+                if (("None Selected" %in% input$demographics) & ("constant_color" %in% input$colorvar)) {
                     leafletProxy("map")
                 }
                 
-                else if (("Nothing Selected" %in% input$demographics)) {
+                else if (("None Selected" %in% input$demographics)) {
                         leafletProxy("map") %>% 
                                 addLegend(data = data(), "bottomright",pal = pal, values = colorData, title = varname,
                                           group = "Nonprofit Data", layerId = "nonleg")
                 }
-                else if (!("Nothing Selected" %in% input$demographics)) {
+                else if (!("None Selected" %in% input$demographics)) {
                         leafletProxy("map") %>% 
                             addLegend(data = demographic(), "bottomright", pal = pal2(), values = ~demographic()$value,
                                       opacity = 0.7, title = ~ paste0(unique(measure)," ",unique(units)), group = "Demographic Data", layerId = "demleg") %>% 
