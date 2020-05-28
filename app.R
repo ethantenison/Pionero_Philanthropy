@@ -50,26 +50,22 @@ library(extrafont)
 # ------------------------------- #
 # ------------------------------- #
 # ------------SECTION:----------- #
-# ----Reference Data & Styles---- #
+# ------- Reference Data -------- #
 # ------------------------------- #
 # ------------------------------- #
 # ------------------------------- #
+options(scipen = 999)
 
-source("./data/SwitchButton.R")
 
 plot <- readRDS("./data/npo_data.rds")
-plot$category <- as.factor(plot$category)
-#plot$budget <- as.character(plot$budget)
-#plot$budget[is.na(plot$budget)] <- ""
+
 names <- dplyr::select(plot, npo)
 names[nrow(names) + 1,] = c("None Selected")
 names <- unique(names$npo)
 
-options(scipen = 999)
 
 guatemala.shape_orig <- st_read("data/GTM_adm0.shp", stringsAsFactors = FALSE)
 Guatemala <-st_transform(guatemala.shape_orig,"+proj=longlat +ellps=WGS84 +datum=WGS84")
-
 guatemala.shape_orig2 <- st_read("data/GTM_adm1.shp", stringsAsFactors = FALSE)
 Guatemala_department <-st_transform(guatemala.shape_orig2,"+proj=longlat +ellps=WGS84 +datum=WGS84")
 
@@ -83,7 +79,6 @@ demographic_map <- mutate(demographic_map, Total.Literacy.Rate = as.character(fo
 
 
 definitions <- htmlTemplate("tooltips/definitions.html")
-
 
 
 # ------------------------------- #
@@ -132,7 +127,7 @@ ui <- shinyUI(
                 ),
                 tags$style(type = "text/css", "html, body {width:100%;height:100%}"),
                 
-                tags$style(".pretty.p-default input:dropdown~.state label:after {background-color: #486F73 !important;}"), #change color checkbox widgets, also change css
+                tags$style(".pretty.p-default input:dropdown~.state label:after {background-color: #486F73 !important;}"), #change color checkbox widgets
     
                 leafletOutput("map", width = "100%", height = "91.5%"),
                 
@@ -158,7 +153,6 @@ ui <- shinyUI(
                 
                 absolutePanel(
                         id = "layercontrols",
-                        #class = "panel panel-default",
                         fixed = TRUE,
                         draggable = FALSE,
                         top = "0%",
@@ -402,7 +396,7 @@ ui <- shinyUI(
 # ------------------------------- #
 
 
-# create dataframe 'data' to be plotted starts with dataframe 'plot', filtering depends on inputs from the UI
+
 server <- shinyServer(function(input, output, session) {
         
         
@@ -489,7 +483,7 @@ server <- shinyServer(function(input, output, session) {
                     colorNumeric(
                         palette = colorRampPalette(c("#F2F2F2","#FFC000", "#193A45"))(length(demographic()$value)),
                         domain = demographic()$value,
-                        na.color = "#808080") # Pionero color: #486F73 #193A45 #FFC000 #F2F2F2 #BFBFBF 
+                        na.color = "#808080") 
             }
         }) 
         
@@ -515,13 +509,21 @@ server <- shinyServer(function(input, output, session) {
         observe({if (nrow(data()) != 0) {
                 
                 
-                colorBy <- input$colorvar
+                ######Nonprofit Size, size baseline is changed based on if only partners are selected or not
                 sizeBy <- input$sizevar
-                colorData <- data()[[colorBy]]
                 x <-data()[[sizeBy]] 
+
+                if (unique(data()$partner_status) %in% "Partnered"){
+                    
+                    size <-sqrt(x / mean(x) * 100)    
+                    
+                } else {
+                    size <-sqrt(x / mean(x) * 50) 
+                }
                 
-                #I had to create a separate color palette for basically every color variable 
-                # "#F2F2F2", "#BFBFBF","#FFC000", "#486F73","#193A45"
+                #####Nonprofit Color, palettes change depending on what color variable is selected
+                colorBy <- input$colorvar
+                colorData <- data()[[colorBy]]
                 
                 if (input$colorvar %in% "constant_color"){
                     
@@ -535,7 +537,7 @@ server <- shinyServer(function(input, output, session) {
                                    domain = colorData,
                                    reverse = TRUE,
                                    na.color = "#BFBFBF")
-                #taxreg is twice so that partner only will be yellow
+                
                 }else if (input$colorvar %in% "Tax_Registration" & unique(data()$Tax_Registration) == c("Guatemala only","US & Guatemala","US only" )) { 
                   pal <- colorFactor(palette = colorRampPalette(c("#F2F2F2","#FFC000","#193A45"),space = "Lab")(length(colorData)),
                                      domain = colorData,
@@ -561,7 +563,7 @@ server <- shinyServer(function(input, output, session) {
                                      na.color = "#BFBFBF")
                 }
                 
-                 q
+                
                 varname <- switch(
                         input$colorvar,
                         "constant" = "All Nonprofits",
@@ -569,17 +571,7 @@ server <- shinyServer(function(input, output, session) {
                         "faith_based"= "Faith Based")
                 
                 
-                
-                
-                #setting a different size when partners are the only ones selected
-                if (unique(data()$partner_status) %in% "Partnered"){
-                    
-                    size <-sqrt(x / mean(x) * 100)    
-                    
-                } else {
-                    size <-sqrt(x / mean(x) * 50) 
-                }
-                
+                #####Joining map elements together 
                 
                 leafletProxy("map") %>% 
                         clearShapes() %>%
@@ -641,7 +633,7 @@ server <- shinyServer(function(input, output, session) {
                                 group = "Nonprofit Data"
                         )
                 
-                #######################################Legends based on which layer checkboxes are ticked
+                #######################################Legends based on which color variables are shown
                 if (("None Selected" %in% input$demographics) & ("constant_color" %in% input$colorvar)) {
                     leafletProxy("map")
                 }
