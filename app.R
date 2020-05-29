@@ -20,7 +20,10 @@ list.of.packages <-
            "htmltools",
            "shinyWidgets",
            "rintrojs", 
-           "ggplot2"
+           "ggplot2",
+           "dplyr",
+           "readr"
+           
         )
 
 new.packages <-list.of.packages[!(list.of.packages %in% installed.packages()[, "Package"])]
@@ -42,7 +45,6 @@ library(sf)
 library(htmltools)
 library(shinyWidgets)
 library(ggplot2)
-library(extrafont)
 
 
 
@@ -131,7 +133,7 @@ ui <- shinyUI(
                 
                 tags$style(".pretty.p-default input:dropdown~.state label:after {background-color: #486F73 !important;}"), #change color checkbox widgets
                 
-                ######Shiny App Elements 
+                ######Shiny App UI Elements 
                 leafletOutput("map", width = "100%", height = "91.5%"),
                 
                 absolutePanel(
@@ -433,7 +435,7 @@ server <- shinyServer(function(input, output, session) {
                         input$def, {
                                     showModal(modalDialog(
                                         title = "Definitions",
-                                        includeHTML(knitr::knit2html("tooltips/definitions.md", fragment.only = TRUE)), #I had to knit it here because reading a full html file resets the styling
+                                        includeHTML(knitr::knit2html("tooltips/definitions.md", fragment.only = TRUE)), #must knit
                                         easyClose = TRUE,
                                         size = "l",
                                         fade = TRUE
