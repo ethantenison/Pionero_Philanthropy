@@ -96,6 +96,8 @@ ui <- shinyUI(
                 HTML('<meta name="viewport" content="width=1024">'),
                 shinyjs::useShinyjs(),
                 introjsUI(),
+                
+                #####Styling Tags
                 tags$head(includeCSS("www/css/bootstrap.css"),
                           includeScript("www/js/google_analytics.js"),
                           tags$link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.1.0/css/all.css",
@@ -128,7 +130,8 @@ ui <- shinyUI(
                 tags$style(type = "text/css", "html, body {width:100%;height:100%}"),
                 
                 tags$style(".pretty.p-default input:dropdown~.state label:after {background-color: #486F73 !important;}"), #change color checkbox widgets
-    
+                
+                ######Shiny App Elements 
                 leafletOutput("map", width = "100%", height = "91.5%"),
                 
                 absolutePanel(
