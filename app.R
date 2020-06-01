@@ -109,6 +109,7 @@ ui <- shinyUI(
                           tags$style(".selectize-dropdown {top: -200px !important;}"),
         
                           tags$style(".selectize-input {background: #193A45 ; border-color: #193A45 ; color: #F2F2F2;}"),
+                          tags$style(".bs-placeholder {color: #F2F2F2 !important;}"),
                           tags$style('h2 {color:#193A45;}'),
                           tags$style('h4 {color:#193A45;}'),
                           tags$style(HTML(".selectize-dropdown-content .option {
@@ -282,80 +283,84 @@ ui <- shinyUI(
                                                choices = 
                                                  list(
                                                    Education = list(
-                                                     "Total Literacy Rate"                      
-                                                     , "Male Literacy Rate"                       
-                                                     , "Female Literacy Rate"                     
-                                                     , "Youth Literacy Rate"                      
-                                                     , "Number of Libraries"                      
-                                                     , "Total Years of Schooling"                 
-                                                     , "Female Years of Schooling"                
-                                                     , "Youth Years of Schooling"                 
-                                                     , "Time to Primary School"                   
-                                                     , "Time to Secondary School"                 
-                                                     , "Free Primary School Books"                
-                                                     , "Borrowed or Gifted Secondary School Books"
+                                                     
+                                                       "Borrowed or Gifted Secondary School Books"                      
+                                                     , "Enrollment in Higher Education"                       
+                                                     , "Female Literacy Rate"
+                                                     , "Female Years of Schooling"
+                                                     , "Free Primary School Books"
+                                                     , "High School Net Enrollment Rate"
+                                                     , "Male Literacy Rate"
+                                                     , "Middle School Net Enrollment Rate"
+                                                     , "Number of Libraries"  
                                                      , "Preprimary Net Enrollment Rate"           
                                                      , "Primary School Net Enrollment Rate"       
-                                                     , "Middle School Net Enrollment Rate"        
-                                                     , "High School Net Enrollment Rate"          
-                                                     , "Enrollment in Higher Education"    
+                                                     , "Time to Primary School"                   
+                                                     , "Time to Secondary School"
+                                                     ,"Total Literacy Rate"
+                                                     ,"Total Years of Schooling"
+                                                     ,"Youth Literacy Rate"
+                                                     , "Youth Years of Schooling"
                                                    ),
                                                    
                                                    Economy = list(
-                                                     "Social Assistance Program Benefit"        
+                                                       "Extreme Poverty Rate"
+                                                     , "Female Paid Employees"
+                                                     , "Social Assistance Program Benefit"        
                                                      , "Poverty Rate"                             
-                                                     , "Extreme Poverty Rate"
-                                                     , "Female Paid Employees"                    
                                                      , "Total Employment Rate"      
                                                    ),
                                                    
                                                    Health = list(
-                                                     "Gross Birth Rate"                         
-                                                     , "Infant Mortality Rate"                    
-                                                     , "Low Birth Weight Babies"                  
-                                                     , "Access to Prenatal Care"                  
-                                                     , "Access to Prenatal Vitamins"              
-                                                     , "Medically Attended Births"                
+                                                       "Access to Prenatal Care"                  
+                                                     , "Access to Prenatal Vitamins"
                                                      , "Births Attended in Public Centers"        
                                                      , "Births Attended at Home"                  
-                                                     , "Cesarian Section"                         
-                                                     , "Gross Death Rate"                         
+                                                     , "Cesarian Section"
                                                      , "Death by External Causes"                 
                                                      , "Death by Diabetes"                        
                                                      , "Death by Diarrhea"                        
                                                      , "Death by Circulatory System Diseases"     
                                                      , "Death by Respiratory System Diseases"     
                                                      , "Death by Tuberculosis"                    
-                                                     , "Death by HIV AIDS"        
+                                                     , "Death by HIV AIDS"
+                                                     , "Gross Birth Rate"
+                                                     , "Gross Death Rate"
+                                                     , "Infant Mortality Rate"                    
+                                                     , "Low Birth Weight Babies"                  
+                                                     , "Medically Attended Births"                
+         
                                                    ),
                                                    
                                                    "Population" =list(
-                                                   "Population"                               
-                                                   , "Population Under 18"                      
+                                                     "Female-led Single Parent Households"
+                                                   , "Indigenous Population"
+                                                   , "People in Household"
+                                                   , "Population" 
+                                                   , "Population in Urban Areas"
+                                                   , "Population of Internal Migrants"
+                                                   , "Population Under 18"
+                                                   , "Population with Personal ID"
                                                    , "Population 65+"                           
-                                                   , "Indigenous Population"                    
-                                                   , "Population in Urban Areas"                
-                                                   , "Population with Personal ID"              
-                                                   , "Population of Internal Migrants"          
-                                                   , "Female-led Single Parent Households"     
-                                                   , "People in Household" 
+      
                                                ),
                                                
                                                
                                                Sanitation = list(
-                                                   "Potable Water Access"                     
+
+                                                     "Home Water Access"
+                                                   , "Homes without Santitation System"
                                                    , "Improved Sanitation Access"
-                                                   , "Home Water Access"                        
-                                                   , "Homes without Santitation Systems"
+                                                   , "Potable Water Access"
                                                ),
                                                
                                                Security = list(
-                                                   "Intrafamily Violence Rate"                
-                                                   , "Homicide Rate"                            
-                                                   , "Delinquent Injury Rate"                   
+                                                     "Crimes Against Freedom Rate"
+                                                   , "Delinquent Injury Rate"
+                                                   , "Homicide Rate"
+                                                   , "Intrafamily Violence Rate"                
                                                    , "Robbery Rate"                             
                                                    , "Rape Rate"                                
-                                                   , "Crimes Against Freedom Rate"              
                                                    , "Judicial Offense Rate"       
                                                ),
                                                Miscellaneous = list(
