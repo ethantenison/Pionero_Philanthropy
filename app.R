@@ -1,3 +1,7 @@
+# After running the app once, to deploy follow these steps: 
+# 1. rsconnect::setAccountInfo(name='pionero-philanthropy', token='8D1104F33B82061B83FFF9C8E64AC9FE', secret='n4ffBkrtcoJSEv2FhCUhfpR9d968t7kcMTAnmCJi')
+# 2. rsconnect::deployApp(appName = "Nonprofits_Explorer")
+
 # ------------------------------- #
 # ------------------------------- #
 # ------------------------------- #
@@ -9,7 +13,6 @@
 
 list.of.packages <-
         c( "shiny",
-           "devtools",
            "shinydashboard",
            "V8",
            "shinyjs",
@@ -22,7 +25,8 @@ list.of.packages <-
            "rintrojs", 
            "ggplot2",
            "dplyr",
-           "readr"
+           "readr",
+           "rsconnect"
            
         )
 
@@ -30,7 +34,6 @@ new.packages <-list.of.packages[!(list.of.packages %in% installed.packages()[, "
 
 
 library(shiny)
-library(devtools)
 library(shinydashboard)
 library(V8)
 library(rintrojs)
@@ -45,6 +48,7 @@ library(sf)
 library(htmltools)
 library(shinyWidgets)
 library(ggplot2)
+library(rsconnect)
 
 
 
@@ -409,10 +413,11 @@ ui <- shinyUI(
 
 server <- shinyServer(function(input, output, session) {
         
-        
+        #Tutorial and Definitions markdown files are located in the tooltips folder
+        #In order to make addition tutorial steps you must create a markdown file and reference the element ID in the UI
         #######################################Tutorial 
         observeEvent(input$help,
-                     introjs(session, options = list(
+                     introjs(session, options = list( #Include ids of elements to be selected here
                              steps = data.frame(element = c("#filters  ",
                                                             "#search_help ",
                                                             "#demographic_help ",
